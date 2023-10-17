@@ -99,7 +99,7 @@ const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
   }
 };
 
-export async function showConfirm(
+export async function showConfirmTx(
   api: ApiPromise,
   payload: SignerPayloadJSON,
 ): Promise<string | boolean | null> {

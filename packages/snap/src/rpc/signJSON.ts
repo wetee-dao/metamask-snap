@@ -1,9 +1,9 @@
 import { SignerPayloadJSON } from '@polkadot/types/types';
 import { TypeRegistry } from '@polkadot/types';
 import type { SignerResult } from '@polkadot/api/types';
-import { showConfirm } from './showConfirm';
 import { getApi } from '../hooks/getApi';
 import { getKeyPair } from '../util/getKeyPair';
+import { showConfirmTx } from './showConfirmTx';
 
 const registry = new TypeRegistry();
 
@@ -12,10 +12,10 @@ export const signJSON = async (
 ): Promise<SignerResult> => {
   const api = await getApi(payload.genesisHash);
 
-  const isConfirmed = await showConfirm(api, payload);
+  const isConfirmed = await showConfirmTx(api, payload);
 
   if (!isConfirmed) {
-    throw new Error('User rejected the signing!');
+    throw new Error('User declined the signing request.');
   }
   const keyPair = await getKeyPair(payload.genesisHash);
 
