@@ -9,7 +9,8 @@
     "useUnknownInCatchVariables": false,
     "sourceMap": true,
     "strict": true,
-    "target": "ES2020"
+    "target": "ES2020",
+    "jsx": "react"
   },
   "exclude": ["**/__snapshots__/**", "**/test/**", "**/*.test.ts"]
 }

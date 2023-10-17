@@ -1,0 +1,12 @@
+//in pjs apps
+
+
+extractParams(api, senderInfo.signAddress, { ...signedOptions, tip }, ...)
+
+
+async function extractParams (api: ApiPromise, address: string, options: Partial<SignerOptions>,...): Promise<['qr' | 'signing', string, Partial<SignerOptions>]> {
+    ...
+    if (isInjected){
+    ...
+    return ['signing', address, { ...options, signer: injected.signer }];
+}

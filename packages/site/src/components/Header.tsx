@@ -3,7 +3,7 @@ import styled, { useTheme } from 'styled-components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import { connectSnap, getThemePreference, getSnap } from '../utils';
 import { HeaderButtons } from './Buttons';
-import { SnapLogo } from './SnapLogo';
+import { PolkagateLogo } from './PolkagateLogo';
 import { Toggle } from './Toggle';
 
 const HeaderWrapper = styled.header`
@@ -48,12 +48,12 @@ export const Header = ({
   const handleConnectClick = async () => {
     try {
       await connectSnap();
-      const installedSnap = await getSnap();
+      // const installedSnap = await getSnap();
 
-      dispatch({
-        type: MetamaskActions.SetInstalled,
-        payload: installedSnap,
-      });
+      // dispatch({
+      //   type: MetamaskActions.SetInstalled,
+      //   payload: installedSnap,
+      // });
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
@@ -62,7 +62,7 @@ export const Header = ({
   return (
     <HeaderWrapper>
       <LogoWrapper>
-        <SnapLogo color={theme.colors.icon.default} size={36} />
+        <PolkagateLogo color={theme.colors.icon.default} size={36} />
         <Title>PolkaMask</Title>
       </LogoWrapper>
       <RightContainer>

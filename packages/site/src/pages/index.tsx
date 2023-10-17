@@ -1,28 +1,22 @@
-import { useContext } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { ApiPromise, WsProvider } from '@polkadot/api';
+import { BN } from '@polkadot/util';
+import { Grid, TextField } from '@mui/material';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
-import {
-  connectSnap,
-  getSnap,
-  hasFlask,
-  isLocalSnap,
-  isSnapInstalled,
-  sendHello,
-  shouldDisplayReconnectButton,
-} from '../utils';
-import {
-  ConnectButton,
-  InstallFlaskButton,
-  ReconnectButton,
-  SendHelloButton,
-  Card,
-} from '../components';
+import { connectSnap, getSnaps, hasFlask, isLocalSnap, isSnapInstalled } from '../utils';
+import { InstallFlaskButton, SendButton, Card } from '../components';
 import { defaultSnapOrigin } from '../config';
+import { buildPayload } from '../polkamask/utils/buildPayload';
+import { getMyAddress } from '../polkamask/apis/getMyAddress';
+import { requestSignJSON } from '../polkamask/apis/requestSign';
+import { send } from '../polkamask/apis/send';
 
 // my tests
 hasFlask();
-isSnapInstalled('polkamask').then((res) => console.log('polkamask is installed?:', res));
-isSnapInstalled('PolkaMask').then((res) => console.log('PolkaMask is installed?:', res));
+isSnapInstalled('polkamask').then((res) =>
+  console.log('polkamask is installed?:', res),
+);
 
 const Container = styled.div`
   display: flex;
@@ -55,6 +49,7 @@ const Subtitle = styled.p`
   font-weight: 500;
   margin-top: 0;
   margin-bottom: 0;
+  text-align: left;
   ${({ theme }) => theme.mediaQueries.small} {
     font-size: ${({ theme }) => theme.fontSizes.text};
   }
@@ -108,36 +103,102 @@ const ErrorMessage = styled.div`
   }
 `;
 
+const currentChainName = 'westend';
+export const CHAINS = {
+  polkadot: {
+    ss58Format: 0,
+    provider: 'wss://rpc.ibp.network/polkadot',
+  },
+  westend: {
+    ss58Format: 42,
+    provider: 'wss://rpc.ibp.network/westend',
+  },
+};
+
 const Index = () => {
   const [state, dispatch] = useContext(MetaMaskContext);
+  const [address, setAddress] = useState();
+  const [formatted, setNewAddress] = useState();
+  const [api, setApi] = useState<ApiPromise>();
+  const [balances, setBalances] = useState();
+  const [toAddress, setToAddress] = useState<string>();
+  const [transferAmount, setTransferAmount] = useState<number>(1);
+
+  useEffect(() => {
+    const wsProvider = new WsProvider(CHAINS[currentChainName]?.provider);
+
+    ApiPromise.create({ provider: wsProvider }).then(setApi);
+  }, []);
+
+  useEffect(() => {
+    getSnaps().then((snaps) => {
+      console.log('available snaps:', snaps);
+    });
+
+    // connectSnap().then((connected) => {
+    //   console.log('connected snap:', connected);
+    // });
+  }, []);
+
+  useEffect(() => {
+    api &&
+      address &&
+      api.derive.accounts.info(address).then((info) => {
+        setNewAddress(info?.accountId?.toString());
+      });
+  }, [api, address]);
+
+  useEffect(() => {
+    api && formatted && api.derive.balances?.all(formatted).then(setBalances);
+  }, [api, formatted]);
 
   const isMetaMaskReady = isLocalSnap(defaultSnapOrigin)
     ? state.isFlask
     : state.snapsDetected;
 
-  const handleConnectClick = async () => {
+  const handleSendClick = async () => {
     try {
-      await connectSnap();
-      const installedSnap = await getSnap();
-
-      dispatch({
-        type: MetamaskActions.SetInstalled,
-        payload: installedSnap,
-      });
+      if (!api || !address || !toAddress) {
+        return;
+      }
+      const decimal = api.registry.chainDecimals[0];
+      const amount = new BN(transferAmount).mul(
+        new BN(10).pow(new BN(decimal)),
+      );
+      const params = [toAddress, amount];
+      const tx = api.tx.balances.transfer(...params);
+      const payload = await buildPayload(api, tx, address);
+      if (payload) {
+        const { signature } = await requestSignJSON(payload);
+        console.log('signature:', signature);
+        send(payload.address, api, tx, payload, signature);
+      }
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
     }
   };
 
-  const handleSendHelloClick = async () => {
+  const handleViewBalance = async () => {
     try {
-      await sendHello();
+      const _address = await getMyAddress(currentChainName);
+      setAddress(_address);
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
     }
   };
+
+  useEffect(() => {
+    state.installedSnap?.id && handleViewBalance();
+  }, [state.installedSnap]);
+
+  const handleToAddress = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      event?.target?.value && setToAddress(event.target.value);
+    },
+    [],
+  );
 
   return (
     <Container>
@@ -145,8 +206,23 @@ const Index = () => {
         Welcome to <Span>PolkaMask</Span>
       </Heading>
       <Subtitle>
-        Get started by editing <code>src/index.ts</code>
+        From: <code>{formatted || 'nothing yet'}</code>
       </Subtitle>
+      <Subtitle>
+        Transferable Balance:{' '}
+        {balances ? balances.availableBalance.toHuman() : '00'}
+      </Subtitle>
+      <Grid container justifyContent="center">
+        <TextField
+          id="outlined-basic"
+          label="To"
+          variant="outlined"
+          sx={{ width: '600px', marginTop: '30px' }}
+          inputProps={{ style: { fontSize: 20 } }}
+          InputLabelProps={{ style: { fontSize: 20 } }}
+          onChange={handleToAddress}
+        />
+      </Grid>
       <CardContainer>
         {state.error && (
           <ErrorMessage>
@@ -164,7 +240,7 @@ const Index = () => {
             fullWidth
           />
         )}
-        {!state.installedSnap && (
+        {/* {!state.installedSnap && (
           <Card
             content={{
               title: 'Connect',
@@ -179,8 +255,8 @@ const Index = () => {
             }}
             disabled={!isMetaMaskReady}
           />
-        )}
-        {shouldDisplayReconnectButton(state.installedSnap) && (
+        )} */}
+        {/* {shouldDisplayReconnectButton(state.installedSnap) && (
           <Card
             content={{
               title: 'Reconnect',
@@ -195,25 +271,26 @@ const Index = () => {
             }}
             disabled={!state.installedSnap}
           />
-        )}
+        )} */}
         <Card
+          fullWidth
           content={{
-            title: 'Send Hello message',
-            description:
-              'Display a custom message within a confirmation screen in MetaMask.',
+            title: 'Transfer Fund',
+            description: `Click to send funds to recipient address ${toAddress || ''
+              }`,
             button: (
-              <SendHelloButton
-                onClick={handleSendHelloClick}
+              <SendButton
+                onClick={handleSendClick}
                 disabled={!state.installedSnap}
               />
             ),
           }}
           disabled={!state.installedSnap}
-          fullWidth={
-            isMetaMaskReady &&
-            Boolean(state.installedSnap) &&
-            !shouldDisplayReconnectButton(state.installedSnap)
-          }
+        // fullWidth={
+        //   isMetaMaskReady &&
+        //   Boolean(state.installedSnap) &&
+        //   !shouldDisplayReconnectButton(state.installedSnap)
+        // }
         />
         <Notice>
           <p>

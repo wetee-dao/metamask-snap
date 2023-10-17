@@ -1,50 +1,33 @@
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
-import { panel, text } from '@metamask/snaps-ui';
+import { createAddress } from './rpc/createAddress';
+import { signRaw } from './rpc';
+import { signJSON } from './rpc/signJSON';
 
-/**
- * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
- *
- * @param args - The request handler args as object.
- * @param args.origin - The origin of the request, e.g., the website that
- * invoked the snap.
- * @param args.request - A validated JSON-RPC request object.
- * @returns The result of `snap_dialog`.
- * @throws If the request method is not valid for this snap.
- */
-export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
+export const onRpcRequest: OnRpcRequestHandler = async ({
+  origin,
+  request,
+}) => {
+  let address;
+  await snap.request({
+    method: 'snap_manageState',
+    params: { operation: 'update', newState: { hello: 'world' } },
+  });
+
+  // At a later time, get the data stored.
+  const persistedData = await snap.request({
+    method: 'snap_manageState',
+    params: { operation: 'get' },
+  });
+
+  console.log('request.params:',request.params)
   switch (request.method) {
-    case 'hello':
-      return getFees().then(fees => {
-        return snap.request({
-          method: 'snap_dialog',
-          params: {
-            type: 'alert',
-            content: panel([
-              text(`Hello, **${origin}**!`),
-              text(`Current gas fee estimates: ${fees}`),
-            ]),
-          }
-        });
-      });
-    // return snap.request({
-    //   method: 'snap_dialog',
-    //   params: {
-    //     type: 'confirmation',
-    //     content: panel([
-    //       text(`Hello, **${origin}**!`),
-    //       text('This custom confirmation is just for display purposes.'),
-    //       text(
-    //         'But you can edit the snap source code to make it do something, if you want to!',
-    //       ),
-    //     ]),
-    //   },
-    // });
+    case 'signJSON':
+      return await signJSON(request.params.payload);
+    case 'signRaw':
+      return await signRaw(request.params.raw);
+    case 'getAddress':
+      return await createAddress(request.params.chainName);
     default:
       throw new Error('Method not found.');
   }
 };
-
-async function getFees() {
-  const response = await fetch('https://beaconcha.in/api/v1/execution/gasnow');
-  return response.text();
-}

@@ -24,12 +24,14 @@ export const connectSnap = async (
   snapId: string = defaultSnapOrigin,
   params: Record<'version' | string, unknown> = {},
 ) => {
-  await window.ethereum.request({
+  const result = await window.ethereum.request({
     method: 'wallet_requestSnaps',
     params: {
       [snapId]: params,
     },
   });
+
+  console.log('connectSnap:', result)
 };
 
 /**
@@ -50,17 +52,6 @@ export const getSnap = async (version?: string): Promise<Snap | undefined> => {
     console.log('Failed to obtain installed snap', e);
     return undefined;
   }
-};
-
-/**
- * Invoke the "hello" method from the example snap.
- */
-
-export const sendHello = async () => {
-  await window.ethereum.request({
-    method: 'wallet_invokeSnap',
-    params: { snapId: defaultSnapOrigin, request: { method: 'hello' } },
-  });
 };
 
 export const isLocalSnap = (snapId: string) => snapId.startsWith('local:');

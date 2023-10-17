@@ -7,23 +7,30 @@
     "url": "https://github.com/Nick-1979/polkamask.git"
   },
   "source": {
-    "shasum": "mtDMqqU6unbvbWqRf96MFvnZ6qDulr+Gg0sGs7ISCeM=",
+    "shasum": "JsTWOTQnOFtlwXFAgIb9TuDuoZ5xvK4dl9zWQ6y1Ya8=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
-        "iconPath": "images/gas.svg",
-        "packageName": "polkamask",
+        "iconPath": "images/polkagate.svg",
+        "packageName": "@polkagate/snap",
         "registry": "https://registry.npmjs.org/"
       }
     }
   },
   "initialPermissions": {
-    "snap_dialog": {},
     "endowment:rpc": {
       "dapps": true,
       "snaps": false
     },
-    "endowment:network-access": {}
+    "endowment:network-access": {},
+    "endowment:webassembly": {},
+    "snap_dialog": {},
+    "snap_getBip44Entropy": [
+      {
+        "coinType": 354
+      }
+    ],
+    "snap_manageState": {}
   },
   "manifestVersion": "0.1"
 }
