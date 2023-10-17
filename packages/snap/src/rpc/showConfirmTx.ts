@@ -123,9 +123,12 @@ const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
           text(`Validators: ${extrinsicCall.args[0]}`),
         ]),
       ]);
+    case 'nominationPools_unbond':
     case 'staking_unbond':
     case 'staking_bondExtra':
-      amount = `${extrinsicCall.args[0]}`;
+      amount = `${
+        extrinsicCall.args[action === 'nominationPools_unbond' ? 1 : 0]
+      }`;
 
       return panel([
         heading(headingText),
@@ -161,6 +164,20 @@ const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
           text(`Pool Id: ${poolId}`),
         ]),
       ]);
+    case 'nominationPools_bondExtra':
+      let extra = String(extrinsicCall.args[0]);
+      if (extra === 'Rewards') {
+        extra = 'Rewards';
+      } else {
+        const { freeBalance } = JSON.parse(extra);
+        extra = `${amountToHuman(freeBalance, decimal)} ${token}`;
+      }
+
+      return panel([
+        heading(headingText),
+        divider(),
+        panel([text(`Method: ${method}`), divider(), text(`Extra: ${extra}`)]),
+      ]);
     case 'noArgsMethods':
       return panel([
         heading(headingText),
@@ -169,7 +186,6 @@ const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
           text(`Section: ${section}`),
           divider(),
           text(`Method: ${method}`),
-          divider(),
         ]),
       ]);
     default:
