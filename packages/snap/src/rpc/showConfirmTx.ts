@@ -61,25 +61,33 @@ export function amountToHuman(
 }
 
 const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
+  const headingText = 'A signature request is received';
+
   const extrinsicCall = api.createType('Call', payload.method);
   const { method, section } = api.registry.findMetaCall(
     extrinsicCall.callIndex,
   );
 
-  switch (method) {
-    case 'transfer':
-    case 'transferKeepAlive':
-    case 'transferAll':
-      const to = `${extrinsicCall.args[0]}`;
-      const amount = String(extrinsicCall.args[1]);
-      const decimal = api.registry.chainDecimals[0];
-      const token = api.registry.chainTokens[0];
+  const action = `${section}_${method}`;
 
-      const dataURI = getLogo(payload.genesisHash);
-      const svg = atob(dataURI.replace(/data:image\/svg\+xml;base64,/, ''));
+  const dataURI = getLogo(payload.genesisHash);
+  const svg = atob(dataURI.replace(/data:image\/svg\+xml;base64,/, ''));
+
+  const decimal = api.registry.chainDecimals[0];
+  const token = api.registry.chainTokens[0];
+  let amount;
+
+  const isNoArgsMethod = extrinsicCall.args?.length === 0 && 'noArgsMethods';
+
+  switch (isNoArgsMethod || action) {
+    case 'balances_transfer':
+    case 'balances_transferKeepAlive':
+    case 'balances_transferAll':
+      const to = `${extrinsicCall.args[0]}`;
+      amount = String(extrinsicCall.args[1]);
 
       return panel([
-        heading('A signature request is received'),
+        heading(headingText),
         divider(),
         panel([
           // image(svg),
@@ -90,11 +98,91 @@ const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
           text(`Amount: ${amountToHuman(amount, decimal)} ${token}`),
         ]),
       ]);
+    case 'staking_bond':
+      amount = `${extrinsicCall.args[0]}`;
+      const payee = String(extrinsicCall.args[1]);
+
+      return panel([
+        heading(headingText),
+        divider(),
+        panel([
+          text(`Method: ${method}`),
+          divider(),
+          text(`Amount: ${amountToHuman(amount, decimal)} ${token}`),
+          divider(),
+          text(`Payee: ${payee}`),
+        ]),
+      ]);
+    case 'staking_nominate':
+      return panel([
+        heading(headingText),
+        divider(),
+        panel([
+          text(`Method: ${method}`),
+          divider(),
+          text(`Validators: ${extrinsicCall.args[0]}`),
+        ]),
+      ]);
+    case 'staking_unbond':
+    case 'staking_bondExtra':
+      amount = `${extrinsicCall.args[0]}`;
+
+      return panel([
+        heading(headingText),
+        divider(),
+        panel([
+          text(`Method: ${method}`),
+          divider(),
+          text(`Amount: ${amountToHuman(amount, decimal)} ${token}`),
+        ]),
+      ]);
+    case 'staking_setPayee':
+      return panel([
+        heading(headingText),
+        divider(),
+        panel([
+          text(`Method: ${method}`),
+          divider(),
+          text(`Payee: ${extrinsicCall.args[0]}`),
+        ]),
+      ]);
+    case 'nominationPools_join':
+      amount = `${extrinsicCall.args[0]}`;
+      const poolId = String(extrinsicCall.args[1]);
+
+      return panel([
+        heading(headingText),
+        divider(),
+        panel([
+          text(`Method: ${method}`),
+          divider(),
+          text(`Amount: ${amountToHuman(amount, decimal)} ${token}`),
+          divider(),
+          text(`Pool Id: ${poolId}`),
+        ]),
+      ]);
+    case 'noArgsMethods':
+      return panel([
+        heading(headingText),
+        divider(),
+        panel([
+          text(`Section: ${section}`),
+          divider(),
+          text(`Method: ${method}`),
+          divider(),
+        ]),
+      ]);
     default:
       return panel([
-        text('A signature request is received'),
-        text('You requested to sing this transaction:'),
-        text(JSON.stringify(extrinsicCall)),
+        heading(headingText),
+        divider(),
+        panel([
+          text(`Method: ${section}_${method}`),
+          divider(),
+          text(`Call details:`),
+          divider(),
+          text(JSON.stringify(extrinsicCall)),
+        ]),
       ]);
   }
 };
