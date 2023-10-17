@@ -1,8 +1,5 @@
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
-
-import { createAddress } from './rpc/createAddress';
-import { signRaw } from './rpc';
-import { signJSON } from './rpc/signJSON';
+import { createAddress, signJSON, signRaw } from './rpc';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,

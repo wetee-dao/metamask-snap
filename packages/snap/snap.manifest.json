@@ -4,10 +4,10 @@
   "proposedName": "PolkaMask",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Nick-1979/polkamask.git"
+    "url": "https://github.com/polkagate/polkamask.git"
   },
   "source": {
-    "shasum": "XjVAfmnmqr0QG/hO4lGJoinCq4+8QsvQkJVmF0Ax9zA=",
+    "shasum": "IedFmQC3hknSG8K+lGrSODxFhhIUiCdiwhMGqnErmZY=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",

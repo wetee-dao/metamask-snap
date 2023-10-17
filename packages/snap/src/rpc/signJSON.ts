@@ -3,7 +3,7 @@ import { TypeRegistry } from '@polkadot/types';
 import type { SignerResult } from '@polkadot/api/types';
 import { getApi } from '../hooks/getApi';
 import { getKeyPair } from '../util/getKeyPair';
-import { showConfirmTx } from './showConfirmTx';
+import { showConfirmTx } from '.';
 
 const registry = new TypeRegistry();
 
