@@ -33,7 +33,7 @@ async function showConfirmSignRaw(
 }
 
 export const signRaw = async (raw: SignerPayloadRaw): Promise<SignerResult> => {
-  const { address, data } = raw;
+  const { address, data } = raw; // polkadot js sends the address of the requester along with the sign request
   const isConfirmed = await showConfirmSignRaw(data);
 
   if (!isConfirmed) {
@@ -44,5 +44,5 @@ export const signRaw = async (raw: SignerPayloadRaw): Promise<SignerResult> => {
   const signature = keypair.sign(data);
   const hexSignature = Buffer.from(signature).toString('hex');
 
-  return { id: 1, signature: `0x${hexSignature}` };
+  return { id: 1, signature: `0x${hexSignature}` }; // polkadot js apps, assigns id to its requests
 };

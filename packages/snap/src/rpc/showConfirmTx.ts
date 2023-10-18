@@ -90,7 +90,7 @@ const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
         heading(headingText),
         divider(),
         panel([
-          // image(svg),
+          // image(svg),  // metamask has still issues to show images
           text(`Method: ${method}`),
           divider(),
           copyable(`To: ${to}`),

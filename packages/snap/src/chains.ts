@@ -20,7 +20,6 @@ const westend = {
 };
 
 selectableNetworks.push(westend as Network);
-console.log('selectableNetworks:', selectableNetworks);
 
 export const getChain = (genesisOrChainName: string): Network => {
   const chain = selectableNetworks.find(

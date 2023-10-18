@@ -10,6 +10,7 @@ export const getKeyPair = async (
   genesisHash?: string,
 ): Promise<KeyringPair> => {
   const { prefix } = getChain((genesisHash || chainName) as string);
+
   const BIP44CoinNode = (await snap.request({
     method: 'snap_getBip44Entropy',
     params: {
