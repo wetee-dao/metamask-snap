@@ -1,11 +1,8 @@
 import { SignerPayloadJSON } from '@polkadot/types/types';
-import { TypeRegistry } from '@polkadot/types';
 import type { SignerResult } from '@polkadot/api/types';
 import { getApi } from '../util/getApi';
 import { getKeyPair } from '../util/getKeyPair';
 import { showConfirmTx } from '.';
-
-const registry = new TypeRegistry(); // can be used for signing while we have no api
 
 export const signJSON = async (
   payload: SignerPayloadJSON,
@@ -24,7 +21,7 @@ export const signJSON = async (
       version: payload.version,
     });
 
-    // TODO: to find a way to sign without api
+    // TODO: Explore signing options without relying on the API and discover methods for obtaining chain metadata offline!
 
     const { signature } = extrinsic.sign(keyPair);
 
