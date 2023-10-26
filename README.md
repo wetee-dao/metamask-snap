@@ -22,3 +22,9 @@ yarn run start
 ```
 
 After executing these commands, you can access a basic transfer funds page for testing the signer snap at http://localhost:8000/.
+
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/PolkaGate/polkaMask/main/docs/images/simpleTransfer.png?token=GHSAT0AAAAAACDNH2DVDROFRBDBBKRX72SGZJ2LBLQ
+" alt="Image" width="1000" />
+</p>
