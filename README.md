@@ -10,4 +10,15 @@ The Polkagate Signer is currently operational within the Metamask Flask and is i
   <img src="https://raw.githubusercontent.com/Nick-1979/PolkadotJsPlusPictures/main/polkagate/polkamask%20small.bmp" alt="Image" width="600" />
 </p>
 
-Note: The snap code is in ./packages/snap
+## Running the Repository
+
+The repository contains a simple website located in the `./packages/site` directory and the snap code, which can be found in `./packages/snap`. To try out the snap, follow these steps in your terminal:
+
+```bash
+git clone https://github.com/PolkaGate/polkaMask.git
+cd polkaMask
+yarn
+yarn run start
+```
+
+After executing these commands, you can access a basic transfer funds page for testing the signer snap at http://localhost:8080/.
