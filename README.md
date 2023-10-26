@@ -25,6 +25,5 @@ After executing these commands, you can access a basic transfer funds page for t
 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/PolkaGate/polkaMask/main/docs/images/simpleTransfer.png?token=GHSAT0AAAAAACDNH2DVDROFRBDBBKRX72SGZJ2LBLQ
-" alt="Image" width="1000" />
+  <img src="https://raw.githubusercontent.com/PolkaGate/polkaMask/main/docs/images/simpleTransfer.png" alt="Image" width="1000" />
 </p>
