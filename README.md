@@ -21,4 +21,4 @@ yarn
 yarn run start
 ```
 
-After executing these commands, you can access a basic transfer funds page for testing the signer snap at http://localhost:8080/.
+After executing these commands, you can access a basic transfer funds page for testing the signer snap at http://localhost:8000/.
