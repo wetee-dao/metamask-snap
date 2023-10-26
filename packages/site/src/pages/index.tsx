@@ -2,15 +2,32 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { BN } from '@polkadot/util';
-import { Grid, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  InputAdornment,
+  Link,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
-import { connectSnap, getSnaps, hasFlask, isLocalSnap, isSnapInstalled } from '../utils';
+import {
+  connectSnap,
+  getSnaps,
+  hasFlask,
+  isLocalSnap,
+  isSnapInstalled,
+} from '../utils';
 import { InstallFlaskButton, SendButton, Card } from '../components';
 import { defaultSnapOrigin } from '../config';
-import { buildPayload } from '../polkamask/utils/buildPayload';
+import { buildPayload } from '../polkamask/util/buildPayload';
 import { getMyAddress } from '../polkamask/apis/getMyAddress';
 import { requestSignJSON } from '../polkamask/apis/requestSign';
-import { send } from '../polkamask/apis/send';
+import { TxResult, send } from '../polkamask/apis/send';
+import subscan from '../assets/subscan.svg';
+import { amountToMachine } from '../polkamask/util/utils';
 
 // my tests
 hasFlask();
@@ -122,7 +139,10 @@ const Index = () => {
   const [api, setApi] = useState<ApiPromise>();
   const [balances, setBalances] = useState();
   const [toAddress, setToAddress] = useState<string>();
-  const [transferAmount, setTransferAmount] = useState<number>(1);
+  const [_signature, setSignature] = useState<string>();
+  const [_result, setResult] = useState<TxResult>();
+  const [transferAmount, setTransferAmount] = useState<string>();
+  const [waitingForUserApproval, setWaiting] = useState<boolean>();
 
   useEffect(() => {
     const wsProvider = new WsProvider(CHAINS[currentChainName]?.provider);
@@ -161,17 +181,31 @@ const Index = () => {
       if (!api || !address || !toAddress) {
         return;
       }
+      setWaiting(true);
       const decimal = api.registry.chainDecimals[0];
-      const amount = new BN(transferAmount).mul(
-        new BN(10).pow(new BN(decimal)),
-      );
+      const amount = amountToMachine(transferAmount, decimal);
       const params = [toAddress, amount];
       const tx = api.tx.balances.transfer(...params);
       const payload = await buildPayload(api, tx, address);
       if (payload) {
-        const { signature } = await requestSignJSON(payload);
-        console.log('signature:', signature);
-        send(payload.address, api, tx, payload, signature);
+        const signResult = await requestSignJSON(payload);
+        setWaiting(false);
+
+        if (signResult?.signature) {
+          setSignature(signResult.signature);
+          const result = await send(
+            payload.address,
+            api,
+            tx,
+            payload,
+            signResult.signature,
+          );
+          console.log('result:', result);
+          setResult(result);
+        } else {
+          // eslint-disable-next-line no-alert
+          window.alert('User rejected to sign!');
+        }
       }
     } catch (e) {
       console.error(e);
@@ -200,30 +234,63 @@ const Index = () => {
     [],
   );
 
+  const handleAmount = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      event?.target?.value &&
+        Number(event?.target?.value) &&
+        setTransferAmount(event.target.value);
+    },
+    [],
+  );
+
   return (
     <Container>
-      <Heading>
-        Welcome to <Span>PolkaMask</Span>
-      </Heading>
-      <Subtitle>
-        From: <code>{formatted || 'nothing yet'}</code>
-      </Subtitle>
-      <Subtitle>
-        Transferable Balance:{' '}
-        {balances ? balances.availableBalance.toHuman() : '00'}
-      </Subtitle>
-      <Grid container justifyContent="center">
-        <TextField
-          id="outlined-basic"
-          label="To"
-          variant="outlined"
-          sx={{ width: '600px', marginTop: '30px' }}
-          inputProps={{ style: { fontSize: 20 } }}
-          InputLabelProps={{ style: { fontSize: 20 } }}
-          onChange={handleToAddress}
-        />
-      </Grid>
-      <CardContainer>
+      <Heading>A simple transfer fund scenario</Heading>
+      {state.installedSnap && (
+        <>
+          <Grid container justifyContent="center">
+            <Typography variant="h5">
+              From: <code>{formatted || 'nothing yet'}</code>
+            </Typography>
+          </Grid>
+          <Grid container justifyContent="center" pt="15px">
+            <Typography variant="h5">
+              Transferable Balance:{' '}
+              {balances ? balances.availableBalance.toHuman() : '00'}
+            </Typography>
+          </Grid>
+          <Grid container justifyContent="center">
+            <TextField
+              id="outlined-basic"
+              label="To"
+              variant="outlined"
+              sx={{ width: '600px', marginTop: '20px' }}
+              inputProps={{ style: { fontSize: 20 } }}
+              InputLabelProps={{ style: { fontSize: 20 } }}
+              onChange={handleToAddress}
+            />
+          </Grid>
+          <Grid container justifyContent="center">
+            <TextField
+              id="outlined-basic"
+              label="Amount"
+              variant="outlined"
+              sx={{ width: '600px', marginTop: '20px' }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Typography variant="h6">WND</Typography>
+                  </InputAdornment>
+                ),
+                style: { fontSize: 20 },
+              }}
+              InputLabelProps={{ style: { fontSize: 20 } }}
+              onChange={handleAmount}
+            />
+          </Grid>
+        </>
+      )}
+      <Container>
         {state.error && (
           <ErrorMessage>
             <b>An error happened:</b> {state.error.message}
@@ -240,67 +307,105 @@ const Index = () => {
             fullWidth
           />
         )}
-        {/* {!state.installedSnap && (
-          <Card
-            content={{
-              title: 'Connect',
-              description:
-                'Get started by connecting to and installing the example snap.',
-              button: (
-                <ConnectButton
-                  onClick={handleConnectClick}
-                  disabled={!isMetaMaskReady}
-                />
-              ),
+        {state.installedSnap && (
+          <Grid
+            container
+            sx={{
+              border: 1,
+              p: '10px',
+              borderRadius: '10px',
+              width: '600px',
             }}
-            disabled={!isMetaMaskReady}
-          />
-        )} */}
-        {/* {shouldDisplayReconnectButton(state.installedSnap) && (
-          <Card
-            content={{
-              title: 'Reconnect',
-              description:
-                'While connected to a local running snap this button will always be displayed in order to update the snap if a change is made.',
-              button: (
-                <ReconnectButton
-                  onClick={handleConnectClick}
-                  disabled={!state.installedSnap}
-                />
-              ),
-            }}
-            disabled={!state.installedSnap}
-          />
-        )} */}
-        <Card
-          fullWidth
-          content={{
-            title: 'Transfer Fund',
-            description: `Click to send funds to recipient address ${toAddress || ''
-              }`,
-            button: (
-              <SendButton
+          >
+            {toAddress && (
+              <Typography variant="h6">
+                {`Click to send ${transferAmount} WND funds to recipient address ${toAddress}`}
+              </Typography>
+            )}
+            <Grid container item justifyContent="flex-end" mt="5px">
+              <Button
+                variant="contained"
                 onClick={handleSendClick}
-                disabled={!state.installedSnap}
-              />
-            ),
-          }}
-          disabled={!state.installedSnap}
-        // fullWidth={
-        //   isMetaMaskReady &&
-        //   Boolean(state.installedSnap) &&
-        //   !shouldDisplayReconnectButton(state.installedSnap)
-        // }
-        />
-        <Notice>
+                disabled={
+                  !state.installedSnap ||
+                  waitingForUserApproval ||
+                  !transferAmount ||
+                  !toAddress
+                }
+                sx={{ fontSize: '18px', width: '100%' }}
+              >
+                {waitingForUserApproval
+                  ? 'Approve transaction in Metamask'
+                  : 'Transfer Fund'}
+              </Button>
+            </Grid>
+          </Grid>
+        )}
+        <Grid container pt="15px" justifyContent="center">
+          {_signature && (
+            <>
+              <Typography variant="h5">Received signature:</Typography>
+              <Typography variant="h6">{_signature}</Typography>
+            </>
+          )}
+          <Grid container item justifyContent="center" py="15px">
+            {_signature && !_result ? (
+              <CircularProgress />
+            ) : (
+              _result && (
+                <>
+                  {_result?.txHash && (
+                    <Grid container justifyContent="center" item>
+                      <Typography variant="h5">Transaction Hash:</Typography>
+                      <Typography variant="h6">{_result?.txHash}</Typography>
+                    </Grid>
+                  )}
+                  <Grid
+                    container
+                    justifyContent="center"
+                    alignItems="center"
+                    item
+                  >
+                    <Typography variant="h5">
+                      {`Transfer was ${
+                        _result.success ? 'SUCCESSFUL' : 'FAILED'
+                      }`}
+                    </Typography>
+                    {_result?.txHash && (
+                      <Grid container justifyContent="center" item>
+                        <Link
+                          href={`https://westend.subscan.io/extrinsic/${_result?.txHash}`}
+                          rel="noreferrer"
+                          target="_blank"
+                          underline="none"
+                          sx={{ display: 'block', textAlign: 'center' }}
+                        >
+                          <Box
+                            alt={'subscan'}
+                            component="img"
+                            height="20px"
+                            mt="9px"
+                            src={subscan}
+                            width="20px"
+                          />
+                        </Link>
+                      </Grid>
+                    )}
+                  </Grid>
+                </>
+              )
+            )}
+          </Grid>
+        </Grid>
+        {/* <Notice>
           <p>
             Please note that the <b>snap.manifest.json</b> and{' '}
             <b>package.json</b> must be located in the server root directory and
             the bundle must be hosted at the location specified by the location
             field.
           </p>
-        </Notice>
-      </CardContainer>
+        </Notice> */}
+      </Container>
     </Container>
   );
 };

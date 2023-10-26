@@ -5,6 +5,14 @@ import { ApiPromise } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { ISubmittableResult } from '@polkadot/types/types';
 
+export type TxResult = {
+  block: number;
+  txHash: string;
+  fee?: string;
+  success: boolean;
+  failureText?: string;
+};
+
 export async function send(
   from: string | AccountId,
   api: ApiPromise,
