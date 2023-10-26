@@ -259,6 +259,22 @@ const Index = () => {
               {balances ? balances.availableBalance.toHuman() : '00'}
             </Typography>
           </Grid>
+          <Grid container justifyContent="center" pt="15px">
+            {balances?.availableBalance?.isZero() && (
+              <Typography variant="h5">
+                {` You can top up your address by sending `}
+                <strong>{`!drip ${formatted}`}</strong>
+                {` to the `}
+                <Link
+                  href="https://matrix.to/#/#westend_faucet:matrix.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Westend element channel
+                </Link>
+              </Typography>
+            )}
+          </Grid>
           <Grid container justifyContent="center">
             <TextField
               id="outlined-basic"
