@@ -185,7 +185,7 @@ const Index = () => {
       const decimal = api.registry.chainDecimals[0];
       const amount = amountToMachine(transferAmount, decimal);
       const params = [toAddress, amount];
-      const tx = api.tx.balances.transfer(...params);
+      const tx = api.tx.balances.transferKeepAlive(...params);
       const payload = await buildPayload(api, tx, address);
       if (payload) {
         const signResult = await requestSignJSON(payload);
