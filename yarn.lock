@@ -5511,6 +5511,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@metamask/snaps-ui@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@metamask/snaps-ui@npm:3.1.0"
+  dependencies:
+    "@metamask/utils": ^8.1.0
+    is-svg: ^4.4.0
+    superstruct: ^1.0.3
+  checksum: a234217e961a103b89708d46732481e82c0778b3ebbecddabc9351eee48d082cdc231102442c3ae5c76aa33b24c24aad70e84fee9d7b492641f290a10c3211c1
+  languageName: node
+  linkType: hard
+
 "@metamask/snaps-utils@npm:^2.0.0, @metamask/snaps-utils@npm:^2.0.1":
   version: 2.0.1
   resolution: "@metamask/snaps-utils@npm:2.0.1"
@@ -8314,7 +8325,7 @@ __metadata:
     "@metamask/snaps-cli": ^2.0.1
     "@metamask/snaps-jest": ^1.0.0
     "@metamask/snaps-types": ^3.0.0
-    "@metamask/snaps-ui": ^3.0.0
+    "@metamask/snaps-ui": ^3.1.0
     "@polkadot/api": latest
     "@polkadot/apps-config": latest
     "@polkadot/keyring": latest

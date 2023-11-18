@@ -6,7 +6,11 @@
  * don't. Instead, rename `.env.production.dist` to `.env.production` and set the production URL
  * there. Running `yarn build` will automatically use the production environment variables.
  */
-export const defaultSnapOrigin =
+export const DEFAULT_SNAP_ORIGIN =
   // process.env.SNAP_ORIGIN ?? `npm:@polkagate/snap`;
-
   process.env.SNAP_ORIGIN ?? `local:http://localhost:8080`;
+
+export const SUPPORTED_SNAPS = {
+  [DEFAULT_SNAP_ORIGIN]: { version: '>=0.1.4' },
+  // 'npm:@chainsafe/polkadot-snap': {},
+};

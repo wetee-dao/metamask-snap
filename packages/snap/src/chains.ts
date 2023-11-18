@@ -33,3 +33,7 @@ export const getChain = (genesisOrChainName: string): Network => {
   }
   throw new Error(`Chain '${genesisOrChainName}' is not recognized.`);
 };
+
+export const getGenesisHash = (chainName: string): string => {
+  return getChain(chainName)?.genesisHash?.[0];
+};

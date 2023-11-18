@@ -1,4 +1,4 @@
-import { defaultSnapOrigin } from '../../config';
+import { DEFAULT_SNAP_ORIGIN } from '../../config';
 
 type SnapRpcRequestParams = {
   snapId?: string;
@@ -7,10 +7,11 @@ type SnapRpcRequestParams = {
 };
 
 export const invokeSnap = async (args: SnapRpcRequestParams) => {
+  console.log('invoking snap with:', args)
   const result = await window.ethereum.request({
     method: 'wallet_invokeSnap',
     params: {
-      snapId: args?.snapId || defaultSnapOrigin,
+      snapId: args?.snapId || DEFAULT_SNAP_ORIGIN,
       request: {
         method: args.method,
         params: args?.params,

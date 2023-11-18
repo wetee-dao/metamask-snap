@@ -21,7 +21,7 @@ import {
   isSnapInstalled,
 } from '../utils';
 import { InstallFlaskButton, SendButton, Card } from '../components';
-import { defaultSnapOrigin } from '../config';
+import { DEFAULT_SNAP_ORIGIN } from '../config';
 import { buildPayload } from '../polkamask/util/buildPayload';
 import { getMyAddress } from '../polkamask/apis/getMyAddress';
 import { requestSignJSON } from '../polkamask/apis/requestSign';
@@ -55,51 +55,6 @@ const Heading = styled.h1`
   margin-top: 0;
   margin-bottom: 2.4rem;
   text-align: center;
-`;
-
-const Span = styled.span`
-  color: ${(props) => props.theme.colors.primary.default};
-`;
-
-const Subtitle = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.large};
-  font-weight: 500;
-  margin-top: 0;
-  margin-bottom: 0;
-  text-align: left;
-  ${({ theme }) => theme.mediaQueries.small} {
-    font-size: ${({ theme }) => theme.fontSizes.text};
-  }
-`;
-
-const CardContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  max-width: 64.8rem;
-  width: 100%;
-  height: 100%;
-  margin-top: 1.5rem;
-`;
-
-const Notice = styled.div`
-  background-color: ${({ theme }) => theme.colors.background.alternative};
-  border: 1px solid ${({ theme }) => theme.colors.border.default};
-  color: ${({ theme }) => theme.colors.text.alternative};
-  border-radius: ${({ theme }) => theme.radii.default};
-  padding: 2.4rem;
-  margin-top: 2.4rem;
-  max-width: 60rem;
-  width: 100%;
-
-  & > * {
-    margin: 0;
-  }
-  ${({ theme }) => theme.mediaQueries.small} {
-    margin-top: 1.2rem;
-    padding: 1.6rem;
-  }
 `;
 
 const ErrorMessage = styled.div`
@@ -172,7 +127,7 @@ const Index = () => {
     api && formatted && api.derive.balances?.all(formatted).then(setBalances);
   }, [api, formatted]);
 
-  const isMetaMaskReady = isLocalSnap(defaultSnapOrigin)
+  const isMetaMaskReady = isLocalSnap(DEFAULT_SNAP_ORIGIN)
     ? state.isFlask
     : state.snapsDetected;
 

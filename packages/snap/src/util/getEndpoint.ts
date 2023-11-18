@@ -9,10 +9,15 @@ export default function getEndpoint(
 ): string | undefined {
   const allEndpoints = createWsEndpoints(() => '');
 
-  console.log('allEndpoints[0]', allEndpoints[0])
   const endpoints = allEndpoints?.filter(
-    ({ genesisHash }) => genesisHash === _genesisHash,
+    ({ genesisHash, value }) =>
+      String(genesisHash) === _genesisHash && Boolean(value),
   );
 
-  return endpoints?.[3]?.value || endpoints[0].value;
+  return (
+    endpoints[3]?.value ||
+    endpoints[2]?.value ||
+    endpoints[1]?.value ||
+    endpoints[0]?.value
+  );
 }

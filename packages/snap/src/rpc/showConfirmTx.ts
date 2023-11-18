@@ -13,7 +13,6 @@ import { Compact, u128 } from '@polkadot/types';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 import { BN } from '@polkadot/util';
 import getLogo from '../util/getLogo';
-import { convertToSVG } from './createAddress';
 
 const FLOATING_POINT_DIGIT = 4;
 
@@ -60,6 +59,7 @@ export function amountToHuman(
   return fixFloatingPoint(Number(_amount) / x, decimalDigits, commify);
 }
 
+
 const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
   const headingText = 'A signature request is received';
 
@@ -71,7 +71,7 @@ const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
   const action = `${section}_${method}`;
 
   const dataURI = getLogo(payload.genesisHash);
-  const svg = atob(dataURI.replace(/data:image\/svg\+xml;base64,/, ''));
+  const svgString = atob(dataURI.replace(/data:image\/svg\+xml;base64,/, ''));
 
   const decimal = api.registry.chainDecimals[0];
   const token = api.registry.chainTokens[0];
@@ -90,12 +90,13 @@ const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
         heading(headingText),
         divider(),
         panel([
-          // image(svg),  // metamask has still issues to show images
           text(`Method: ${method}`),
           divider(),
           copyable(`To: ${to}`),
           divider(),
           text(`Amount: ${amountToHuman(amount, decimal)} ${token}`),
+          divider(),
+          image(svgString),
         ]),
       ]);
     case 'staking_bond':
@@ -126,9 +127,8 @@ const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
     case 'nominationPools_unbond':
     case 'staking_unbond':
     case 'staking_bondExtra':
-      amount = `${
-        extrinsicCall.args[action === 'nominationPools_unbond' ? 1 : 0]
-      }`;
+      amount = `${extrinsicCall.args[action === 'nominationPools_unbond' ? 1 : 0]
+        }`;
 
       return panel([
         heading(headingText),

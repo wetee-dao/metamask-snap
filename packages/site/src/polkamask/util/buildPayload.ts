@@ -14,7 +14,6 @@ export const buildPayload = async (
       lastHeader.number.toNumber(),
     );
     const method = api.createType('Call', tx);
-    console.log('blockNumber:', blockNumber);
     const era = api.registry.createType('ExtrinsicEra', {
       current: lastHeader.number.toNumber(),
       period: 64,
