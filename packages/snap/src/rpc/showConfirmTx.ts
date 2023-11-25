@@ -7,7 +7,7 @@ import {
   image,
   panel,
   text,
-} from '@metamask/snaps-ui';
+} from '@metamask/snaps-sdk';
 import { ApiPromise } from '@polkadot/api';
 import { Compact, u128 } from '@polkadot/types';
 import { SignerPayloadJSON } from '@polkadot/types/types';
@@ -59,9 +59,12 @@ export function amountToHuman(
   return fixFloatingPoint(Number(_amount) / x, decimalDigits, commify);
 }
 
-
-const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
-  const headingText = 'A signature request is received';
+const confirmation = (
+  api: ApiPromise,
+  origin: string,
+  payload: SignerPayloadJSON,
+) => {
+  const headingText = `Transaction Approval Request from ${origin}`;
 
   const extrinsicCall = api.createType('Call', payload.method);
   const { method, section } = api.registry.findMetaCall(
@@ -92,11 +95,12 @@ const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
         panel([
           text(`Method: ${method}`),
           divider(),
-          copyable(`To: ${to}`),
+          text(`To:`),
+          copyable(to),
           divider(),
           text(`Amount: ${amountToHuman(amount, decimal)} ${token}`),
           divider(),
-          image(svgString),
+          panel([text('Chain logo:'), image(svgString)]),
         ]),
       ]);
     case 'staking_bond':
@@ -127,8 +131,9 @@ const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
     case 'nominationPools_unbond':
     case 'staking_unbond':
     case 'staking_bondExtra':
-      amount = `${extrinsicCall.args[action === 'nominationPools_unbond' ? 1 : 0]
-        }`;
+      amount = `${
+        extrinsicCall.args[action === 'nominationPools_unbond' ? 1 : 0]
+      }`;
 
       return panel([
         heading(headingText),
@@ -205,12 +210,13 @@ const confirmation = (api: ApiPromise, payload: SignerPayloadJSON) => {
 
 export async function showConfirmTx(
   api: ApiPromise,
+  origin: string,
   payload: SignerPayloadJSON,
 ): Promise<string | boolean | null> {
   const userResponse = await snap.request({
     method: 'snap_dialog',
     params: {
-      content: confirmation(api, payload),
+      content: confirmation(api, origin, payload),
       type: 'confirmation',
     },
   });

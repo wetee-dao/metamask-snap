@@ -27,12 +27,8 @@
   },
   "dependencies": {
     "@metamask/key-tree": "latest",
-    "@metamask/snaps-types": "^3.0.0",
-    "@metamask/snaps-ui": "^3.1.0",
-    "@polkadot/api": "latest",
-    "@polkadot/apps-config": "latest",
+    "@metamask/snaps-sdk": "latest",
     "@polkadot/keyring": "latest",
-    "@polkadot/networks": "latest",
     "@polkadot/types": "latest",
     "@polkadot/util": "latest",
     "@polkadot/util-crypto": "latest",

@@ -5,12 +5,13 @@ import { getKeyPair } from '../util/getKeyPair';
 import { showConfirmTx } from '.';
 
 export const signJSON = async (
+  origin: string,
   payload: SignerPayloadJSON,
 ): Promise<SignerResult | undefined> => {
   try {
     const api = await getApi(payload.genesisHash);
 
-    const isConfirmed = await showConfirmTx(api, payload);
+    const isConfirmed = await showConfirmTx(api, origin, payload);
 
     if (!isConfirmed) {
       throw new Error('User declined the signing request.');
