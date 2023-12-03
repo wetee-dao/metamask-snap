@@ -127,7 +127,7 @@ function SignMessage({ api, account, balances, currentChainName, formatted, isPo
       <Grid container pt="15px" justifyContent="center" alignItems='center'>
         {_signature && (
           <>
-            <Typography variant="body1">Received signature:</Typography>
+            <Typography variant="body1">Received Signature:</Typography>
             <Typography variant="body2">{_signature}</Typography>
             <Grid container item justifyContent="center" py="15px">
               {isSignatureValid && <CheckCircleIcon color='success' />}

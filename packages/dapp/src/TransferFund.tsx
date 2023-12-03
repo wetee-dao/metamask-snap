@@ -196,7 +196,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
       <Grid container pt="15px" justifyContent="center" alignItems='center'>
         {_signature && (
           <>
-            <Typography variant="body1">Received signature:</Typography>
+            <Typography variant="body1">Received Signature:</Typography>
             <Typography variant="body2">{_signature}</Typography>
           </>
         )}
