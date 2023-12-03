@@ -41,6 +41,12 @@ export function fixFloatingPoint(
   return integerDigits + fractionalDigits;
 }
 
+function formatCamelCase(input: string) {
+  return input
+    .replace(/([a-z])([A-Z])/g, '$1 $2') // Add space between camelCase
+    .replace(/\b(\w)/, (char) => char.toUpperCase()); // Capitalize the first letter
+}
+
 export function amountToHuman(
   _amount: string | number | BN | bigint | Compact<u128> | undefined,
   _decimals: number | undefined,
@@ -66,10 +72,8 @@ const confirmation = (
 ) => {
   const headingText = `Transaction Approval Request from ${origin}`;
 
-  const extrinsicCall = api.createType('Call', payload.method);
-  const { method, section } = api.registry.findMetaCall(
-    extrinsicCall.callIndex,
-  );
+  const { args, callIndex } = api.createType('Call', payload.method);
+  const { method, section } = api.registry.findMetaCall(callIndex);
 
   const action = `${section}_${method}`;
 
@@ -80,20 +84,20 @@ const confirmation = (
   const token = api.registry.chainTokens[0];
   let amount;
 
-  const isNoArgsMethod = extrinsicCall.args?.length === 0 && 'noArgsMethods';
+  const isNoArgsMethod = args?.length === 0 && 'noArgsMethods';
 
   switch (isNoArgsMethod || action) {
     case 'balances_transfer':
     case 'balances_transferKeepAlive':
     case 'balances_transferAll':
-      const to = `${extrinsicCall.args[0]}`;
-      amount = String(extrinsicCall.args[1]);
+      const to = `${args[0]}`;
+      amount = String(args[1]);
 
       return panel([
         heading(headingText),
         divider(),
         panel([
-          text(`Method: ${method}`),
+          text(`Method: ${formatCamelCase(method)}`),
           divider(),
           text(`To:`),
           copyable(to),
@@ -104,14 +108,14 @@ const confirmation = (
         ]),
       ]);
     case 'staking_bond':
-      amount = `${extrinsicCall.args[0]}`;
-      const payee = String(extrinsicCall.args[1]);
+      amount = `${args[0]}`;
+      const payee = String(args[1]);
 
       return panel([
         heading(headingText),
         divider(),
         panel([
-          text(`Method: ${method}`),
+          text(`Method: ${formatCamelCase(method)}`),
           divider(),
           text(`Amount: ${amountToHuman(amount, decimal)} ${token}`),
           divider(),
@@ -125,15 +129,13 @@ const confirmation = (
         panel([
           text(`Method: ${method}`),
           divider(),
-          text(`Validators: ${extrinsicCall.args[0]}`),
+          text(`Validators: ${args[0]}`),
         ]),
       ]);
     case 'nominationPools_unbond':
     case 'staking_unbond':
     case 'staking_bondExtra':
-      amount = `${
-        extrinsicCall.args[action === 'nominationPools_unbond' ? 1 : 0]
-      }`;
+      amount = `${args[action === 'nominationPools_unbond' ? 1 : 0]}`;
 
       return panel([
         heading(headingText),
@@ -151,12 +153,12 @@ const confirmation = (
         panel([
           text(`Method: ${method}`),
           divider(),
-          text(`Payee: ${extrinsicCall.args[0]}`),
+          text(`Payee: ${args[0]}`),
         ]),
       ]);
     case 'nominationPools_join':
-      amount = `${extrinsicCall.args[0]}`;
-      const poolId = String(extrinsicCall.args[1]);
+      amount = `${args[0]}`;
+      const poolId = String(args[1]);
 
       return panel([
         heading(headingText),
@@ -170,7 +172,7 @@ const confirmation = (
         ]),
       ]);
     case 'nominationPools_bondExtra':
-      let extra = String(extrinsicCall.args[0]);
+      let extra = String(args[0]);
       if (extra === 'Rewards') {
         extra = 'Rewards';
       } else {
@@ -198,11 +200,11 @@ const confirmation = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: ${section}_${method}`),
+          text(`Method: ${action}`),
           divider(),
-          text(`Call details:`),
+          text(`Args:`),
           divider(),
-          text(JSON.stringify(extrinsicCall)),
+          text(JSON.stringify(args, null, 2)),
         ]),
       ]);
   }

@@ -1,5 +1,5 @@
 {
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "PolkaMask: a MetaMask Snap to interact with Polkadot, a platform for cross-chain communication and scalability. Use your MetaMask wallet to access Polkadot dApps and tokens. No extra extension or app needed.",
   "proposedName": "PolkaMask",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/polkagate/polkamask.git"
   },
   "source": {
-    "shasum": "q7MPyRH/1nZ9bqvITwWOJ5nGAMTfih0mLvkmIo5AOOE=",
+    "shasum": "K1P3QUEz9UZeHmnPLTYZmSzEoy00HeuZdjGIUa7vn3Q=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",

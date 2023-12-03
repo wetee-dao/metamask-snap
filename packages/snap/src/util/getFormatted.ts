@@ -9,11 +9,8 @@ import { getChain } from '../chains';
  * @returns - the formatted address
  */
 export function getFormatted(genesisHash: string, address: string): string {
-  console.log('getFormatted genesisHash:', genesisHash)
-
   const { prefix } = getChain(genesisHash as string);
-  console.log('getFormatted prefix:', prefix)
-
   const publicKey = decodeAddress(address);
+
   return encodeAddress(publicKey, prefix);
 }
