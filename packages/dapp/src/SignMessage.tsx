@@ -85,9 +85,10 @@ function SignMessage({ api, account, balances, currentChainName, formatted, isPo
           <TextField
             label="Message"
             variant="outlined"
+            focused
             sx={{ width: '600px', marginTop: '20px' }}
             inputProps={{ style: { fontSize: 20 } }}
-            InputLabelProps={{ style: { fontSize: 20 } }}
+            InputLabelProps={{ style: { fontSize: 18 } }}
             onChange={handleMessage}
           />
           <Grid container item justifyContent="center" sx={{ width: '600px', mt: '25px' }}>
