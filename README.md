@@ -1,8 +1,8 @@
-# Polkagate signer snap for Metamask
+# PolkaMask: Polkadot with Metamask
 
  A MetaMask Snap for seamless interaction with the Polkadot ecosystem, a prominent platform for cross-chain communication and scalability. Now you can use your MetaMask wallet to access Polkadot dApps and tokens effortlessly.
 
-To integrate this Snap into your dApp, you can easily upgrade your existing @polkadot/extension-dap by replacing it with @polkagate/extension-dapp. It's important to note that once our changes are merged into the official extension-dapp, this manual update will no longer be necessary.
+To integrate this Snap into your dApp, you can easily upgrade your existing @polkadot/extension-dapp by replacing it with @polkagate/extension-dapp. It's important to note that once our changes are merged into the official extension-dapp, this manual update will no longer be necessary.
 
 The Polkagate Signer is currently operational within the Metamask Flask and is in the process of being published on the Metamask repository, making it readily available to all Metamask users.
 
@@ -27,3 +27,6 @@ After executing these commands, you can access a basic transfer funds page for t
 <p align="center">
   <img src="https://raw.githubusercontent.com/PolkaGate/polkaMask/main/docs/images/simpleTransfer.png" alt="Image" width="1000" />
 </p>
+
+
+Note: This Metamask snap operates independently and does not depend on other Polkadot ecosystem extensions to function.
