@@ -3,7 +3,7 @@ import type { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import './App.css';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Key as KeyIcon, CheckCircle as CheckCircleIcon } from '@mui/icons-material';
-import { web3FromSource } from '@polkadot/extension-dapp';
+import { web3FromSource } from '@polkagate/extension-dapp';
 import { Divider, Grid, TextField, Typography } from '@mui/material';
 import { ApiPromise } from '@polkadot/api';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';

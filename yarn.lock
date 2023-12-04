@@ -5715,23 +5715,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/extension-dapp@file:../../../polkadot-js-extension/packages/extension-dapp/build::locator=dapp%40workspace%3Apackages%2Fdapp":
-  version: 0.46.6-7-x
-  resolution: "@polkadot/extension-dapp@file:../../../polkadot-js-extension/packages/extension-dapp/build#../../../polkadot-js-extension/packages/extension-dapp/build::hash=e4fe7b&locator=dapp%40workspace%3Apackages%2Fdapp"
-  dependencies:
-    "@polkadot/extension-inject": latest
-    "@polkadot/types": ^10.10.1
-    "@polkadot/util": ^12.5.1
-    "@polkadot/util-crypto": ^12.5.1
-    tslib: ^2.6.2
-  peerDependencies:
-    "@polkadot/api": "*"
-    "@polkadot/util": "*"
-    "@polkadot/util-crypto": "*"
-  checksum: 9802f5dab5adb9ad706085f57cf281658172c4db08da74fa35dad5def1e94e03f9136c20e48082db99f2a55767eeb384b5d1a1e81af5b192926644e173a2e5d3
-  languageName: node
-  linkType: hard
-
 "@polkadot/extension-inject@npm:latest":
   version: 0.46.6
   resolution: "@polkadot/extension-inject@npm:0.46.6"
@@ -7104,6 +7087,23 @@ __metadata:
     "@types/websocket": ^1.0.5
     websocket: ^1.0.34
   checksum: 9137f955bf92f49bf831457ebc10370ca26bb9f0dce1dee3b2fae4eeab3a90377a176940f845b13a11836b483c03482713eda64fa49958a620ee182495e20b76
+  languageName: node
+  linkType: hard
+
+"@polkagate/extension-dapp@npm:^0.46.6-17":
+  version: 0.46.6-17
+  resolution: "@polkagate/extension-dapp@npm:0.46.6-17"
+  dependencies:
+    "@polkadot/extension-inject": latest
+    "@polkadot/types": ^10.10.1
+    "@polkadot/util": ^12.5.1
+    "@polkadot/util-crypto": ^12.5.1
+    tslib: ^2.6.2
+  peerDependencies:
+    "@polkadot/api": "*"
+    "@polkadot/util": "*"
+    "@polkadot/util-crypto": "*"
+  checksum: 647b396c4709eb1150f3df6e9e9409ed6ffe019d16cec78cfea2fbb9d202abe1bf92608c0bd9223a96d5d4882338445e9478f1254aff676e804d0765bd68a6c9
   languageName: node
   linkType: hard
 
@@ -11969,6 +11969,7 @@ __metadata:
   dependencies:
     "@emotion/react": latest
     "@emotion/styled": latest
+    "@metamask/detect-provider": ^2.0.0
     "@metamask/providers": latest
     "@mui/icons-material": latest
     "@mui/lab": latest
@@ -11976,8 +11977,8 @@ __metadata:
     "@polkadot/api": latest
     "@polkadot/api-derive": latest
     "@polkadot/apps-config": latest
-    "@polkadot/extension-dapp": ../../../polkadot-js-extension/packages/extension-dapp/build
     "@polkadot/extension-inject": latest
+    "@polkagate/extension-dapp": ^0.46.6-17
     "@testing-library/jest-dom": ^5.17.0
     "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^13.5.0

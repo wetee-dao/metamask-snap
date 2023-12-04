@@ -2,7 +2,7 @@ import TransferFund from './TransferFund';
 import React, { useCallback, useEffect, useState } from 'react';
 import type { InjectedAccountWithMeta, InjectedExtension } from '@polkadot/extension-inject/types';
 import './App.css';
-import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
+import { web3Accounts, web3Enable } from '@polkagate/extension-dapp';
 import { Box, Tabs, Tab, Button, Grid, Typography } from '@mui/material';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import useEndpoint from './hooks/useEndpoint';
