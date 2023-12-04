@@ -83,7 +83,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
   return (
     <Grid container item justifyContent='center'>
       {isPolkaMaskInstalled
-        ? <>
+        && <>
           <Grid container justifyContent="center" py='5px'>
             <Typography variant="h5" sx={{ fontWeight: '500' }}>
               A Simple Fund Transfer
@@ -182,11 +182,6 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
             </Grid>
           </Grid>
         </>
-        : <Grid container justifyContent="center" p='auto' m='auto' >
-          <Typography variant="h5" sx={{ fontWeight: '500' }}>
-            PolkaMask snap is not installed. Please install it using the button above.
-          </Typography>
-        </Grid>
       }
       {/* {state.error && (
         <Grid item container>

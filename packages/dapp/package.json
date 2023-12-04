@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
+    "@metamask/detect-provider": "^2.0.0",
     "@metamask/providers": "latest",
     "@mui/icons-material": "latest",
     "@mui/lab": "latest",

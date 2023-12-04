@@ -13,6 +13,7 @@ import { getChain } from './util/getChain';
 import { installPolkaMask } from './util/installPolkaMask';
 import logo from './assets/logo.svg';
 import SignMessage from './SignMessage';
+import { hasFlask } from './util/hasFlask';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -59,6 +60,7 @@ export default function App() {
   const [isPolkaMaskInstalled, setIsSnapInstalled] = useState<boolean>();
   const [balances, setBalances] = useState<DeriveBalancesAll>();
   const [token, setToken] = useState<string>();
+  const [hasFlaskDetected, setHasFlask] = useState<boolean>();
 
   useEffect(() => {
     if (!api) {
@@ -104,16 +106,25 @@ export default function App() {
   }, [account]);
 
   const handleInstallClick = useCallback(() => {
+    if (hasFlaskDetected === false) {
+      const FLASK_URL = 'https://chromewebstore.google.com/detail/metamask-flask-developmen/ljfoeinjpaedjfecbmggjgodbgkmjkjk';
+
+      window.open(FLASK_URL, '_blank');
+
+      return;
+    }
+
     installPolkaMask().then((installedSnap) => {
       installedSnap && setIsSnapInstalled(installedSnap[DEFAULT_SNAP_ORIGIN]?.enabled)
     });
-  }, []);
+  }, [hasFlaskDetected]);
 
   useEffect(() => {
     handleInstallClick()
   }, [handleInstallClick]);
 
   useEffect(() => {
+    hasFlask().then(setHasFlask)
     // getSnaps().then((snaps) => {
     //   if (snaps?.length) {
     //     const isDefaultSnapInstalled = !!Object.keys(snaps).find((id) => POLKAMASK_SNAP_IDS.includes(id));
@@ -154,29 +165,35 @@ export default function App() {
             disabled={isPolkaMaskInstalled}
             sx={{ fontSize: '16px', width: 'fit-content' }}
           >
-            Install PolkaMask Snap
+            Install {hasFlaskDetected ? 'PolkaMask Snap' : 'Flask'}
           </Button>
         </Grid>
       </Grid>
       <Grid container
         sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224 }}
       >
-        <Grid item sx={{ width: '20%' }}>
-          <Tabs
-            orientation="vertical"
-            variant="scrollable"
-            value={value}
-            onChange={handleChange}
-            aria-label="Vertical tabs example"
-            sx={{ borderRight: 1, borderColor: 'divider' }}
-          >
-            <Tab label="Transfer Fund" {...a11yProps(0)} />
-            <Tab label="Sign Message" {...a11yProps(1)} />
-            <Tab label="Other" {...a11yProps(2)} />
-          </Tabs>
-        </Grid>
+        {!isPolkaMaskInstalled
+          ? <Grid container justifyContent="center" p='auto' m='auto' >
+            <Typography variant="h5" sx={{ fontWeight: '500' }}>
+              {hasFlaskDetected ? 'PolkaMask Snap' : 'Flask'} is not installed. Please install it using the button above.
+            </Typography>
+          </Grid>
+          : <Grid item sx={{ width: '20%' }}>
+            <Tabs
+              orientation="vertical"
+              variant="scrollable"
+              value={value}
+              onChange={handleChange}
+              aria-label="Vertical tabs example"
+              sx={{ borderRight: 1, borderColor: 'divider' }}
+            >
+              <Tab label="Transfer Fund" {...a11yProps(0)} />
+              <Tab label="Sign Message" {...a11yProps(1)} />
+              <Tab label="Other" {...a11yProps(2)} />
+            </Tabs>
+          </Grid>
+        }
         <Grid item sx={{ width: '79%' }}>
-
           <TabPanel value={value} index={0}>
             <TransferFund
               api={api}
@@ -189,7 +206,7 @@ export default function App() {
             />
           </TabPanel>
           <TabPanel value={value} index={1}>
-          <SignMessage
+            <SignMessage
               api={api}
               account={account}
               isPolkaMaskInstalled={isPolkaMaskInstalled}
