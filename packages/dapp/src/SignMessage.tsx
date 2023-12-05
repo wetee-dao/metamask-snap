@@ -13,14 +13,9 @@ import { verifySignature } from './util/verifySignature';
 interface Props {
   api: ApiPromise | undefined;
   account: InjectedAccountWithMeta | undefined;
-  balances: DeriveBalancesAll | undefined;
-  currentChainName: string;
-  formatted: string | undefined;
   isPolkaMaskInstalled: boolean | undefined;
-  token: string | undefined;
-
 }
-function SignMessage({ api, account, balances, currentChainName, formatted, isPolkaMaskInstalled, token }: Props) {
+function SignMessage({ api, account, isPolkaMaskInstalled }: Props) {
   const [message, setMessage] = useState<string>();
   const [_signature, setSignature] = useState<string>();
   const [isSignatureValid, setIsSignatureValid] = useState<boolean>();

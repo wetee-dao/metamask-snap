@@ -14,6 +14,7 @@ import { installPolkaMask } from './util/installPolkaMask';
 import logo from './assets/logo.svg';
 import SignMessage from './SignMessage';
 import { hasFlask } from './util/hasFlask';
+import SwitchChain from './SwitchChain';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -51,8 +52,9 @@ function a11yProps(index: number) {
 }
 
 export default function App() {
-  const [value, setValue] = React.useState(0);
-  const endpoint = useEndpoint(currentChainName)
+  const [chainName, setChainName] =useState(currentChainName);
+  const [value, setValue] = useState(0);
+  const endpoint = useEndpoint(chainName)
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
   const [account, setAccount] = useState<InjectedAccountWithMeta>();
   const [api, setApi] = useState<ApiPromise>();
@@ -97,13 +99,13 @@ export default function App() {
 
   useEffect(() => {
     /** To format account address based on the dApp chain */
-    const chain = getChain(currentChainName);
+    const chain = getChain(chainName);
     const maybeChainLatestGenesisHash = chain?.genesisHash?.[0];
     if (maybeChainLatestGenesisHash && account?.address) {
       const formatted = getFormatted(String(maybeChainLatestGenesisHash), account.address)
       setFormatted(formatted);
     }
-  }, [account]);
+  }, [account, chainName]);
 
   const handleInstallClick = useCallback(() => {
     if (hasFlaskDetected === false) {
@@ -189,7 +191,7 @@ export default function App() {
             >
               <Tab label="Transfer Fund" {...a11yProps(0)} />
               <Tab label="Sign Message" {...a11yProps(1)} />
-              <Tab label="Other" {...a11yProps(2)} />
+              <Tab label="Switch chain" {...a11yProps(2)} />
             </Tabs>
           </Grid>
         }
@@ -201,7 +203,7 @@ export default function App() {
               isPolkaMaskInstalled={isPolkaMaskInstalled}
               formatted={formatted}
               balances={balances}
-              currentChainName={currentChainName}
+              currentChainName={chainName}
               token={token}
             />
           </TabPanel>
@@ -210,10 +212,12 @@ export default function App() {
               api={api}
               account={account}
               isPolkaMaskInstalled={isPolkaMaskInstalled}
-              formatted={formatted}
-              balances={balances}
-              currentChainName={currentChainName}
-              token={token}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <SwitchChain
+              currentChainName={chainName}
+              setChainName={setChainName}
             />
           </TabPanel>
         </Grid>

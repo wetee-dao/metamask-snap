@@ -34,12 +34,13 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
       event?.target?.value && setToAddress(event.target.value);
     }, [],);
 
-  const handleAmount = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      event?.target?.value &&
-        Number(event?.target?.value) &&
-        setTransferAmount(event.target.value);
-    }, [],);
+  const handleAmount = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    if (isNaN((Number(event?.target?.value)))){
+      return
+    }
+
+    setTransferAmount(parseFloat(event.target.value).toFixed(4));
+  }, [],);
 
   const handleSendClick = async () => {
     try {
@@ -84,13 +85,13 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
     <Grid container item justifyContent='center'>
       {isPolkaMaskInstalled
         && <>
-          <Grid container justifyContent="center" py='5px'>
+          <Grid container item justifyContent="center" py='5px'>
             <Typography variant="h5" sx={{ fontWeight: '500' }}>
               A Simple Fund Transfer
             </Typography>
           </Grid>
           <Divider sx={{ width: '80%', mb: '35px' }} />
-          <Grid container justifyContent="center" alignItems='center'>
+          <Grid container item justifyContent="center" alignItems='center'>
             <Typography variant="body1">
               From:
             </Typography>
@@ -100,7 +101,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
                 : <Skeleton animation="wave" sx={{ display: 'inline-block', fontWeight: 'bold', transform: 'none', width: '650px', height: '27px' }} />}
             </Typography>
           </Grid>
-          <Grid container alignItems='center' justifyContent="center" pt="15px">
+          <Grid container item alignItems='center' justifyContent="center" pt="15px">
             <Typography variant="body1">
               Transferable Balance:
             </Typography>
@@ -110,7 +111,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
                 : <Skeleton animation="wave" sx={{ display: 'inline-block', fontWeight: 'bold', transform: 'none', width: '100px', height: '27px' }} />}
             </Typography>
           </Grid>
-          <Grid container justifyContent="center" pt="15px">
+          <Grid container item justifyContent="center" pt="15px">
             {balances?.availableBalance?.isZero() && currentChainName as string === 'westend' && (
               <Typography variant="h5">
                 {` You can top up your address by sending `}
@@ -126,7 +127,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
               </Typography>
             )}
           </Grid>
-          <Grid container justifyContent="center">
+          <Grid container item justifyContent="center">
             <TextField
               label="To"
               variant="outlined"
@@ -136,7 +137,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
               onChange={handleToAddress}
             />
           </Grid>
-          <Grid container justifyContent="center">
+          <Grid container item justifyContent="center">
             <TextField
               label="Amount"
               variant="outlined"
@@ -153,7 +154,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
               onChange={handleAmount}
             />
           </Grid>
-          <Grid container justifyContent='center' sx={{ border: 1, p: '10px', borderRadius: '10px', width: '600px', mt: '20px' }}>
+          <Grid container item justifyContent='center' sx={{ border: 1, p: '10px', borderRadius: '10px', width: '600px', mt: '20px' }}>
             {toAddress && (
               <Typography variant="body1">
                 {`Click to send ${transferAmount} ${token} to recipient address ${toAddress}`}
@@ -188,7 +189,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
           <b>An error happened:</b> {state.error.message}
         </Grid>
       )} */}
-      <Grid container pt="15px" justifyContent="center" alignItems='center'>
+      <Grid container item pt="15px" justifyContent="center" alignItems='center'>
         {_signature && (
           <>
             <Typography variant="body1">Received Signature:</Typography>
