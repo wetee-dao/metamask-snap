@@ -113,7 +113,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
           </Grid>
           <Grid container item justifyContent="center" pt="15px">
             {balances?.availableBalance?.isZero() && currentChainName as string === 'westend' && (
-              <Typography variant="h5">
+              <Typography variant="body1" color='info'>
                 {` You can top up your address by sending `}
                 <strong>{`!drip ${formatted}`}</strong>
                 {` to the `}
