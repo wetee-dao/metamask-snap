@@ -11,6 +11,7 @@ import { TxResult, send } from './apis/send';
 import { amountToMachine } from './util/utils';
 import { buildPayload } from './util/buildPayload';
 import subscan from './assets/subscan.svg';
+import isValidAddress from './util/isValidAddress';
 
 interface Props {
   api: ApiPromise | undefined;
@@ -31,11 +32,14 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
 
   const handleToAddress = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      event?.target?.value && setToAddress(event.target.value);
+      const mayBeAddress = event?.target?.value
+      if (isValidAddress(mayBeAddress)) {
+        setToAddress(event.target.value);
+      }
     }, [],);
 
   const handleAmount = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    if (isNaN((Number(event?.target?.value)))){
+    if (isNaN((Number(event?.target?.value)))) {
       return
     }
 
