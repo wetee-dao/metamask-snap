@@ -2,16 +2,26 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { createWsEndpoints } from '@polkadot/apps-config';
+import getChainName from './getChainName';
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export default function getEndpoint(
   _genesisHash: string | undefined,
 ): string | undefined {
+  if (!_genesisHash) {
+    console.info('_genesisHash should not be undefined');
+    return undefined;
+  }
   const allEndpoints = createWsEndpoints(() => '');
+  const chainName = getChainName(_genesisHash);
 
   const endpoints = allEndpoints?.filter(
-    ({ genesisHash, value }) =>
-      String(genesisHash) === _genesisHash && Boolean(value),
+    (e) =>
+      e.value &&
+      (String(e.info)?.toLowerCase() === chainName ||
+        String(e.text)
+          ?.toLowerCase()
+          ?.includes(chainName || '')),
   );
 
   return (
