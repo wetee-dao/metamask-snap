@@ -4,7 +4,7 @@ import { SignerPayloadRaw, SignerResult } from '@polkadot/types/types';
 import { isAscii, u8aToString, u8aUnwrapBytes } from '@polkadot/util';
 import { getKeyPair } from '../util/getKeyPair';
 
-const confirmation = (origin: string, hexString: string) => {
+const contentSignRaw = (origin: string, hexString: string) => {
   const data = isAscii(hexString)
     ? u8aToString(u8aUnwrapBytes(hexString))
     : hexString;
@@ -25,7 +25,7 @@ async function showConfirmSignRaw(
   const userResponse = await snap.request({
     method: 'snap_dialog',
     params: {
-      content: confirmation(origin, data),
+      content: contentSignRaw(origin, data),
       type: 'confirmation',
     },
   });
