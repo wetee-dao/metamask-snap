@@ -11,8 +11,10 @@ import {
 import { ApiPromise } from '@polkadot/api';
 import { Compact, u128 } from '@polkadot/types';
 import { SignerPayloadJSON } from '@polkadot/types/types';
-import { BN } from '@polkadot/util';
+import { BN, bnToBn } from '@polkadot/util';
+import { Balance } from '@polkadot/types/interfaces';
 import getLogo from '../util/getLogo';
+import { Decoded, getDecoded } from './decodeTxMethod';
 
 const FLOATING_POINT_DIGIT = 4;
 
@@ -65,12 +67,15 @@ export function amountToHuman(
   return fixFloatingPoint(Number(_amount) / x, decimalDigits, commify);
 }
 
-const confirmation = (
+const transactionContent = (
   api: ApiPromise,
   origin: string,
   payload: SignerPayloadJSON,
+  partialFee: Balance,
+  decoded: Decoded,
 ) => {
   const headingText = `Transaction Approval Request from ${origin}`;
+  const decodedArgs = decoded.args;
 
   const { args, callIndex } = api.createType('Call', payload.method);
   const { method, section } = api.registry.findMetaCall(callIndex);
@@ -97,14 +102,16 @@ const confirmation = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: ${formatCamelCase(method)}`),
+          text(`Method: **${formatCamelCase(method)}**`),
           divider(),
           text(`To:`),
           copyable(to),
           divider(),
-          text(`Amount: ${amountToHuman(amount, decimal)} ${token}`),
+          text(`Amount: **${amountToHuman(amount, decimal)} ${token}**`),
           divider(),
-          panel([text('Chain logo:'), image(svgString)]),
+          text(`Estimated Fee: **${partialFee.toHuman()}**`),
+          divider(),
+          panel([text('_Chain_ Logo:'), image(svgString)]),
         ]),
       ]);
     case 'staking_bond':
@@ -204,7 +211,7 @@ const confirmation = (
           divider(),
           text(`Args:`),
           divider(),
-          text(JSON.stringify(args, null, 2)),
+          text(JSON.stringify(decodedArgs || args, null, 2)), // decodedArgs shows the args label as well
         ]),
       ]);
   }
@@ -215,10 +222,24 @@ export async function showConfirmTx(
   origin: string,
   payload: SignerPayloadJSON,
 ): Promise<string | boolean | null> {
+  const { args, callIndex } = api.createType('Call', payload.method);
+  const { method, section } = api.registry.findMetaCall(callIndex);
+
+  const { partialFee } = await api.tx[section][method](...args).paymentInfo(
+    payload.address,
+  );
+
+  const { genesisHash, specVersion } = payload;
+  const decoded = await getDecoded(
+    genesisHash,
+    payload.method,
+    bnToBn(specVersion),
+  );
+
   const userResponse = await snap.request({
     method: 'snap_dialog',
     params: {
-      content: confirmation(api, origin, payload),
+      content: transactionContent(api, origin, payload, partialFee, decoded),
       type: 'confirmation',
     },
   });

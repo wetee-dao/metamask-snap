@@ -7,7 +7,7 @@
     "url": "https://github.com/polkagate/polkamask.git"
   },
   "source": {
-    "shasum": "Y/dj+XXdFPAcsTjgf6Cl3TXDeNHKapa3AuofzO0pG4A=",
+    "shasum": "W0V4Pt24/zDfuodJGVnSn7f4/02q2CXrKNkMohAtPQw=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -29,7 +29,8 @@
       {
         "coinType": 354
       }
-    ]
+    ],
+    "snap_manageState": {}
   },
   "manifestVersion": "0.1"
 }
