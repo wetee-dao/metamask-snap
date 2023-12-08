@@ -19,7 +19,25 @@ const westend = {
   website: 'https://polkadot.network',
 };
 
-selectableNetworks.push(westend as Network);
+const westendAssetHub = {
+  decimals: [12],
+  displayName: 'Westend Asset Hub',
+  genesisHash: [
+    '0x67f9723393ef76214df0118c34bbbd3dbebc8ed46a10973a8c969d48fe7598c9',
+  ],
+  hasLedgerSupport: false,
+  icon: 'polkadot',
+  isIgnored: false,
+  isTestnet: true,
+  network: 'westmint',
+  prefix: 42,
+  slip44: 354,
+  standardAccount: '*25519',
+  symbols: ['WND'],
+  website: 'https://polkadot.network',
+};
+
+selectableNetworks.push(westend as Network, westendAssetHub as Network);
 
 export const getChain = (genesisOrChainName: string): Network => {
   const chain = selectableNetworks.find(

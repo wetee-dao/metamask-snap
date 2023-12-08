@@ -17,6 +17,9 @@ import getLogo from '../util/getLogo';
 import { Decoded, getDecoded } from './decodeTxMethod';
 
 const FLOATING_POINT_DIGIT = 4;
+const EMPTY_LOGO = `<svg width="100" height="100">
+<circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+</svg>`;
 
 export function fixFloatingPoint(
   _number: number | string,
@@ -75,20 +78,27 @@ const transactionContent = (
   decoded: Decoded,
 ) => {
   const headingText = `Transaction Approval Request from ${origin}`;
-  const decodedArgs = decoded.args;
+  const decodedArgs = decoded?.args;
 
   const { args, callIndex } = api.createType('Call', payload.method);
   const { method, section } = api.registry.findMetaCall(callIndex);
 
   const action = `${section}_${method}`;
 
+  let chainLogoSvg = EMPTY_LOGO;
   const dataURI = getLogo(payload.genesisHash);
-  const svgString = atob(dataURI.replace(/data:image\/svg\+xml;base64,/, ''));
+  const maybeSvgString = atob(
+    dataURI.replace(/data:image\/svg\+xml;base64,/, ''),
+  );
+  const indexOfFirstSvgTag = maybeSvgString.indexOf('<svg');
+  if (indexOfFirstSvgTag !== -1) {
+    chainLogoSvg = maybeSvgString.substring(indexOfFirstSvgTag);
+  }
 
   const decimal = api.registry.chainDecimals[0];
   const token = api.registry.chainTokens[0];
-  let amount;
 
+  let amount;
   const isNoArgsMethod = args?.length === 0 && 'noArgsMethods';
 
   switch (isNoArgsMethod || action) {
@@ -111,7 +121,7 @@ const transactionContent = (
           divider(),
           text(`Estimated Fee: **${partialFee.toHuman()}**`),
           divider(),
-          panel([text('_Chain_ Logo:'), image(svgString)]),
+          panel([text('_Chain_ Logo:'), image(chainLogoSvg)]),
         ]),
       ]);
     case 'staking_bond':
@@ -122,9 +132,9 @@ const transactionContent = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: ${formatCamelCase(method)}`),
+          text(`Method: **${formatCamelCase(method)}**`),
           divider(),
-          text(`Amount: ${amountToHuman(amount, decimal)} ${token}`),
+          text(`Amount: **${amountToHuman(amount, decimal)} ${token}**`),
           divider(),
           text(`Payee: ${payee}`),
         ]),
@@ -134,9 +144,9 @@ const transactionContent = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: ${method}`),
+          text(`Method: **${method}**`),
           divider(),
-          text(`Validators: ${args[0]}`),
+          text(`Validators: **${args[0]}**`),
         ]),
       ]);
     case 'nominationPools_unbond':
@@ -148,9 +158,9 @@ const transactionContent = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: ${method}`),
+          text(`Method: **${method}**`),
           divider(),
-          text(`Amount: ${amountToHuman(amount, decimal)} ${token}`),
+          text(`Amount: **${amountToHuman(amount, decimal)} ${token}**`),
         ]),
       ]);
     case 'staking_setPayee':
@@ -158,9 +168,9 @@ const transactionContent = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: ${method}`),
+          text(`Method: **${method}**`),
           divider(),
-          text(`Payee: ${args[0]}`),
+          text(`Payee: **${args[0]}**`),
         ]),
       ]);
     case 'nominationPools_join':
@@ -171,11 +181,11 @@ const transactionContent = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: ${method}`),
+          text(`Method: **${method}**`),
           divider(),
-          text(`Amount: ${amountToHuman(amount, decimal)} ${token}`),
+          text(`Amount: **${amountToHuman(amount, decimal)} ${token}**`),
           divider(),
-          text(`Pool Id: ${poolId}`),
+          text(`Pool Id: **${poolId}**`),
         ]),
       ]);
     case 'nominationPools_bondExtra':
@@ -190,16 +200,20 @@ const transactionContent = (
       return panel([
         heading(headingText),
         divider(),
-        panel([text(`Method: ${method}`), divider(), text(`Extra: ${extra}`)]),
+        panel([
+          text(`Method: **${method}**`),
+          divider(),
+          text(`Extra: **${extra}**`),
+        ]),
       ]);
     case 'noArgsMethods':
       return panel([
         heading(headingText),
         divider(),
         panel([
-          text(`Section: ${section}`),
+          text(`Section: **${section}**`),
           divider(),
-          text(`Method: ${method}`),
+          text(`Method: **${method}**`),
         ]),
       ]);
     default:
@@ -207,7 +221,7 @@ const transactionContent = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: ${action}`),
+          text(`Method: **${action}**`),
           divider(),
           text(`Args:`),
           divider(),
