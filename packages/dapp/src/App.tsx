@@ -61,15 +61,9 @@ export default function App() {
   const [formatted, setFormatted] = useState<string>();
   const [isPolkaMaskInstalled, setIsSnapInstalled] = useState<boolean>();
   const [balances, setBalances] = useState<DeriveBalancesAll>();
-  const [token, setToken] = useState<string>();
   const [hasFlaskDetected, setHasFlask] = useState<boolean>();
 
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-    setToken(api.registry.chainTokens[0]);
-  }, [api]);
+  const token=api && api.registry.chainTokens[0];
 
   useEffect(() => {
     if (!endpoint) {
@@ -122,7 +116,7 @@ export default function App() {
   }, [hasFlaskDetected]);
 
   useEffect(() => {
-    handleInstallClick()
+    handleInstallClick() 
   }, [handleInstallClick]);
 
   useEffect(() => {
