@@ -6,11 +6,12 @@ import { BN } from '@polkadot/util';
 import type { AnyJson } from '@polkadot/types/types';
 import { Metadata, TypeRegistry } from '@polkadot/types';
 import { base64Decode } from '@polkadot/util-crypto';
-import { getSavedMeta } from './metadata';
+import { getSavedMeta } from '.';
 
 export type Decoded = {
   args: AnyJson | null;
   method: Call | null;
+  docs: string;
 };
 
 const expanded = new Map<string, Chain>();
@@ -96,10 +97,15 @@ async function getMetadata(genesisHash?: string | null): Promise<Chain | null> {
 function decodeMethod(data: string, chain: Chain, specVersion: BN): Decoded {
   let args: AnyJson | null = null;
   let method: Call | null = null;
+  let docs = '';
 
   try {
     if (specVersion.eqn(chain.specVersion)) {
       method = chain.registry.createType('Call', data);
+      console.log('( method.meta:', method.meta.toHuman());
+      docs = (method.meta.docs.toHuman() as string[])
+        .join(' ')
+        .replace(/`/gu, '');
       args = (method.toHuman() as { args: AnyJson }).args;
     } else {
       console.log('Outdated metadata to decode', chain, specVersion);
@@ -113,7 +119,7 @@ function decodeMethod(data: string, chain: Chain, specVersion: BN): Decoded {
     );
   }
 
-  return { args, method };
+  return { args, method, docs };
 }
 
 export const getDecoded = async (
@@ -125,5 +131,5 @@ export const getDecoded = async (
 
   return chain?.hasMetadata
     ? decodeMethod(method, chain, specVersion)
-    : { args: null, method: null };
+    : { args: null, method: null, docs: '' };
 };
