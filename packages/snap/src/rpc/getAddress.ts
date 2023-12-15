@@ -1,12 +1,11 @@
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-sdk';
-import { Balance } from '@polkadot/types/interfaces';
 import { DEFAULT_CHAIN_NAME } from '../defaults';
 import { getKeyPair } from '../util/getKeyPair';
-import { getBalances } from '../util/getBalance';
+import { Balances, getBalances } from '../util/getBalance';
 import { getGenesisHash } from '../chains';
 import { getFormatted } from '../util/getFormatted';
 
-const AccountDemo = (address: string, balance: Balance) => {
+const AccountDemo = (address: string, balances: Balances) => {
   const polkadotGenesishash = getGenesisHash('polkadot');
   const addressOnPolkadot = getFormatted(polkadotGenesishash, address);
 
@@ -17,9 +16,10 @@ const AccountDemo = (address: string, balance: Balance) => {
     heading('Your Account on Different Chains'),
     divider(),
     panel([
-      text('Any chain / Westend'),
+      text('Westend'),
       copyable(address),
-      text(`balance:  ${balance.toHuman()}`),
+      text(`Total Balance: **${balances.total.toHuman()}**`),
+      text(`Transferable: **${balances.transferable.toHuman()}**`),
       divider(),
     ]),
     panel([text('Polkadot'), copyable(addressOnPolkadot), divider()]),
@@ -48,14 +48,14 @@ export const getAddress = async (chainName?: string): Promise<string> => {
  */
 async function showAddress(address: string) {
   const genesisHash = getGenesisHash('westend'); // For testing purposes
-  const balance = await getBalances(genesisHash, address);
+  const balances = await getBalances(genesisHash, address);
 
   /** to show the address to user */
   snap.request({
     method: 'snap_dialog',
     params: {
       type: 'alert',
-      content: AccountDemo(address, balance),
+      content: AccountDemo(address, balances),
     },
   });
 }
