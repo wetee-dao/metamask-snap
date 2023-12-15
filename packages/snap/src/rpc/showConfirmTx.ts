@@ -14,7 +14,8 @@ import { SignerPayloadJSON } from '@polkadot/types/types';
 import { BN, bnToBn } from '@polkadot/util';
 import { Balance } from '@polkadot/types/interfaces';
 import getLogo from '../util/getLogo';
-import { Decoded, getDecoded } from './decodeTxMethod';
+import getChainName from '../util/getChainName';
+import { Decoded, getDecoded } from '.';
 
 const FLOATING_POINT_DIGIT = 4;
 const EMPTY_LOGO = `<svg width="100" height="100">
@@ -46,10 +47,10 @@ export function fixFloatingPoint(
   return integerDigits + fractionalDigits;
 }
 
-function formatCamelCase(input: string) {
+function formatCamelCase(input?: string) {
   return input
-    .replace(/([a-z])([A-Z])/g, '$1 $2') // Add space between camelCase
-    .replace(/\b(\w)/, (char) => char.toUpperCase()); // Capitalize the first letter
+    ?.replace(/([a-z])([A-Z])/g, '$1 $2') // Add space between camelCase
+    ?.replace(/\b(\w)/, (char) => char.toUpperCase()); // Capitalize the first letter
 }
 
 export function amountToHuman(
@@ -84,6 +85,7 @@ const transactionContent = (
   const { method, section } = api.registry.findMetaCall(callIndex);
 
   const action = `${section}_${method}`;
+  const chainName = getChainName(payload.genesisHash);
 
   let chainLogoSvg = EMPTY_LOGO;
   const dataURI = getLogo(payload.genesisHash);
@@ -121,7 +123,13 @@ const transactionContent = (
           divider(),
           text(`Estimated Fee: **${partialFee.toHuman()}**`),
           divider(),
+          text(`Chain Name: **${formatCamelCase(chainName)}**`),
+          divider(),
           panel([text('_Chain_ Logo:'), image(chainLogoSvg)]),
+          divider(),
+          text(
+            `More info: **${decoded.docs || 'Update metadata to view this!'}**`,
+          ),
         ]),
       ]);
     case 'staking_bond':
@@ -144,7 +152,7 @@ const transactionContent = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: **${method}**`),
+          text(`Method: **${formatCamelCase(method)}**`),
           divider(),
           text(`Validators: **${args[0]}**`),
         ]),
@@ -158,7 +166,7 @@ const transactionContent = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: **${method}**`),
+          text(`Method: **${formatCamelCase(method)}**`),
           divider(),
           text(`Amount: **${amountToHuman(amount, decimal)} ${token}**`),
         ]),
@@ -168,7 +176,7 @@ const transactionContent = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: **${method}**`),
+          text(`Method: **${formatCamelCase(method)}**`),
           divider(),
           text(`Payee: **${args[0]}**`),
         ]),
@@ -181,7 +189,7 @@ const transactionContent = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: **${method}**`),
+          text(`Method: **${formatCamelCase(method)}**`),
           divider(),
           text(`Amount: **${amountToHuman(amount, decimal)} ${token}**`),
           divider(),
@@ -201,7 +209,7 @@ const transactionContent = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: **${method}**`),
+          text(`Method: **${formatCamelCase(method)}**`),
           divider(),
           text(`Extra: **${extra}**`),
         ]),
@@ -211,9 +219,9 @@ const transactionContent = (
         heading(headingText),
         divider(),
         panel([
-          text(`Section: **${section}**`),
+          text(`Section: **${formatCamelCase(section)}**`),
           divider(),
-          text(`Method: **${method}**`),
+          text(`Method: **${formatCamelCase(method)}**`),
         ]),
       ]);
     default:
@@ -221,11 +229,13 @@ const transactionContent = (
         heading(headingText),
         divider(),
         panel([
-          text(`Method: **${action}**`),
+          text(`Section: **${formatCamelCase(section)}**`),
           divider(),
-          text(`Args:`),
+          text(`Method: **${formatCamelCase(method)}**`),
           divider(),
-          text(JSON.stringify(decodedArgs || args, null, 2)), // decodedArgs shows the args label as well
+          text(`Details:`),
+          divider(),
+          text(JSON.stringify(decodedArgs || args, null, 2)), // decodedArgs show the args' labels as well
         ]),
       ]);
   }
