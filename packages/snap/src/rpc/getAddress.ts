@@ -5,7 +5,7 @@ import { Balances, getBalances } from '../util/getBalance';
 import { getGenesisHash } from '../chains';
 import { getFormatted } from '../util/getFormatted';
 
-const AccountDemo = (address: string, balances: Balances) => {
+export const accountDemo = (address: string, balances: Balances) => {
   const polkadotGenesishash = getGenesisHash('polkadot');
   const addressOnPolkadot = getFormatted(polkadotGenesishash, address);
 
@@ -15,15 +15,15 @@ const AccountDemo = (address: string, balances: Balances) => {
   return panel([
     heading('Your Account on Different Chains'),
     divider(),
+    panel([text('**Polkadot**'), copyable(addressOnPolkadot), divider()]),
+    panel([text('**Kusama**'), copyable(addressOnPKusama), divider()]),
     panel([
-      text('Westend'),
+      text('**Westend**'),
       copyable(address),
       text(`Total Balance: **${balances.total.toHuman()}**`),
       text(`Transferable: **${balances.transferable.toHuman()}**`),
       divider(),
     ]),
-    panel([text('Polkadot'), copyable(addressOnPolkadot), divider()]),
-    panel([text('Kusama'), copyable(addressOnPKusama)]),
   ]);
 };
 
@@ -36,7 +36,7 @@ export const getAddress = async (chainName?: string): Promise<string> => {
 
   const { address } = account;
 
-  showAddress(address);
+  showAccount(address); // This can be removed in favour of new home page
 
   return address;
 };
@@ -46,7 +46,7 @@ export const getAddress = async (chainName?: string): Promise<string> => {
  *
  * @param address - the any chain address
  */
-async function showAddress(address: string) {
+async function showAccount(address: string) {
   const genesisHash = getGenesisHash('westend'); // For testing purposes
   const balances = await getBalances(genesisHash, address);
 
@@ -55,7 +55,7 @@ async function showAddress(address: string) {
     method: 'snap_dialog',
     params: {
       type: 'alert',
-      content: AccountDemo(address, balances),
+      content: accountDemo(address, balances),
     },
   });
 }

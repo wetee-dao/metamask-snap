@@ -7,7 +7,7 @@
     "url": "https://github.com/polkagate/polkamask.git"
   },
   "source": {
-    "shasum": "AlOzfJFnVjikDz7/xI26CwhEwWTSPTxXVFPvv8U0GdY=",
+    "shasum": "0EmgL4R78yvs8D/ITgZdTlC/fRwV3HLF0w6eMDd7lsg=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -18,11 +18,12 @@
     }
   },
   "initialPermissions": {
+    "endowment:network-access": {},
+    "endowment:page-home": {},
     "endowment:rpc": {
       "dapps": true,
       "snaps": false
     },
-    "endowment:network-access": {},
     "endowment:webassembly": {},
     "snap_dialog": {},
     "snap_getBip44Entropy": [
