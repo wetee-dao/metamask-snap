@@ -1,4 +1,4 @@
-# Polkagate signer snap for Metamask
+# Polkagate signer snap for Metamask (PolkaMask)
 
  A MetaMask Snap for seamless interaction with the Polkadot ecosystem, a prominent platform for cross-chain communication and scalability. Now you can use your MetaMask wallet to access Polkadot dApps and tokens effortlessly.
 
