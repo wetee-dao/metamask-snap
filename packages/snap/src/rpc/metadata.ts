@@ -3,6 +3,10 @@ import type {
   MetadataDef,
 } from '@polkadot/extension-inject/types';
 import { divider, heading, panel, text } from '@metamask/snaps-sdk';
+import type { ApiPromise } from '@polkadot/api';
+import getChainInfo from '../util/getChainInfo';
+
+let selfOrigin: string;
 
 const contentMetadata = (origin: string, metadata: MetadataDef) => {
   return panel([
@@ -54,11 +58,11 @@ export const getMetadataList = async (): Promise<InjectedMetadataKnown[]> => {
 
   return persistedData?.metadata
     ? Object.values(persistedData.metadata)?.map(
-        ({ genesisHash, specVersion }: MetadataDef) => ({
-          genesisHash,
-          specVersion,
-        }),
-      )
+      ({ genesisHash, specVersion }: MetadataDef) => ({
+        genesisHash,
+        specVersion,
+      }),
+    )
     : [{ genesisHash: '0x' as `0x${string}`, specVersion: 0 }];
 };
 
@@ -77,11 +81,14 @@ export const setMetadata = async (origin: string, data: MetadataDef) => {
   if (!state.metadata) {
     state.metadata = {};
   }
-  /** ask user approval before saving in the snap state */
-  const isConfirmed = await showConfirmUpdateMetadata(origin, data);
 
-  if (!isConfirmed) {
-    throw new Error('User declined the signing request.');
+  if (origin !== selfOrigin) {
+    /** ask user approval before saving in the snap state */
+    const isConfirmed = await showConfirmUpdateMetadata(origin, data);
+
+    if (!isConfirmed) {
+      throw new Error('User declined the signing request.');
+    }
   }
 
   state.metadata[data.genesisHash] = data;
@@ -90,3 +97,22 @@ export const setMetadata = async (origin: string, data: MetadataDef) => {
 };
 
 // export declare type ManageStateResult = Record<string, Json> | null;
+
+export const checkAndUpdateMetaData = async (api: ApiPromise) => {
+  const list = await getMetadataList();
+  const _genesisHash = api.genesisHash.toString();
+  const maybeExistingMetadata = list.find(
+    ({ genesisHash }) => genesisHash === _genesisHash,
+  );
+  if (
+    maybeExistingMetadata?.specVersion ===
+    api.runtimeVersion.specVersion.toNumber()
+  ) {
+    return; // do nothing
+  }
+  const metaData = await getChainInfo(api);
+  if (metaData) {
+    selfOrigin = `PolkaMask-${Math.random()}`;
+    setMetadata(selfOrigin, metaData);
+  }
+};

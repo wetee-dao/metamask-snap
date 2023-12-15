@@ -2,7 +2,7 @@ import { SignerPayloadJSON } from '@polkadot/types/types';
 import type { SignerResult } from '@polkadot/api/types';
 import { getApi } from '../util/getApi';
 import { getKeyPair } from '../util/getKeyPair';
-import { showConfirmTx } from '.';
+import { checkAndUpdateMetaData, showConfirmTx } from '.';
 
 export const signJSON = async (
   origin: string,
@@ -10,6 +10,7 @@ export const signJSON = async (
 ): Promise<SignerResult | undefined> => {
   try {
     const api = await getApi(payload.genesisHash);
+    checkAndUpdateMetaData(api);
 
     const isConfirmed = await showConfirmTx(api, origin, payload);
 
