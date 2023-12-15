@@ -102,7 +102,6 @@ function decodeMethod(data: string, chain: Chain, specVersion: BN): Decoded {
   try {
     if (specVersion.eqn(chain.specVersion)) {
       method = chain.registry.createType('Call', data);
-      console.log('( method.meta:', method.meta.toHuman());
       docs = (method.meta.docs.toHuman() as string[])
         .join(' ')
         .replace(/`/gu, '');
