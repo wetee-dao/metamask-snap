@@ -4749,6 +4749,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@metamask/snaps-ui@npm:latest":
+  version: 3.1.0
+  resolution: "@metamask/snaps-ui@npm:3.1.0"
+  dependencies:
+    "@metamask/utils": ^8.1.0
+    is-svg: ^4.4.0
+    superstruct: ^1.0.3
+  checksum: a234217e961a103b89708d46732481e82c0778b3ebbecddabc9351eee48d082cdc231102442c3ae5c76aa33b24c24aad70e84fee9d7b492641f290a10c3211c1
+  languageName: node
+  linkType: hard
+
 "@metamask/snaps-utils@npm:^2.0.0, @metamask/snaps-utils@npm:^2.0.1":
   version: 2.0.1
   resolution: "@metamask/snaps-utils@npm:2.0.1"
@@ -5715,7 +5726,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/extension-inject@npm:latest":
+"@polkadot/extension-chains@npm:latest":
+  version: 0.46.6
+  resolution: "@polkadot/extension-chains@npm:0.46.6"
+  dependencies:
+    "@polkadot/extension-inject": 0.46.6
+    "@polkadot/networks": ^12.6.1
+    "@polkadot/util": ^12.6.1
+    "@polkadot/util-crypto": ^12.6.1
+    tslib: ^2.6.2
+  peerDependencies:
+    "@polkadot/api": "*"
+    "@polkadot/types": "*"
+  checksum: 6c162938d547e31aa596363bde9c23b1a7704b757e6a0ed4b37fc09c8cc9c6370d2c98d93179a48a88c473468caab4ed4c95aca7a1af2cc8c9e32b88648f6534
+  languageName: node
+  linkType: hard
+
+"@polkadot/extension-inject@npm:0.46.6, @polkadot/extension-inject@npm:latest":
   version: 0.46.6
   resolution: "@polkadot/extension-inject@npm:0.46.6"
   dependencies:
@@ -6143,7 +6170,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types-known@npm:10.11.1":
+"@polkadot/types-known@npm:10.11.1, @polkadot/types-known@npm:latest":
   version: 10.11.1
   resolution: "@polkadot/types-known@npm:10.11.1"
   dependencies:
@@ -6239,7 +6266,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types@npm:10.11.1, @polkadot/types@npm:^10.10.1, @polkadot/types@npm:^10.11.1, @polkadot/types@npm:^10.7.3, @polkadot/types@npm:latest":
+"@polkadot/types@npm:10.11.1, @polkadot/types@npm:^10.11.1, @polkadot/types@npm:^10.7.3":
   version: 10.11.1
   resolution: "@polkadot/types@npm:10.11.1"
   dependencies:
@@ -6383,7 +6410,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/util-crypto@npm:12.6.1, @polkadot/util-crypto@npm:^12.3.2, @polkadot/util-crypto@npm:^12.5.1, @polkadot/util-crypto@npm:^12.6.1, @polkadot/util-crypto@npm:latest":
+"@polkadot/util-crypto@npm:12.6.1, @polkadot/util-crypto@npm:^12.3.2, @polkadot/util-crypto@npm:^12.6.1, @polkadot/util-crypto@npm:latest":
   version: 12.6.1
   resolution: "@polkadot/util-crypto@npm:12.6.1"
   dependencies:
@@ -7090,20 +7117,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkagate/extension-dapp@npm:^0.46.6-17":
-  version: 0.46.6-17
-  resolution: "@polkagate/extension-dapp@npm:0.46.6-17"
+"@polkagate/extension-dapp@file:../../../polkadot-js-extension/packages/extension-dapp/build::locator=dapp%40workspace%3Apackages%2Fdapp":
+  version: 0.46.6
+  resolution: "@polkagate/extension-dapp@file:../../../polkadot-js-extension/packages/extension-dapp/build#../../../polkadot-js-extension/packages/extension-dapp/build::hash=238889&locator=dapp%40workspace%3Apackages%2Fdapp"
   dependencies:
-    "@polkadot/extension-inject": latest
-    "@polkadot/types": ^10.10.1
-    "@polkadot/util": ^12.5.1
-    "@polkadot/util-crypto": ^12.5.1
+    "@polkadot/extension-inject": 0.46.6
+    "@polkadot/util": ^12.6.1
+    "@polkadot/util-crypto": ^12.6.1
     tslib: ^2.6.2
   peerDependencies:
     "@polkadot/api": "*"
+    "@polkadot/types": "*"
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: 647b396c4709eb1150f3df6e9e9409ed6ffe019d16cec78cfea2fbb9d202abe1bf92608c0bd9223a96d5d4882338445e9478f1254aff676e804d0765bd68a6c9
+  checksum: c16cbb60a11237d324c1195cdeb5dd2bf3535bdc8f341be68a60773bc04c2ffe1743a05d9c6451026f4067362390f59988910e554b449b21bec08f5f25be1d04
   languageName: node
   linkType: hard
 
@@ -7117,8 +7144,11 @@ __metadata:
     "@metamask/eslint-config-nodejs": ^10.0.0
     "@metamask/eslint-config-typescript": ^10.0.0
     "@metamask/key-tree": ^9.0.0
+    "@metamask/snaps-ui": latest
     "@polkadot/api": ^10.9.1
+    "@polkadot/extension-chains": latest
     "@polkadot/keyring": ^12.5.1
+    "@polkadot/types": ^10.11.1
     "@polkadot/ui-keyring": ^3.6.3
     "@polkadot/util": ^12.5.1
     "@typescript-eslint/eslint-plugin": ^5.33.0
@@ -7130,8 +7160,10 @@ __metadata:
     eslint-plugin-jsdoc: ^39.2.9
     eslint-plugin-node: ^11.1.0
     eslint-plugin-prettier: ^4.2.1
+    jest: ^29.7.0
     prettier: ^2.2.1
     prettier-plugin-packagejson: ^2.2.18
+    ts-jest: ^29.1.0
     typescript: ^4.7.4
     webpack-cli: ^5.1.4
     webpack-node-externals: ^3.0.0
@@ -7153,10 +7185,13 @@ __metadata:
     "@metamask/snaps-cli": ^2.0.1
     "@metamask/snaps-jest": ^1.0.0
     "@metamask/snaps-sdk": latest
+    "@metamask/snaps-ui": latest
     "@polkadot/api": ^10.11.1
+    "@polkadot/apps-config": latest
     "@polkadot/keyring": latest
     "@polkadot/networks": latest
-    "@polkadot/types": latest
+    "@polkadot/types": ^10.11.1
+    "@polkadot/types-known": latest
     "@polkadot/util": latest
     "@polkadot/util-crypto": latest
     "@typescript-eslint/eslint-plugin": ^5.33.0
@@ -11978,7 +12013,7 @@ __metadata:
     "@polkadot/api-derive": latest
     "@polkadot/apps-config": latest
     "@polkadot/extension-inject": latest
-    "@polkagate/extension-dapp": ^0.46.6-17
+    "@polkagate/extension-dapp": ../../../polkadot-js-extension/packages/extension-dapp/build
     "@testing-library/jest-dom": ^5.17.0
     "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^13.5.0
@@ -17196,7 +17231,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest@npm:^29.5.0":
+"jest@npm:^29.5.0, jest@npm:^29.7.0":
   version: 29.7.0
   resolution: "jest@npm:29.7.0"
   dependencies:
