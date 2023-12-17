@@ -20,9 +20,12 @@ export const accountDemo = (address: string, balances: Balances) => {
     panel([
       text('**Westend**'),
       copyable(address),
-      text(`Total Balance: **${balances.total.toHuman()}**`),
-      text(`Transferable: **${balances.transferable.toHuman()}**`),
-      divider(),
+      text(
+        `Transferable: **${balances.transferable
+          .toHuman()
+          .replace(balances.token, '')
+          .trim()}** / ${balances.total.toHuman(true)}`,
+      ),
     ]),
   ]);
 };
@@ -42,9 +45,9 @@ export const getAddress = async (chainName?: string): Promise<string> => {
 };
 
 /**
- * To show address(es) in some main chains format to users for a short while
+ * To show address(es) in some main chains format to users for a short while.
  *
- * @param address - the any chain address
+ * @param address - The any chain address.
  */
 async function showAccount(address: string) {
   const genesisHash = getGenesisHash('westend'); // For testing purposes

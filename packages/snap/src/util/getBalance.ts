@@ -6,12 +6,15 @@ import { getFormatted } from './getFormatted';
 export type Balances = {
   total: Balance;
   transferable: Balance;
+  token: string;
 };
+
 /**
- * To get the balance of an address
+ * To get the balance of an address.
  *
- * @param genesisHash - teh genesisHash of the chain will be used to find an endpoint to use
- * @param address
+ * @param genesisHash - The genesisHash of the chain will be used to find an endpoint to use.
+ * @param address - An address to get its balances.
+ * @returns The total, transferable balance.
  */
 export async function getBalances(
   genesisHash: string,
@@ -19,14 +22,21 @@ export async function getBalances(
 ): Promise<Balances> {
   const api = await getApi(genesisHash);
   const formatted = getFormatted(genesisHash, address);
+  const token = api.registry.chainTokens[0];
 
   const balances = (await api.query.system.account(formatted)) as unknown as {
     data: AccountData;
   };
   console.log('balances:', balances.data);
 
-  const transferable = api.createType('Balance', balances.data.free.sub(balances.data.frozen),) as Balance;
-  const total = api.createType('Balance', balances.data.free.add(balances.data.reserved),) as Balance;
+  const transferable = api.createType(
+    'Balance',
+    balances.data.free.sub(balances.data.frozen),
+  ) as Balance;
+  const total = api.createType(
+    'Balance',
+    balances.data.free.add(balances.data.reserved),
+  ) as Balance;
 
-  return { total, transferable };
+  return { total, transferable, token };
 }

@@ -5,6 +5,7 @@ import type {
 import { divider, heading, panel, text } from '@metamask/snaps-sdk';
 import type { ApiPromise } from '@polkadot/api';
 import getChainInfo from '../util/getChainInfo';
+import { rand } from '../util/rand';
 
 let selfOrigin: string;
 
@@ -58,11 +59,11 @@ export const getMetadataList = async (): Promise<InjectedMetadataKnown[]> => {
 
   return persistedData?.metadata
     ? Object.values(persistedData.metadata)?.map(
-      ({ genesisHash, specVersion }: MetadataDef) => ({
-        genesisHash,
-        specVersion,
-      }),
-    )
+        ({ genesisHash, specVersion }: MetadataDef) => ({
+          genesisHash,
+          specVersion,
+        }),
+      )
     : [{ genesisHash: '0x' as `0x${string}`, specVersion: 0 }];
 };
 
@@ -96,8 +97,6 @@ export const setMetadata = async (origin: string, data: MetadataDef) => {
   return Boolean(await updateState(state));
 };
 
-// export declare type ManageStateResult = Record<string, Json> | null;
-
 export const checkAndUpdateMetaData = async (api: ApiPromise) => {
   const list = await getMetadataList();
   const _genesisHash = api.genesisHash.toString();
@@ -112,7 +111,7 @@ export const checkAndUpdateMetaData = async (api: ApiPromise) => {
   }
   const metaData = await getChainInfo(api);
   if (metaData) {
-    selfOrigin = `PolkaMask-${Math.random()}`;
+    selfOrigin = `PolkaMask-${rand()}`;
     setMetadata(selfOrigin, metaData);
   }
 };
