@@ -79,7 +79,7 @@ export const txContent = (
       return [];
     default:
       return [
-        text(`_Details:`),
+        text(`_Details_:`),
         text(JSON.stringify(decodedArgs || args, null, 2)), // decodedArgs show the args' labels as well
       ];
   }

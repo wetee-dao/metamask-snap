@@ -45,9 +45,11 @@ const transactionContent = (
   const header = [
     heading(headingText),
     divider(),
-    text(`Section: **${formatCamelCase(section)}**`),
-    divider(),
-    text(`Method: **${formatCamelCase(method)}**`),
+    text(
+      `Action: **${formatCamelCase(section)}** (**${formatCamelCase(
+        method,
+      )}**)`,
+    ),
     divider(),
   ];
 
@@ -56,8 +58,8 @@ const transactionContent = (
     text(`Estimated Fee: **${partialFee.toHuman()}**`),
     divider(),
     text(`Chain Name: **${formatCamelCase(chainName)}**`),
-    divider(),
-    panel([text('Chain_Logo:'), image(chainLogoSvg)]),
+    // divider(),
+    // panel([text('Chain Logo:'), image(chainLogoSvg)]), // uncomment when image size adjustment will be enable by Metamask
     divider(),
     text(`More info: **${decoded.docs || 'Update metadata to view this!'}**`),
   ];
