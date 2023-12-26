@@ -29,6 +29,7 @@
     "@metamask/key-tree": "latest",
     "@metamask/snaps-sdk": "latest",
     "@metamask/snaps-ui": "latest",
+    "@metamask/utils": "latest",
     "@polkadot/api": "^10.11.1",
     "@polkadot/apps-config": "latest",
     "@polkadot/keyring": "latest",

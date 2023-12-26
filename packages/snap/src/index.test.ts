@@ -12,9 +12,10 @@ import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 jest.setTimeout(60000);
 
 /**
-* Verifies the validity of a Substrate-based address
- * @param _address
- * @returns boolean
+ * Verifies the validity of a substrate-based address.
+ *
+ * @param _address - The address to be checked for being a valid address.
+ * @returns boolean - True if the address is a valid substrate address.
  */
 function isValidAddress(_address: string | undefined): boolean {
   try {
@@ -50,7 +51,7 @@ describe('onRpcRequest', () => {
     await close();
   });
 
-  it('"""getAddress"" RPC request method', async () => {
+  it('"getAddress" RPC request method', async () => {
     const { request, close } = await installSnap();
 
     const response = await request({
@@ -73,7 +74,7 @@ describe('onRpcRequest', () => {
     await close();
   });
 
-  it('"""getMetadataList"" RPC request method, when the list is empty!', async () => {
+  it('"getMetadataList" RPC request method, when the list is empty!', async () => {
     const { request, close } = await installSnap();
 
     const response = await request({
@@ -97,10 +98,10 @@ describe('onRpcRequest', () => {
     await close();
   });
 
-  it('"""signRaw"" RPC request method', async () => {
+  it('"signRaw" RPC request method', async () => {
     const signRawParams = {
       raw: {
-        data: 'PolkaMask',
+        data: 'Sign me!',
         address: sampleAccountAddress
       }
     };
