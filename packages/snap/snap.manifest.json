@@ -7,7 +7,7 @@
     "url": "https://github.com/polkagate/polkamask.git"
   },
   "source": {
-    "shasum": "ZFoWEuasiMv0vYHNobbL41b+OXLvI4geOjN1ZsZu7+I=",
+    "shasum": "xBOHkpRxW8rSEd526wUpMB3mTCMleO7Fv7xkCA9artI=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
