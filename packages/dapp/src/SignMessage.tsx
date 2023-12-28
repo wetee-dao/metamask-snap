@@ -6,7 +6,6 @@ import { Key as KeyIcon, CheckCircle as CheckCircleIcon } from '@mui/icons-mater
 import { web3FromSource } from '@polkagate/extension-dapp';
 import { Divider, Grid, TextField, Typography } from '@mui/material';
 import { ApiPromise } from '@polkadot/api';
-import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { SignerPayloadRaw } from '@polkadot/types/types';
 import { verifySignature } from './util/verifySignature';
 

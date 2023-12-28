@@ -3,7 +3,7 @@
 /* eslint-disable jest/prefer-strict-equal */
 
 import { installSnap } from '@metamask/snaps-jest';
-import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
+import { copyable, divider, heading, panel, text } from '@metamask/snaps-sdk';
 import { Json } from '@metamask/utils';
 import { hexToU8a, isHex } from '@polkadot/util';
 // import { expect } from '@jest/globals';
