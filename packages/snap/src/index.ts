@@ -6,7 +6,7 @@ import { getKeyPair } from './util/getKeyPair';
 import { DEFAULT_CHAIN_NAME } from './defaults';
 import { getBalances } from './util/getBalance';
 import { getGenesisHash } from './chains';
-import { accountDemo } from './rpc/getAddress';
+import { accountDemo } from './ui/accountDemo';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,

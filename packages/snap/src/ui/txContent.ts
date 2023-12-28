@@ -4,7 +4,7 @@ import { copyable, divider, panel, text } from '@metamask/snaps-sdk';
 import { ApiPromise } from '@polkadot/api';
 import { AnyTuple } from '@polkadot/types/types';
 import { amountToHuman } from '../util/amountToHuman';
-import { Decoded } from './decodeTxMethod';
+import { Decoded } from '../util/decodeTxMethod';
 
 export const txContent = (
   api: ApiPromise,

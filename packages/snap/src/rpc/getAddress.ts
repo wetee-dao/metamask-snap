@@ -1,34 +1,8 @@
-import { copyable, divider, heading, panel, text } from '@metamask/snaps-sdk';
 import { DEFAULT_CHAIN_NAME } from '../defaults';
 import { getKeyPair } from '../util/getKeyPair';
-import { Balances, getBalances } from '../util/getBalance';
+import { getBalances } from '../util/getBalance';
 import { getGenesisHash } from '../chains';
-import { getFormatted } from '../util/getFormatted';
-
-export const accountDemo = (address: string, balances: Balances) => {
-  const polkadotGenesishash = getGenesisHash('polkadot');
-  const addressOnPolkadot = getFormatted(polkadotGenesishash, address);
-
-  const kusamaGenesishash = getGenesisHash('kusama');
-  const addressOnPKusama = getFormatted(kusamaGenesishash, address);
-
-  return panel([
-    heading('Your Account on Different Chains'),
-    divider(),
-    panel([text('**Polkadot**'), copyable(addressOnPolkadot), divider()]),
-    panel([text('**Kusama**'), copyable(addressOnPKusama), divider()]),
-    panel([
-      text('**Westend**'),
-      copyable(address),
-      text(
-        `Transferable: **${balances.transferable
-          .toHuman()
-          .replace(balances.token, '')
-          .trim()}** / ${balances.total.toHuman(true)}`,
-      ),
-    ]),
-  ]);
-};
+import { accountDemo } from '../ui/accountDemo';
 
 export const getAddress = async (chainName?: string): Promise<string> => {
   const account = await getKeyPair(chainName || DEFAULT_CHAIN_NAME);
@@ -50,8 +24,20 @@ export const getAddress = async (chainName?: string): Promise<string> => {
  * @param address - The any chain address.
  */
 async function showAccount(address: string) {
-  const genesisHash = getGenesisHash('westend'); // For testing purposes
-  const balances = await getBalances(genesisHash, address);
+  const westendGenesisHash = getGenesisHash('westend'); // These will be changed when dropdown component will be available
+  const westendBalances = await getBalances(westendGenesisHash, address);
+
+  const polkadotGenesisHash = getGenesisHash('polkadot'); // These will be changed when dropdown component will be available
+  const polkadotBalances = await getBalances(polkadotGenesisHash, address);
+
+  const kusamaGenesisHash = getGenesisHash('kusama'); // These will be changed when dropdown component will be available
+  const kusamaBalances = await getBalances(kusamaGenesisHash, address);
+
+  const balances = {
+    westendBalances,
+    polkadotBalances,
+    kusamaBalances,
+  };
 
   /** to show the address to user */
   snap.request({

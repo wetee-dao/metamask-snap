@@ -10,7 +10,7 @@ import getChainName from '../util/getChainName';
 import { formatCamelCase } from '../util/formatCamelCase';
 import { getIdentity } from '../util/getIdentity';
 import { txContent } from './txContent';
-import { Decoded, getDecoded } from '.';
+import { Decoded, getDecoded } from '../rpc';
 
 const EMPTY_LOGO = `<svg width="100" height="100">
 <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />

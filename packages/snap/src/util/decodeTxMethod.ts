@@ -6,7 +6,7 @@ import { BN } from '@polkadot/util';
 import type { AnyJson } from '@polkadot/types/types';
 import { Metadata, TypeRegistry } from '@polkadot/types';
 import { base64Decode } from '@polkadot/util-crypto';
-import { getSavedMeta } from '.';
+import { getSavedMeta } from '../rpc';
 
 export type Decoded = {
   args: AnyJson | null;

@@ -7310,9 +7310,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkagate/extension-dapp@npm:latest":
-  version: 0.46.6-18
-  resolution: "@polkagate/extension-dapp@npm:0.46.6-18"
+"@polkagate/extension-dapp@file:../../../polkadot-js-extension/packages/extension-dapp/build::locator=dapp%40workspace%3Apackages%2Fdapp":
+  version: 0.46.6
+  resolution: "@polkagate/extension-dapp@file:../../../polkadot-js-extension/packages/extension-dapp/build#../../../polkadot-js-extension/packages/extension-dapp/build::hash=66b8e4&locator=dapp%40workspace%3Apackages%2Fdapp"
   dependencies:
     "@polkadot/extension-inject": 0.46.6
     "@polkadot/util": ^12.6.1
@@ -7323,7 +7323,7 @@ __metadata:
     "@polkadot/types": "*"
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: 0cdb566a82025961deddb1c311dc6adc29d837fd2c473816f30d60f586294526c95dd311b82c9566024227005fa7f2510311edef4f83dc0f128fc2fc94c174c4
+  checksum: e7865323aeef55ed797cbc12e65160eb779822359bd2c86771588889cd6b10ebd4a4a18915faad8113ac53efd64c09c73cc968cb1189ae465dc8b96213df815f
   languageName: node
   linkType: hard
 
@@ -12228,7 +12228,7 @@ __metadata:
     "@polkadot/api-derive": latest
     "@polkadot/apps-config": latest
     "@polkadot/extension-inject": latest
-    "@polkagate/extension-dapp": latest
+    "@polkagate/extension-dapp": ../../../polkadot-js-extension/packages/extension-dapp/build
     "@testing-library/jest-dom": ^5.17.0
     "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^13.5.0
