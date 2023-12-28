@@ -21,7 +21,17 @@ yarn
 yarn run start
 ```
 
-After executing these commands, you can access a basic transfer funds page for testing the signer snap at http://localhost:8000/.
+After executing these commands, you can access a basic dApp page for testing polkamask snap at http://localhost:8000/. For more advanced dApp visit apps.polkagate.xyz. Note, Metamask Flask (Metamask) needs to be installed to interact with the snap and dApp.
+
+## Docker
+
+To build and run a docker container:
+
+```
+yarn docker
+```
+
+When using the Docker command, you can access the UI via http://localhost:8000.
 
 
 <p align="center">
