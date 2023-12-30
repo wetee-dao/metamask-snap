@@ -1,8 +1,7 @@
 import { DEFAULT_CHAIN_NAME } from '../defaults';
 import { getKeyPair } from '../util/getKeyPair';
-import { getBalances } from '../util/getBalance';
-import { getGenesisHash } from '../chains';
 import { accountDemo } from '../ui/accountDemo';
+import { getDefaultTokenBalances } from '../util/getDefaultTokenBalances';
 
 export const getAddress = async (chainName?: string): Promise<string> => {
   const account = await getKeyPair(chainName || DEFAULT_CHAIN_NAME);
@@ -24,20 +23,7 @@ export const getAddress = async (chainName?: string): Promise<string> => {
  * @param address - The any chain address.
  */
 async function showAccount(address: string) {
-  const westendGenesisHash = getGenesisHash('westend'); // These will be changed when dropdown component will be available
-  const westendBalances = await getBalances(westendGenesisHash, address);
-
-  const polkadotGenesisHash = getGenesisHash('polkadot'); // These will be changed when dropdown component will be available
-  const polkadotBalances = await getBalances(polkadotGenesisHash, address);
-
-  const kusamaGenesisHash = getGenesisHash('kusama'); // These will be changed when dropdown component will be available
-  const kusamaBalances = await getBalances(kusamaGenesisHash, address);
-
-  const balances = {
-    westendBalances,
-    polkadotBalances,
-    kusamaBalances,
-  };
+  const balances = await getDefaultTokenBalances(address);
 
   /** to show the address to user */
   snap.request({

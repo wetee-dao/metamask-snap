@@ -4,9 +4,8 @@ import { getAddress, signJSON, signRaw } from './rpc';
 import { getMetadataList, setMetadata } from './rpc/metadata';
 import { getKeyPair } from './util/getKeyPair';
 import { DEFAULT_CHAIN_NAME } from './defaults';
-import { getBalances } from './util/getBalance';
-import { getGenesisHash } from './chains';
 import { accountDemo } from './ui/accountDemo';
+import { getDefaultTokenBalances } from './util/getDefaultTokenBalances';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -43,8 +42,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
  */
 export const onHomePage: OnHomePageHandler = async () => {
   const { address } = await getKeyPair(DEFAULT_CHAIN_NAME);
-  const genesisHash = getGenesisHash('westend'); // For testing purposes
-  const balances = await getBalances(genesisHash, address);
+  const balances = await getDefaultTokenBalances(address);
 
   return {
     content: accountDemo(address, balances),
