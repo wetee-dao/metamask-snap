@@ -115,11 +115,11 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
                 : <Skeleton animation="wave" sx={{ display: 'inline-block', fontWeight: 'bold', transform: 'none', width: '100px', height: '27px' }} />}
             </Typography>
           </Grid>
-          <Grid container item justifyContent="center" pt="15px">
+          <Grid container item justifyContent="center" py="35px">
             {balances?.availableBalance?.isZero() && currentChainName as string === 'westend' && (
-              <Typography variant="body1" color='info'>
+              <Typography variant="body1" color='success' sx={{textAlign:'center'}}>
                 {` You can top up your address by sending `}
-                <strong>{`!drip ${formatted}`}</strong>
+                <code>{`!drip ${formatted}`}</code>
                 {` to the `}
                 <Link
                   href="https://matrix.to/#/#westend_faucet:matrix.org"

@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import type { InjectedAccountWithMeta, InjectedExtension } from '@polkadot/extension-inject/types';
 import './App.css';
 import { web3Accounts, web3Enable } from '@polkagate/extension-dapp';
-import { Box, Tabs, Tab, Button, Grid, Typography } from '@mui/material';
+import { Box, Tabs, Tab, Button, Grid, Link, Typography } from '@mui/material';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import useEndpoint from './hooks/useEndpoint';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
@@ -52,7 +52,7 @@ function a11yProps(index: number) {
 }
 
 export default function App() {
-  const [chainName, setChainName] =useState(currentChainName);
+  const [chainName, setChainName] = useState(currentChainName);
   const [value, setValue] = useState(0);
   const endpoint = useEndpoint(chainName)
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
@@ -63,7 +63,7 @@ export default function App() {
   const [balances, setBalances] = useState<DeriveBalancesAll>();
   const [hasFlaskDetected, setHasFlask] = useState<boolean>();
 
-  const token=api && api.registry.chainTokens[0];
+  const token = api && api.registry.chainTokens[0];
 
   useEffect(() => {
     if (!endpoint) {
@@ -116,7 +116,7 @@ export default function App() {
   }, [hasFlaskDetected]);
 
   useEffect(() => {
-    handleInstallClick() 
+    handleInstallClick()
   }, [handleInstallClick]);
 
   useEffect(() => {
@@ -141,17 +141,26 @@ export default function App() {
 
   return (
     <>
-      <Grid container item justifyContent="space-between" mb='50px' p='10px' sx={{ borderBottom: 1 }}>
-        <Grid container item alignItems='center' xs={4}>
-          <Box
-            component="img"
-            alt="polkamask logo"
-            src={logo}
-            sx={{ width: '30px', height: '30px', objectFit: 'cover' }}
-          />
-          <Typography variant="h5" sx={{ fontWeight: '700', display: 'inline-block', ml: '5px' }}>
-            PolkaMask
-          </Typography>
+      <Grid alignItems='center' container item justifyContent="space-between" mb='50px' p='10px' sx={{ borderBottom: 1 }}>
+        <Grid container item alignItems='center' xs={8}>
+          <Grid container item>
+            <Grid item>
+              <Box
+                component="img"
+                alt="polkamask logo"
+                src={logo}
+                sx={{ width: '30px', height: '30px', objectFit: 'cover' }}
+              />
+            </Grid>
+            <Typography variant="h5" sx={{ fontWeight: '700', display: 'inline-block', ml: '5px' }}>
+              PolkaMask
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography sx={{ fontSize: '13px', ml: '5px' }}>
+              This is a simple app designed for testing Polkamask. For a complete experience, please visit <Link href='https://apps.polkagate.xyz' underline="hover" rel="noreferrer" target="_blank">apps.polkagate.xyz</Link>.
+            </Typography>
+          </Grid>
         </Grid>
         <Grid item xs textAlign='right'>
           <Button
