@@ -22,6 +22,12 @@ yarn run start
 ```
 
 After executing these commands, you can access a basic dApp page for testing polkamask snap at http://localhost:8000/. For more advanced dApp visit apps.polkagate.xyz. Note, Metamask Flask (Metamask) needs to be installed to interact with the snap and dApp.
+## Test
+To test the snap run:
+
+```
+yarn test
+```
 
 ## Docker
 
