@@ -6218,7 +6218,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types@npm:10.11.2, @polkadot/types@npm:^10.11.1, @polkadot/types@npm:^10.7.3":
+"@polkadot/types@npm:10.11.2, @polkadot/types@npm:^10.11.1, @polkadot/types@npm:^10.11.2, @polkadot/types@npm:^10.7.3":
   version: 10.11.2
   resolution: "@polkadot/types@npm:10.11.2"
   dependencies:
@@ -7069,20 +7069,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkagate/extension-dapp@npm:^0.46.6-17":
-  version: 0.46.6-18
-  resolution: "@polkagate/extension-dapp@npm:0.46.6-18"
+"@polkagate/extension-dapp@file:../../../polkadot-js-extension/packages/extension-dapp/build::locator=dapp%40workspace%3Apackages%2Fdapp":
+  version: 0.46.7-1-x
+  resolution: "@polkagate/extension-dapp@file:../../../polkadot-js-extension/packages/extension-dapp/build#../../../polkadot-js-extension/packages/extension-dapp/build::hash=47b866&locator=dapp%40workspace%3Apackages%2Fdapp"
   dependencies:
-    "@polkadot/extension-inject": 0.46.6
-    "@polkadot/util": ^12.6.1
-    "@polkadot/util-crypto": ^12.6.1
+    "@polkadot/extension-inject": latest
+    "@polkadot/types": ^10.11.2
+    "@polkadot/util": ^12.6.2
+    "@polkadot/util-crypto": ^12.6.2
     tslib: ^2.6.2
   peerDependencies:
     "@polkadot/api": "*"
-    "@polkadot/types": "*"
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: 0cdb566a82025961deddb1c311dc6adc29d837fd2c473816f30d60f586294526c95dd311b82c9566024227005fa7f2510311edef4f83dc0f128fc2fc94c174c4
+  checksum: 7180f30de3524f871677648cb50eba4d1d7ca906e66e74bc274d36ccc9db231dff0a2b84cd8d0956f198a79c9ea4a5ac68b72063f4246ed750fe943eb2a2d79c
   languageName: node
   linkType: hard
 
@@ -11943,7 +11943,7 @@ __metadata:
     "@polkadot/api-derive": latest
     "@polkadot/apps-config": latest
     "@polkadot/extension-inject": latest
-    "@polkagate/extension-dapp": ^0.46.6-17
+    "@polkagate/extension-dapp": ../../../polkadot-js-extension/packages/extension-dapp/build
     "@testing-library/jest-dom": ^5.17.0
     "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^13.5.0

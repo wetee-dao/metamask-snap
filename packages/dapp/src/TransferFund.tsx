@@ -91,7 +91,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
         && <>
           <Grid container item justifyContent="center" py='5px'>
             <Typography variant="h5" sx={{ fontWeight: '500' }}>
-              A Simple Fund Transfer
+              Transfer Fund and View the Result
             </Typography>
           </Grid>
           <Divider sx={{ width: '80%', mb: '35px' }} />
@@ -105,19 +105,31 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
                 : <Skeleton animation="wave" sx={{ display: 'inline-block', fontWeight: 'bold', transform: 'none', width: '650px', height: '27px' }} />}
             </Typography>
           </Grid>
-          <Grid container item alignItems='center' justifyContent="center" pt="15px">
-            <Typography variant="body1">
-              Transferable Balance:
-            </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 400, ml: '10px' }}>
-              {balances
-                ? balances.availableBalance.toHuman()
-                : <Skeleton animation="wave" sx={{ display: 'inline-block', fontWeight: 'bold', transform: 'none', width: '100px', height: '27px' }} />}
-            </Typography>
+          <Grid container item alignItems='center' justifyContent="space-around" pt="15px">
+            <Box display="flex" flexDirection="row" alignItems="center">
+              <Typography variant="body1">
+                Transferable Balance:
+              </Typography>
+              <Typography variant="h6" sx={{ fontWeight: 400, ml: '10px' }}>
+                {balances
+                  ? balances.availableBalance.toHuman()
+                  : <Skeleton animation="wave" sx={{ display: 'inline-block', fontWeight: 'bold', transform: 'none', width: '100px', height: '27px' }} />}
+              </Typography>
+            </Box>
+            <Box display="flex" flexDirection="row" alignItems="center">
+              <Typography variant="body1">
+                Chain:
+              </Typography>
+              <Typography variant="h6" sx={{ fontWeight: 400, ml: '10px' }}>
+                {currentChainName
+                  ? currentChainName
+                  : <Skeleton animation="wave" sx={{ display: 'inline-block', fontWeight: 'bold', transform: 'none', width: '100px', height: '27px' }} />}
+              </Typography>
+            </Box>
           </Grid>
           <Grid container item justifyContent="center" py="35px">
             {balances?.availableBalance?.isZero() && currentChainName as string === 'westend' && (
-              <Typography variant="body1" color='success' sx={{textAlign:'center'}}>
+              <Typography variant="body1" color='success' sx={{ textAlign: 'center' }}>
                 {` You can top up your address by sending `}
                 <code>{`!drip ${formatted}`}</code>
                 {` to the `}
@@ -168,7 +180,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
               <LoadingButton
                 loading={waitingForUserApproval}
                 loadingPosition="start"
-                startIcon={<SendIcon />}
+                startIcon={<SendIcon sx={{ transform: 'rotate(-25deg)' }} />}
                 variant="contained"
                 onClick={handleSendClick}
                 disabled={
@@ -182,7 +194,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
               >
                 {waitingForUserApproval
                   ? 'Approve transaction in Metamask'
-                  : 'Transfer Fund'}
+                  : 'Transfer'}
               </LoadingButton>
             </Grid>
           </Grid>
@@ -248,7 +260,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
           )}
         </Grid>
       </Grid>
-    </Grid>
+    </Grid >
   );
 }
 

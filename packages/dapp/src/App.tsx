@@ -94,6 +94,7 @@ export default function App() {
   useEffect(() => {
     /** To format account address based on the dApp chain */
     const chain = getChain(chainName);
+
     const maybeChainLatestGenesisHash = chain?.genesisHash?.[0];
     if (maybeChainLatestGenesisHash && account?.address) {
       const formatted = getFormatted(String(maybeChainLatestGenesisHash), account.address)
@@ -192,7 +193,7 @@ export default function App() {
               aria-label="Vertical tabs example"
               sx={{ borderRight: 1, borderColor: 'divider' }}
             >
-              <Tab label="Transfer Fund" {...a11yProps(0)} />
+              <Tab label="Sign Extrinsic" {...a11yProps(0)} />
               <Tab label="Sign Message" {...a11yProps(1)} />
               <Tab label="Switch chain" {...a11yProps(2)} />
             </Tabs>

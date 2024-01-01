@@ -21,8 +21,6 @@ export const installPolkaMask = async (): Promise<SnapsConfigurations | undefine
       },
     });
 
-    console.log('connectSnap:', result);
-
     return result;
   } catch (e) {
     console.log('user rejects installation:', e);
