@@ -194,7 +194,7 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
               >
                 {waitingForUserApproval
                   ? 'Approve transaction in Metamask'
-                  : 'Transfer'}
+                  : 'Send'}
               </LoadingButton>
             </Grid>
           </Grid>
