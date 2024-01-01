@@ -39,4 +39,4 @@ When using the Docker command, you can access the UI via http://localhost:8000.
 </p>
 
 
-Note: This Metamask snap operates independently and does not depend on other Polkadot ecosystem extensions to function.
+Note: This Metamask snap operates autonomously and does not rely on other extensions within the Polkadot ecosystem for its functionality.
