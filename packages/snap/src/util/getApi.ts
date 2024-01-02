@@ -3,9 +3,9 @@ import { ApiPromise, HttpProvider } from '@polkadot/api';
 import getEndpoint from './getEndpoint';
 
 /**
- * To get the api for a chain
+ * To get the api for a chain.
  *
- * @param genesisHash - teh genesisHash of the chain will be used to find an endpoint to use
+ * @param genesisHash - The genesisHash of the chain will be used to find an endpoint to use.
  */
 export async function getApi(genesisHash: string): Promise<ApiPromise> {
   const endpoint = getEndpoint(genesisHash);
