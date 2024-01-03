@@ -12,7 +12,7 @@ PolkaMask is currently operational within the Metamask Flask and is in the proce
 
 ## Running the Repository
 
-The repository contains a simple website located in the `./packages/site` directory and the snap code, which can be found in `./packages/snap`. To try out the snap, follow these steps in your terminal:
+The repository contains a  dApp located in the `./packages/dapp` directory and the snap code, which can be found in `./packages/snap`. To try out the snap, follow these steps in your terminal:
 
 ```bash
 git clone https://github.com/PolkaGate/polkaMask.git
@@ -21,7 +21,8 @@ yarn
 yarn run start
 ```
 
-After executing these commands, you can access a basic dApp page for testing polkamask snap at http://localhost:8000/. For more advanced dApp visit apps.polkagate.xyz. Note, Metamask Flask (Metamask) needs to be installed to interact with the snap and dApp.
+After executing these commands, you can access a basic decentralized application (dApp) page for testing polkamask snap at http://localhost:8000/. For more advanced dApp visit [apps.polkagate.xyz](apps.polkagate.xyz). Note, Metamask Flask (Metamask) needs to be installed to interact with the snap and dApp.
+
 ## Test
 To test the snap run:
 
@@ -31,14 +32,14 @@ yarn test
 
 ## Docker
 
-To build and run docker container(s):
+To build and run docker container(s) run:
 
 ```
 yarn compose
 ```
-Afterward, you can access various user interfaces as follows:
+Afterward, you can access user interfaces as follows:
 
-- http://localhost:8000: This displays a simple decentralized application (dapp) designed for testing the Polkamask snap.
+- http://localhost:8000: This displays a dapp designed for testing the Polkamask snap.
 
 - http://localhost:80: This presents a modified version of the Polkadot Cloud in the staking dashboard.
 
