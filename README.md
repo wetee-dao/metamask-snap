@@ -31,13 +31,17 @@ yarn test
 
 ## Docker
 
-To build and run a docker container:
+To build and run docker container(s):
 
 ```
-yarn docker
+yarn compose
 ```
+Afterward, you can access various user interfaces as follows:
 
-When using the Docker command, you can access the UI via http://localhost:8000.
+- http://localhost:8000: This displays a simple decentralized application (dapp) designed for testing the Polkamask snap.
+
+- http://localhost:80: This presents a modified version of the Polkadot Cloud in the staking dashboard.
+
 
 
 <p align="center">
