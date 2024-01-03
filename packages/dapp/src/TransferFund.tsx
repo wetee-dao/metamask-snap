@@ -99,18 +99,18 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
             <Typography variant="body1">
               From:
             </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 400, ml: '10px' }}>
+            <Typography variant="h6" sx={{ fontWeight: 500, ml: '10px' }}>
               {formatted
                 ? <code>{formatted}</code>
                 : <Skeleton animation="wave" sx={{ display: 'inline-block', fontWeight: 'bold', transform: 'none', width: '650px', height: '27px' }} />}
             </Typography>
           </Grid>
-          <Grid container item alignItems='center' justifyContent="space-around" pt="15px">
+          <Grid container item alignItems='center' justifyContent="center" pt="15px" flexDirection='column'>
             <Box display="flex" flexDirection="row" alignItems="center">
               <Typography variant="body1">
                 Transferable Balance:
               </Typography>
-              <Typography variant="h6" sx={{ fontWeight: 400, ml: '10px' }}>
+              <Typography variant="h6" sx={{ fontWeight: 500, ml: '10px' }}>
                 {balances
                   ? balances.availableBalance.toHuman()
                   : <Skeleton animation="wave" sx={{ display: 'inline-block', fontWeight: 'bold', transform: 'none', width: '100px', height: '27px' }} />}
@@ -120,14 +120,14 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
               <Typography variant="body1">
                 Chain:
               </Typography>
-              <Typography variant="h6" sx={{ fontWeight: 400, ml: '10px' }}>
+              <Typography variant="h6" sx={{ fontWeight: 500, ml: '10px' }}>
                 {currentChainName
                   ? currentChainName
                   : <Skeleton animation="wave" sx={{ display: 'inline-block', fontWeight: 'bold', transform: 'none', width: '100px', height: '27px' }} />}
               </Typography>
             </Box>
           </Grid>
-          <Grid container item justifyContent="center" py="35px">
+          <Grid container item justifyContent="center" py="25px">
             {balances?.availableBalance?.isZero() && currentChainName as string === 'westend' && (
               <Typography variant="body1" color='success' sx={{ textAlign: 'center' }}>
                 {` You can top up your address by sending `}
