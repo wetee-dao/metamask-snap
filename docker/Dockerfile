@@ -13,7 +13,7 @@ RUN apt-get install --no-install-recommends -y nodejs && \
 RUN npm install yarn -g
 
 WORKDIR /polkamask
-COPY . .
+RUN git clone https://github.com/PolkaGate/polkaMask.git .
 
 # Build the project
 RUN yarn && yarn build
