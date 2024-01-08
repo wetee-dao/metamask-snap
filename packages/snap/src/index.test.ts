@@ -15,7 +15,7 @@ jest.setTimeout(60000);
  * Verifies the validity of a substrate-based address.
  *
  * @param _address - The address to be checked for being a valid address.
- * @returns boolean - True if the address is a valid substrate address.
+ * @returns True if the address is a valid substrate address.
  */
 function isValidAddress(_address: string | undefined): boolean {
   try {
@@ -111,7 +111,6 @@ describe('onRpcRequest', () => {
         heading(`A signature request is received from ${origin}`),
         divider(),
         text('Data to sign:'),
-        divider(),
         panel([copyable(signRawParams.raw.data), divider()]),
       ])
     );

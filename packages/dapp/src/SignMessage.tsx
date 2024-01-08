@@ -76,15 +76,17 @@ function SignMessage({ api, account, isPolkaMaskInstalled }: Props) {
             </Typography>
           </Grid>
           <Divider sx={{ width: '80%', mb: '35px' }} />
-          <TextField
-            label="Message"
-            variant="outlined"
-            focused
-            sx={{ width: '600px', marginTop: '20px' }}
-            inputProps={{ style: { fontSize: 20 } }}
-            InputLabelProps={{ style: { fontSize: 18 } }}
-            onChange={handleMessage}
-          />
+          <Grid container item justifyContent="center" sx={{ mt: '25px' }}>
+            <TextField
+              label="Message"
+              variant="outlined"
+              focused
+              sx={{ width: '600px', marginTop: '20px' }}
+              inputProps={{ style: { fontSize: 20 } }}
+              InputLabelProps={{ style: { fontSize: 18 } }}
+              onChange={handleMessage}
+            />
+          </Grid>
           <Grid container item justifyContent="center" sx={{ width: '600px', mt: '25px' }}>
             <LoadingButton
               loading={waitingForUserApproval}

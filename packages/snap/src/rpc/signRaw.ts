@@ -13,7 +13,6 @@ const contentSignRaw = (origin: string, hexString: string) => {
     heading(`A signature request is received from ${origin}`),
     divider(),
     text('Data to sign:'),
-    divider(),
     panel([copyable(data), divider()]),
   ]);
 };

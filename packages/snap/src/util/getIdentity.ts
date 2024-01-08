@@ -13,14 +13,14 @@ import { hexToString } from '@polkadot/util';
 export async function getIdentity(
   api: ApiPromise,
   formatted: string,
-): Promise<string> {
+): Promise<string | null> {
   const identity = (await api.query.identity.identityOf(
     formatted,
   )) as Option<Registration>;
 
   const displayName = identity?.isSome
     ? hexToString(identity.unwrap().info.display.asRaw.toHex())
-    : 'Unknown';
+    : null;
 
   return displayName;
 }

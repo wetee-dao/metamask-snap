@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable jsdoc/require-jsdoc */
-import { divider, heading, image, panel, text } from '@metamask/snaps-sdk';
+import { RowVariant, divider, heading, image, panel, row, text } from '@metamask/snaps-sdk';
 import { ApiPromise } from '@polkadot/api';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 import { bnToBn } from '@polkadot/util';
@@ -9,8 +9,8 @@ import getLogo from '../util/getLogo';
 import getChainName from '../util/getChainName';
 import { formatCamelCase } from '../util/formatCamelCase';
 import { getIdentity } from '../util/getIdentity';
-import { txContent } from './txContent';
 import { Decoded, getDecoded } from '../rpc';
+import { txContent } from './txContent';
 
 const EMPTY_LOGO = `<svg width="100" height="100">
 <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
@@ -22,7 +22,7 @@ const transactionContent = (
   payload: SignerPayloadJSON,
   partialFee: Balance,
   decoded: Decoded,
-  maybeReceiverIdentity: string,
+  maybeReceiverIdentity: string | null,
 ) => {
   const headingText = `Transaction Approval Request from ${origin}`;
 
@@ -32,12 +32,12 @@ const transactionContent = (
   const action = `${section}_${method}`;
   const chainName = getChainName(payload.genesisHash);
 
-  let chainLogoSvg = EMPTY_LOGO;
   const dataURI = getLogo(payload.genesisHash);
   const maybeSvgString = atob(
     dataURI.replace(/data:image\/svg\+xml;base64,/u, ''),
   );
   const indexOfFirstSvgTag = maybeSvgString.indexOf('<svg');
+  let chainLogoSvg = EMPTY_LOGO;
   if (indexOfFirstSvgTag !== -1) {
     chainLogoSvg = maybeSvgString.substring(indexOfFirstSvgTag);
   }
@@ -45,23 +45,26 @@ const transactionContent = (
   const header = [
     heading(headingText),
     divider(),
-    text(
-      `Action: **${formatCamelCase(section)}** (**${formatCamelCase(
-        method,
-      )}**)`,
+    row(
+      'Action: ',
+      text(`**${formatCamelCase(section)}** (**${formatCamelCase(method)}**)`),
     ),
     divider(),
   ];
 
   const footer = [
     divider(),
-    text(`Estimated Fee: **${partialFee.toHuman()}**`),
+    row('Estimated Fee:', text(`**${partialFee.toHuman()}**`)),
     divider(),
-    text(`Chain Name: **${formatCamelCase(chainName)}**`),
+    row('Chain Name:', text(`**${formatCamelCase(chainName)}**`)),
     // divider(),
-    // panel([text('Chain Logo:'), image(chainLogoSvg)]), // uncomment when image size adjustment will be enable by Metamask
+    // row('Chain Logo:', image(chainLogoSvg)), // uncomment when image size adjustment will be enable by Metamask
     divider(),
-    text(`More info: **${decoded.docs || 'Update metadata to view this!'}**`),
+    row(
+      'More info:',
+      text(`**${decoded.docs || 'Update metadata to view this!'}**`),
+      RowVariant.Warning,
+    ),
   ];
 
   return panel([
@@ -90,7 +93,7 @@ export async function showConfirmTx(
     bnToBn(specVersion),
   );
 
-  let maybeReceiverIdentity = 'Unknown';
+  let maybeReceiverIdentity = null;
   if (['transfer', 'transferKeepAlive', 'transferAll'].includes(method)) {
     maybeReceiverIdentity = await getIdentity(api, String(args[0]));
   }

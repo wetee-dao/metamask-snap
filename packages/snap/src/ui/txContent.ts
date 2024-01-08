@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable jsdoc/require-jsdoc */
-import { copyable, divider, panel, text } from '@metamask/snaps-sdk';
+import { copyable, panel, row, text } from '@metamask/snaps-sdk';
 import { ApiPromise } from '@polkadot/api';
 import { AnyTuple } from '@polkadot/types/types';
 import { amountToHuman } from '../util/amountToHuman';
@@ -11,7 +11,7 @@ export const txContent = (
   args: AnyTuple,
   action: string,
   decoded: Decoded,
-  maybeReceiverIdentity: string,
+  maybeReceiverIdentity: string | null,
 ): any[] => {
   let amount;
   const isNoArgsMethod = args?.length === 0 && 'noArgsMethods';
@@ -28,41 +28,45 @@ export const txContent = (
       amount = String(args[1]);
 
       return [
-        text(`_To_: **${maybeReceiverIdentity}**`),
+        row('Amount:', text(`**${amountToHuman(amount, decimal)} ${token}** `)),
+        text(
+          `To: ${maybeReceiverIdentity ? `**${maybeReceiverIdentity}**` : ''} `,
+        ),
         copyable(to),
-        divider(),
-        text(`_Amount_: **${amountToHuman(amount, decimal)} ${token}**`),
       ];
     case 'staking_bond':
       amount = `${args[0]}`;
       const payee = String(args[1]);
 
       return [
-        text(`_Amount_: **${amountToHuman(amount, decimal)} ${token}**`),
-        divider(),
-        text(`_Payee_: ${payee}`),
+        row('Amount:', text(`**${amountToHuman(amount, decimal)} ${token}** `)),
+        row('Payee:', text(`**${payee}** `)),
       ];
     case 'staking_nominate':
-      return [text(`_Validators_: **${args[0]}**`)];
+      return [row('Validators:', text(`**${args[0]}**`))];
 
     case 'nominationPools_unbond':
     case 'staking_unbond':
     case 'staking_bondExtra':
       amount = `${args[action === 'nominationPools_unbond' ? 1 : 0]}`;
 
-      return [text(`_Amount_: **${amountToHuman(amount, decimal)} ${token}**`)];
+      return [
+        row('Amount:', text(`**${amountToHuman(amount, decimal)} ${token}**`)),
+      ];
 
     case 'staking_setPayee':
-      return [text(`_Payee_: **${args[0]}**`)];
+      return [row('Payee:', text(`**${args[0]}**`))];
     case 'nominationPools_join':
       amount = `${args[0]}`;
       const poolId = String(args[1]);
 
       return [
         panel([
-          text(`_Amount_: **${amountToHuman(amount, decimal)} ${token}**`),
-          divider(),
-          text(`_Pool Id_: **${poolId}**`),
+          row(
+            'Amount:',
+            text(`**${amountToHuman(amount, decimal)} ${token}**`),
+          ),
+          row('Pool Id:', text(`**${poolId}** `)),
         ]),
       ];
     case 'nominationPools_bondExtra':
@@ -74,12 +78,13 @@ export const txContent = (
         extra = `${amountToHuman(freeBalance, decimal)} ${token}`;
       }
 
-      return [text(`_Extra_: **${extra}**`)];
+      return [row('Extra:', text(`**${extra}**`))];
     case 'noArgsMethods':
       return [];
+
     default:
       return [
-        text(`_Details_:`),
+        text(`_Details_: `),
         text(JSON.stringify(decodedArgs || args, null, 2)), // decodedArgs show the args' labels as well
       ];
   }
