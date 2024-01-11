@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x, 18.x]
+        node-version: [18.x]
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -59,7 +59,11 @@ jobs:
         run: yarn install-chrome
       - name: Run e2e tests
         run: yarn workspace snap run test
-
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        
   all-jobs-pass:
     name: All jobs pass
     runs-on: ubuntu-latest
@@ -68,3 +72,4 @@ jobs:
       - e2e
     steps:
       - run: echo "Great success!"
+    
