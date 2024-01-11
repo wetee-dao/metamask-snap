@@ -23,7 +23,7 @@ interface Props {
   token: string | undefined;
 
 }
-function TransferFund({ api, account, balances, currentChainName, formatted, isPolkaMaskInstalled, token }: Props) {
+function TransferFund({ api, account, balances, currentChainName, formatted, isPolkaMaskInstalled, token }: Props):React.ReactElement<Props> {
   const [toAddress, setToAddress] = useState<string>();
   const [_signature, setSignature] = useState<string>();
   const [_result, setResult] = useState<TxResult>();
@@ -47,6 +47,9 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
   }, [],);
 
   const handleSendClick = async () => {
+    setSignature(undefined);
+    setResult(undefined);
+    
     try {
       if (!api || !account || !toAddress) {
         return;
@@ -184,11 +187,13 @@ function TransferFund({ api, account, balances, currentChainName, formatted, isP
                 variant="contained"
                 onClick={handleSendClick}
                 disabled={
-                  !api ||
-                  !isPolkaMaskInstalled ||
-                  waitingForUserApproval ||
-                  !transferAmount ||
-                  !toAddress
+                  (!api ||
+                    !isPolkaMaskInstalled ||
+                    waitingForUserApproval ||
+                    !transferAmount ||
+                    !toAddress)
+                  ||
+                  (!!_signature && !_result)
                 }
                 sx={{ fontSize: '18px', width: '100%' }}
               >
