@@ -1,6 +1,13 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable jsdoc/require-jsdoc */
-import { RowVariant, divider, heading, image, panel, row, text } from '@metamask/snaps-sdk';
+import {
+  RowVariant,
+  divider,
+  heading,
+  panel,
+  row,
+  text,
+} from '@metamask/snaps-sdk';
 import { ApiPromise } from '@polkadot/api';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 import { bnToBn } from '@polkadot/util';
@@ -39,6 +46,7 @@ const transactionContent = (
   const indexOfFirstSvgTag = maybeSvgString.indexOf('<svg');
   let chainLogoSvg = EMPTY_LOGO;
   if (indexOfFirstSvgTag !== -1) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     chainLogoSvg = maybeSvgString.substring(indexOfFirstSvgTag);
   }
 

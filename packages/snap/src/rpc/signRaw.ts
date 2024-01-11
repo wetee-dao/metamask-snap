@@ -40,7 +40,7 @@ export const signRaw = async (
   const isConfirmed = await showConfirmSignRaw(origin, data);
 
   if (!isConfirmed) {
-    throw new Error('User declined the signing request.');
+    throw new Error(`User ${address} declined the signing request.`);
   }
   const keypair = await getKeyPair();
 
