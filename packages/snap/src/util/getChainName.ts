@@ -10,7 +10,7 @@ export const sanitizeChainName = (chainName: string | undefined) =>
     ?.replace(' chain', '')
     ?.replace(' Chain', '')
     ?.replace(' Finance', '')
-    ?.replace(/\s/g, '');
+    ?.replace(/\s/gu, '');
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export default function getChainName(

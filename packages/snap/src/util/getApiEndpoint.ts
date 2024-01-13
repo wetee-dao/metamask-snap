@@ -7,7 +7,10 @@ import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 const endpoints = createWsEndpoints((k, v) => v?.toString() || k);
 
 /**
+ * Get all api endpoint info using api url.
  *
+ * @param apiUrl - An url of an endpoint.
+ * @returns The linkOption related to the url.
  */
 export function getApiEndpoint(apiUrl?: string): LinkOption | null {
   return endpoints.find(({ value }) => value === apiUrl) || null;
