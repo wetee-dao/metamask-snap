@@ -254,8 +254,6 @@ describe('onRpcRequest', () => {
       const signature = returnedValue.response.result;
       const sign = JSON.parse(JSON.stringify(signature));
 
-      // expect(isValidSignature(stringToU8a(pay), sign.signature, metamaskAccountAddr ?? '')).toBeTruthy();
-
       expect(isHex(sign.signature) && sign.signature.length === 132).toBeTruthy();
     }
 

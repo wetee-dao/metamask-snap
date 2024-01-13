@@ -24,7 +24,7 @@
     "lint:fix": "yarn lint:eslint --fix && yarn lint:misc --write",
     "lint:misc": "prettier '**/*.json' '**/*.md' '!**/CHANGELOG.md' '**/*.yml' --ignore-path .gitignore",
     "start": "yarn workspaces foreach --parallel --interlaced --verbose run start",
-    "test": "cd packages/snap && jest test",
+    "test": "cd packages/snap && yarn test",
     "docker:build": "docker build -t polkagate/dapp -f docker/Dockerfile .",
     "docker:run": "docker run --rm -it --name polkamask-ui -p 80:80 -p 8000:8000 -p 8080:8080 polkagate/dapp:latest",
     "docker": "yarn docker:build && yarn docker:run",
@@ -59,7 +59,7 @@
   "dependencies": {
     "@metamask/detect-provider": "^2.0.0",
     "@metamask/key-tree": "^9.0.0",
-    "@polkadot/api": "^10.9.1",
+    "@polkadot/api": "^10.11.2",
     "@polkadot/extension-chains": "latest",
     "@polkadot/keyring": "^12.5.1",
     "@polkadot/types": "^10.11.1",

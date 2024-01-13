@@ -10,7 +10,7 @@
     "@mui/icons-material": "latest",
     "@mui/lab": "latest",
     "@mui/material": "latest",
-    "@polkadot/api": "latest",
+    "@polkadot/api": "^10.11.2",
     "@polkadot/api-derive": "latest",
     "@polkadot/apps-config": "latest",
     "@polkadot/extension-inject": "latest",
