@@ -7,7 +7,7 @@ import { installSnap } from '@metamask/snaps-jest';
 import { copyable, divider, heading, panel, text, row, RowVariant } from '@metamask/snaps-sdk';
 import { Json, JsonRpcParams } from '@metamask/utils';
 import { decodeAddress, signatureVerify } from '@polkadot/util-crypto';
-import { u8aToHex } from '@polkadot/util';
+import { u8aToHex, isHex } from '@polkadot/util';
 import { ApiPromise, HttpProvider } from '@polkadot/api';
 import isValidAddress from '../../dapp/src/util/isValidAddress';
 import { buildPayload } from '../../dapp/src/util/buildPayload';
@@ -166,6 +166,8 @@ describe('onRpcRequest', () => {
       }
     };
 
+    let snapSignature;
+
     const expectedInterface = (
       panel([
         heading(`A signature request is received from ${origin}`),
@@ -192,10 +194,10 @@ describe('onRpcRequest', () => {
 
     if ('result' in returnedValue.response) {
       const signature = returnedValue.response.result;
-      const sign = JSON.parse(JSON.stringify(signature));
-
-      expect(isValidSignature(signRawParams.raw.data, sign.signature, sampleWestendAccountAddress)).toBeTruthy();
+      snapSignature = JSON.parse(JSON.stringify(signature)).signature;
     }
+
+    expect(isValidSignature(signRawParams.raw.data, snapSignature, metamaskAccountAddr ?? '')).toBeTruthy();
 
     await close();
   });
@@ -206,7 +208,7 @@ describe('onRpcRequest', () => {
     const params = [sampleWestendAccountAddress, '5000000000000'];
     const tx = api.tx.balances.transferKeepAlive(...params);
     const fee = await (await tx.paymentInfo(sampleWestendAccountAddress)).partialFee;
-    const payload = await buildPayload(api, tx, sampleWestendAccountAddress);
+    const payload = await buildPayload(api, tx, metamaskAccountAddr ?? '');
 
     const expectedInterface = (
       panel([
@@ -242,19 +244,20 @@ describe('onRpcRequest', () => {
 
     const ui = await response.getInterface({ timeout: 120000 });
     expect(ui.type).toBe('confirmation');
+    expect(ui.content).toEqual(expectedInterface);
+
     await ui.ok();
 
-    // const returnedValue = await response;
+    const returnedValue = await response;
 
-    // if ('result' in returnedValue.response) {
-    //   const signature = returnedValue.response.result;
-    //   const sign = JSON.parse(JSON.stringify(signature));
-    //   const pay = JSON.stringify(payload);
+    if ('result' in returnedValue.response) {
+      const signature = returnedValue.response.result;
+      const sign = JSON.parse(JSON.stringify(signature));
 
-    //   expect(isValidSignature(payload as unknown as string, sign.signature, sampleWestendAccountAddress)).toBeTruthy();
-    // }
+      // expect(isValidSignature(stringToU8a(pay), sign.signature, metamaskAccountAddr ?? '')).toBeTruthy();
 
-    expect(ui.content).toEqual(expectedInterface);
+      expect(isHex(sign.signature) && sign.signature.length === 132).toBeTruthy();
+    }
 
     await close();
   });
