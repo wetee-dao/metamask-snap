@@ -14,5 +14,6 @@ The Polkagate Signer is currently operational within the Metamask Flask and is i
 To Publish on NPM:
 adjust version in package.json and  snap.manifest.json
 yarn build
+cd packages/snap/
 npm publish --auth-type=web 
 --!>

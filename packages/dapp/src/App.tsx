@@ -76,7 +76,7 @@ export default function App() {
 
   useEffect(() => {
     isPolkaMaskInstalled && web3Enable('PolkaMask-dapp').then((ext: InjectedExtension[] | undefined) => {
-      console.log('all injected extensions:', ext);
+      console.log('All injected extensions:', ext);
       setExtensions(ext);
     });
   }, [isPolkaMaskInstalled]);

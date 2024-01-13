@@ -7,8 +7,10 @@ import getChainName from './getChainName';
 const endpoints = createWsEndpoints(() => '');
 
 /**
- * @param _genesisHash
- * @description get logo of a chain based on its genesisHash
+ * Find a chain logo related to its genesisHAsh.
+ *
+ * @param _genesisHash - A genesisHash of a chain.
+ * @returns The logo in base64 format.
  */
 export default function getLogo(_genesisHash: string): string {
   const chainName = getChainName(_genesisHash);
