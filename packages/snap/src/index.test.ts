@@ -1,40 +1,58 @@
+/* eslint-disable jest/no-conditional-expect */
 /* eslint-disable prettier/prettier */
 /* eslint-disable jest/no-restricted-matchers */
 /* eslint-disable jest/prefer-strict-equal */
 
 import { installSnap } from '@metamask/snaps-jest';
-import { copyable, divider, heading, panel, text } from '@metamask/snaps-sdk';
-import { Json } from '@metamask/utils';
-import { hexToU8a, isHex } from '@polkadot/util';
-// import { expect } from '@jest/globals';
-import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
+import { copyable, divider, heading, panel, text, row, RowVariant } from '@metamask/snaps-sdk';
+import { Json, JsonRpcParams } from '@metamask/utils';
+import { decodeAddress, signatureVerify } from '@polkadot/util-crypto';
+import { u8aToHex, isHex } from '@polkadot/util';
+import { ApiPromise, HttpProvider } from '@polkadot/api';
+import isValidAddress from '../../dapp/src/util/isValidAddress';
+import { buildPayload } from '../../dapp/src/util/buildPayload';
+import { getGenesisHash } from './chains';
+import { getFormatted } from './util/getFormatted';
+import { formatCamelCase } from './util/formatCamelCase';
 
-jest.setTimeout(60000);
+const getApi = async () => {
+  const httpEndpointURL = 'https://wnd-rpc.stakeworld.io';
+  const httpProvider = new HttpProvider(httpEndpointURL);
 
-/**
- * Verifies the validity of a substrate-based address.
- *
- * @param _address - The address to be checked for being a valid address.
- * @returns True if the address is a valid substrate address.
- */
-function isValidAddress(_address: string | undefined): boolean {
-  try {
-    encodeAddress(
-      isHex(_address)
-        ? hexToU8a(_address)
-        : decodeAddress(_address)
-    );
+  const api = await ApiPromise.create({ provider: httpProvider });
 
-    return true;
-  } catch (error) {
-    return false;
-  }
+  return api;
 }
 
+jest.setTimeout(200000);
+
+const isValidSignature = (signedMessage: string | Uint8Array, signature: string, address: string | Uint8Array) => {
+  const publicKey = decodeAddress(address);
+  const hexPublicKey = u8aToHex(publicKey);
+
+  return signatureVerify(signedMessage, signature, hexPublicKey).isValid;
+};
+
 const origin = 'Jest Test';
-const sampleAccountAddress = '5GHSA3fJCRqLZhwgo6ezTjjQgBrBoLWTbznWPunH6wEzJ7vm';
+const sampleWestendAccountAddress = '5Cc8FwTx2nGbM26BdJqdseQBF8C1JeF1tbiabwPHa2UhB4fv';
+let metamaskAccountAddr: string | undefined;
 
 describe('onRpcRequest', () => {
+  beforeAll(async () => {
+    const { request, close } = await installSnap();
+
+    const response = await request({
+      method: 'getAddress',
+      origin
+    });
+
+    if ('result' in response.response) {
+      metamaskAccountAddr = response.response.result?.toString();
+    }
+
+    await close();
+  });
+
   it('throws an error if the requested method does not exist', async () => {
     const { request, close } = await installSnap();
 
@@ -52,24 +70,66 @@ describe('onRpcRequest', () => {
   });
 
   it('"getAddress" RPC request method', async () => {
+    let samplePolkadotAccountAddress = '';
+    let sampleKusamaAccountAddress = '';
+
     const { request, close } = await installSnap();
 
-    const response = await request({
+    const response = request({
       method: 'getAddress',
       origin
     });
 
+    const ui = await response.getInterface({ timeout: 60000 });
+
     let accountAddr: string | undefined;
 
-    if ('result' in response.response) {
-      accountAddr = response.response.result?.toString();
+    const returnedValue = await response;
+
+    if ('result' in returnedValue.response) {
+      accountAddr = returnedValue.response.result?.toString();
+      samplePolkadotAccountAddress = getFormatted(getGenesisHash('polkadot'), accountAddr ?? '');
+      sampleKusamaAccountAddress = getFormatted(getGenesisHash('kusama'), accountAddr ?? '');
     } else {
       accountAddr = undefined;
     }
 
+    const expectedInterface = (panel([
+      heading('Your Account on Different Chains'),
+      divider(),
+      panel([
+        text('**Polkadot**'),
+        copyable(samplePolkadotAccountAddress),
+        text(
+          `Transferable: **0** / 0`,
+        ),
+        divider(),
+      ]),
+      panel([
+        text('**Kusama**'),
+        copyable(sampleKusamaAccountAddress),
+        text(
+          `Transferable: **0** / 0`,
+        ),
+        divider(),
+      ]),
+      panel([
+        text('**Westend**'),
+        copyable(accountAddr),
+        text(
+          `Transferable: **0** / 0`,
+        ),
+      ]),
+    ]));
+
     expect(response).toBeTruthy();
     expect(accountAddr).toBeTruthy();
     expect(isValidAddress(accountAddr)).toBe(true);
+
+    expect(ui.type).toBe('alert');
+    samplePolkadotAccountAddress && sampleKusamaAccountAddress && expect(ui.content).toEqual(expectedInterface);
+
+    await ui.ok();
 
     await close();
   });
@@ -102,9 +162,11 @@ describe('onRpcRequest', () => {
     const signRawParams = {
       raw: {
         data: 'Sign me!',
-        address: sampleAccountAddress
+        address: sampleWestendAccountAddress
       }
     };
+
+    let snapSignature;
 
     const expectedInterface = (
       panel([
@@ -128,8 +190,102 @@ describe('onRpcRequest', () => {
     expect(ui).toRender(expectedInterface);
     await ui.ok();
 
-    const result = await response;
-    expect(result).toBeTruthy();
+    const returnedValue = await response;
+
+    if ('result' in returnedValue.response) {
+      const signature = returnedValue.response.result;
+      snapSignature = JSON.parse(JSON.stringify(signature)).signature;
+    }
+
+    expect(isValidSignature(signRawParams.raw.data, snapSignature, metamaskAccountAddr ?? '')).toBeTruthy();
+
+    await close();
+  });
+
+  it('"signJSON" RPC request method', async () => {
+    const api = await getApi();
+
+    const params = [sampleWestendAccountAddress, '5000000000000'];
+    const tx = api.tx.balances.transferKeepAlive(...params);
+    const fee = await (await tx.paymentInfo(sampleWestendAccountAddress)).partialFee;
+    const payload = await buildPayload(api, tx, metamaskAccountAddr ?? '');
+
+    const expectedInterface = (
+      panel([
+        heading(`Transaction Approval Request from ${origin}`),
+        divider(),
+        row('Action: ', text(`**${formatCamelCase('balances')}** (**${formatCamelCase('transferKeepAlive')}**)`)),
+        divider(),
+        row('Amount:', text(`**5 WND** `)),
+        text(
+          'To:  ',
+        ),
+        copyable(metamaskAccountAddr),
+        divider(),
+        row('Estimated Fee:', text(`**${fee.toHuman()}**`)),
+        divider(),
+        row('Chain Name:', text(`**${formatCamelCase('westend')}**`)),
+        divider(),
+        row(
+          'More info:',
+          text('**See [Pallet::transfer_keep_alive].**'),
+          RowVariant.Warning,
+        )
+      ])
+    );
+
+    const { request, close } = await installSnap();
+
+    const response = request({
+      method: 'signJSON',
+      origin,
+      params: { payload: payload as unknown as JsonRpcParams }
+    });
+
+    const ui = await response.getInterface({ timeout: 120000 });
+    expect(ui.type).toBe('confirmation');
+    expect(ui.content).toEqual(expectedInterface);
+
+    await ui.ok();
+
+    const returnedValue = await response;
+
+    if ('result' in returnedValue.response) {
+      const signature = returnedValue.response.result;
+      const sign = JSON.parse(JSON.stringify(signature));
+
+      expect(isHex(sign.signature) && sign.signature.length === 132).toBeTruthy();
+    }
+
+    await close();
+  });
+
+  it('"signJSON" RPC request method invalid payload', async () => {
+    const { request, close } = await installSnap();
+
+    const response = request({
+      method: 'signJSON',
+      origin,
+      params: { payload: {} }
+    });
+
+    const getUI = async () => {
+      try {
+        await response.getInterface({ timeout: 20000 });
+
+        return true;
+      } catch (error) {
+        return false;
+      }
+    };
+
+    expect(await getUI()).toBeFalsy();
+
+    const returnedValue = await response;
+
+    if ('result' in returnedValue.response) {
+      expect(returnedValue.response.result).toBeFalsy();
+    }
 
     await close();
   });
