@@ -12,7 +12,7 @@ export const getAddress = async (chainName?: string): Promise<string> => {
 
   const { address } = account;
 
-  showAccount(address); // This can be removed in favour of new home page
+  showAccount(address); // This can be removed in favour of  onHomePage or onInstall
 
   return address;
 };
