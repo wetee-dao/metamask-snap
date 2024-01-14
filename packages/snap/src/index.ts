@@ -65,11 +65,11 @@ export const onInstall: OnInstallHandler = async () => {
     params: {
       type: 'alert',
       content: panel([
-        heading('Your account is now created!'),
+        heading('Your account is now created 🚀'),
         divider(),
-        text('It is ready for use on various Substrate-based chains.'),
+        text('Ready for use on various Substrate-based chains.'),
         text(
-          'To manage your account, please visit **https://apps.polkagate.xyz**',
+          'To manage your account, please visit: **https://apps.polkagate.xyz**',
         ),
       ]),
     },
