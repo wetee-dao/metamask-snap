@@ -1,5 +1,11 @@
-import { OnRpcRequestHandler } from '@metamask/snaps-sdk';
-import type { OnHomePageHandler } from '@metamask/snaps-sdk';
+import {
+  divider,
+  OnRpcRequestHandler,
+  heading,
+  panel,
+  text,
+} from '@metamask/snaps-sdk';
+import type { OnHomePageHandler, OnInstallHandler } from '@metamask/snaps-sdk';
 import { getAddress, signJSON, signRaw } from './rpc';
 import { getMetadataList, setMetadata } from './rpc/metadata';
 import { getKeyPair } from './util/getKeyPair';
@@ -47,4 +53,25 @@ export const onHomePage: OnHomePageHandler = async () => {
   return {
     content: accountDemo(address, balances),
   };
+};
+
+/**
+ * Handle installation of the snap. This handler is called when the snap is
+ * installed.
+ */
+export const onInstall: OnInstallHandler = async () => {
+  await snap.request({
+    method: 'snap_dialog',
+    params: {
+      type: 'alert',
+      content: panel([
+        heading('Your account is now created 🚀'),
+        divider(),
+        text('Ready for use on various Substrate-based chains.'),
+        text(
+          'To manage your account, please visit: **https://apps.polkagate.xyz**',
+        ),
+      ]),
+    },
+  });
 };

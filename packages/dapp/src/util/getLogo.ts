@@ -5,12 +5,14 @@ import { createWsEndpoints } from '@polkadot/apps-config';
 
 const endpoints = createWsEndpoints(() => '');
 
-export const sanitizeChainName = (chainName: string | undefined) => (chainName?.replace(' Relay Chain', '')?.replace(' Network', '')?.replace(' chain', '')?.replace(' Chain', '')?.replace(' Finance', '')?.replace(/\s/g, ''));
+export const sanitizeChainName = (chainName: string | undefined) => (chainName?.replace(' Relay Chain', '')?.replace(' Network', '')?.replace(' chain', '')?.replace(' Chain', '')?.replace(' Finance', '')?.replace(' Mainnet', '')?.replace(/\s/g, ''));
 
 export default function getLogo(info: string): string {
   const iconName = sanitizeChainName(info)?.toLowerCase();
 
-  const endpoint = endpoints.find((o) => o.info?.toLowerCase() === iconName);
+  const endpoint = endpoints.find((o) => {
+    return o.info?.toLowerCase() === iconName || o.text === info
+  });
 
   return endpoint?.ui?.logo as string;
 }

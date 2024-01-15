@@ -7,7 +7,7 @@
     "url": "https://github.com/polkagate/polkamask.git"
   },
   "source": {
-    "shasum": "TQdrvrkZRijxZzf42ounDauv4xm9lVSztfGQRkagO7E=",
+    "shasum": "G3a3oHXXTb2EJSHF0ekc82Ff9dKf6cJxMJyuJ2/RBHM=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -25,6 +25,7 @@
       "snaps": false
     },
     "endowment:webassembly": {},
+    "endowment:lifecycle-hooks": {},
     "snap_dialog": {},
     "snap_getBip44Entropy": [
       {

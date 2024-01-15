@@ -1,4 +1,4 @@
-const SNAP_VERSION = '>=0.1.11';
+const SNAP_VERSION = '>=0.1.13';
 const LOCAL_SNAP_ID = 'local:http://localhost:8080';
 const NPM_SNAP_ID = 'npm:@polkagate/snap';
 

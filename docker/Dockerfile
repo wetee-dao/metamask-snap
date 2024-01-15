@@ -12,6 +12,9 @@ RUN apt-get install --no-install-recommends -y nodejs && \
   rm -rf /var/lib/apt/lists/*
 RUN npm install yarn -g
 
+ARG CACHEBUST=1
+RUN echo "CACHEBUST=${CACHEBUST}"
+
 WORKDIR /polkamask
 RUN git clone https://github.com/PolkaGate/polkaMask.git .
 
