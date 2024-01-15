@@ -28,7 +28,7 @@
     "docker:build": "docker build -t polkagate/dapp -f docker/Dockerfile .",
     "docker:run": "docker run --rm -it --name polkamask-ui -p 80:80 -p 8000:8000 -p 8080:8080 polkagate/dapp:latest",
     "docker": "yarn docker:build && yarn docker:run",
-    "compose": "docker compose up -d"
+    "compose": "docker-compose build --build-arg CACHEBUST=$(date +%s) && docker-compose up -d"
   },
   "devDependencies": {
     "@metamask/eslint-config": "^10.0.0",
@@ -60,7 +60,7 @@
     "@metamask/detect-provider": "^2.0.0",
     "@metamask/key-tree": "^9.0.0",
     "@polkadot/api": "^10.11.2",
-    "@polkadot/extension-chains": "latest",
+    "@polkadot/extension-chains": "^0.46.6",
     "@polkadot/keyring": "^12.5.1",
     "@polkadot/types": "^10.11.1",
     "@polkadot/ui-keyring": "^3.6.3",
