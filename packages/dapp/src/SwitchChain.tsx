@@ -29,20 +29,23 @@ function TransferFund({ currentChainName, setChainName }: Props) {
           label="Chain"
           onChange={handleChange}
         >
-          {chains.map(({ genesisHash, displayName }) => (
-            <MenuItem value={genesisHash} >
-              <Grid container item alignItems='center'>
-                <Avatar
-                  alt="logo"
-                  src={getLogo(displayName)}
-                  sx={{ width: 24, height: 24, display: 'inline-block' }}
-                />
-                <Typography sx={{ pl: '10px', display: 'inline-block' }}>
-                  {displayName}
-                </Typography>
-              </Grid>
-            </MenuItem>
-          ))}
+          {chains.map(({ genesisHash, displayName }, index) => {
+            const logo = getLogo(displayName)
+            return (
+              <MenuItem value={genesisHash} key={index}>
+                <Grid container item alignItems='center'>
+                  <Avatar
+                    alt="logo"
+                    src={logo}
+                    sx={{ width: 24, height: 24, display: 'inline-block' }}
+                  />
+                  <Typography sx={{ pl: '10px', display: 'inline-block' }}>
+                    {displayName}
+                  </Typography>
+                </Grid>
+              </MenuItem>
+            )
+          })}
         </Select>
       </FormControl>
     </Grid>

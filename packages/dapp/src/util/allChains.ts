@@ -19,10 +19,15 @@ const westend = {
   website: 'https://polkadot.network',
 };
 
-selectableNetworks.push(westend as Network);
 
 export const allChains = (): { genesisHash: string, displayName: string }[] => {
-  return selectableNetworks.map(({ genesisHash, displayName }) => {
-    return { genesisHash: genesisHash[0], displayName }
+  if (!selectableNetworks.includes(westend as Network)) {
+    selectableNetworks.push(westend as Network);
+  }
+
+  const chainsWithGenesisHash = selectableNetworks.filter(({ displayName, genesisHash, slip44 }) => genesisHash.length && slip44 && displayName!=='xx network');
+
+  return chainsWithGenesisHash.map(({ genesisHash, displayName }) => {
+      return { genesisHash: genesisHash[0], displayName }
   });
 };

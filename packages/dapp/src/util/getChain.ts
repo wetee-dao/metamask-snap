@@ -1,5 +1,6 @@
 import { selectableNetworks } from '@polkadot/networks';
 import { Network } from '@polkadot/networks/types';
+import { sanitizeChainName } from './getLogo';
 
 const westend = {
   decimals: [12],
@@ -25,7 +26,7 @@ export const getChain = (genesisOrChainName: string): Network => {
   const chain = selectableNetworks.find(
     ({ genesisHash, network }) =>
       genesisHash.includes(genesisOrChainName as any) ||
-      network === genesisOrChainName,
+      network === sanitizeChainName(genesisOrChainName),
   );
 
   if (chain) {
