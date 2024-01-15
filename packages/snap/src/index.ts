@@ -69,7 +69,7 @@ export const onInstall: OnInstallHandler = async () => {
         divider(),
         text('Ready for use on various Substrate-based chains.'),
         text(
-          'To manage your account, please visit: **https://apps.polkagate.xyz**',
+          'To manage your account, please visit: **[https://apps.polkagate.xyz](https://apps.polkagate.xyz)**',
         ),
       ]),
     },
