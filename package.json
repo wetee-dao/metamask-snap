@@ -28,7 +28,7 @@
     "docker:build": "docker build -t polkagate/dapp -f docker/Dockerfile .",
     "docker:run": "docker run --rm -it --name polkamask-ui -p 80:80 -p 8000:8000 -p 8080:8080 polkagate/dapp:latest",
     "docker": "yarn docker:build && yarn docker:run",
-    "compose": "docker compose up -d"
+    "compose": "docker-compose build --build-arg CACHEBUST=$(date +%s) && docker-compose up -d"
   },
   "devDependencies": {
     "@metamask/eslint-config": "^10.0.0",
