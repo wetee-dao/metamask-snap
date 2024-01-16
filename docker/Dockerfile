@@ -25,7 +25,7 @@ RUN yarn && yarn build
 FROM node:20-alpine
 
 # Set environment variable
-ENV REACT_APP_MODE=production
+ENV NODE_ENV=production
 
 WORKDIR /polkamask
 
