@@ -9,11 +9,3 @@ The Polkagate Signer is currently operational within the Metamask Flask and is i
 <p align="center">
   <img src="https://raw.githubusercontent.com/Nick-1979/PolkadotJsPlusPictures/main/polkagate/polkamask%20small.bmp" alt="Image" width="600" />
 </p>
-
-<!--
-To Publish on NPM:
-adjust version in package.json and  snap.manifest.json
-yarn build
-cd packages/snap/
-npm publish --auth-type=web 
---!>

@@ -1,5 +1,5 @@
 {
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "Explore Polkadot decentralized applications and manage your tokens using your MetaMask wallet. Start your journey at apps.polkagate.xyz.",
   "proposedName": "PolkaMask",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/polkagate/polkamask.git"
   },
   "source": {
-    "shasum": "G3a3oHXXTb2EJSHF0ekc82Ff9dKf6cJxMJyuJ2/RBHM=",
+    "shasum": "1j5J8wYqSAI1mZdm+TDXyd8dRZEh5qbTJ0Z+y06a9yg=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",

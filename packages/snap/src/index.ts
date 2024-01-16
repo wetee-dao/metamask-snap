@@ -67,7 +67,9 @@ export const onInstall: OnInstallHandler = async () => {
       content: panel([
         heading('Your account is now created 🚀'),
         divider(),
-        text('Ready for use on various Substrate-based chains.'),
+        text(
+          "To access your account's address in various formats, navigate to Menu → Snaps and click on the PolkaMask icon.",
+        ),
         text(
           'To manage your account, please visit: **[https://apps.polkagate.xyz](https://apps.polkagate.xyz)**',
         ),
