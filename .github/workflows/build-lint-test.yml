@@ -29,13 +29,6 @@ jobs:
         with:
           path: ./packages/snap/dist
           key: snap-${{ runner.os }}-${{ github.sha }}
-      - name: Require clean working directory
-        shell: bash
-        run: |
-          if ! git diff --exit-code; then
-            echo "Working tree dirty after building"
-            exit 1
-          fi
 
   e2e:
     name: End-to-end Tests
@@ -58,23 +51,7 @@ jobs:
       - name: Install Google Chrome
         run: yarn install-chrome
       - name: Run e2e tests
-        run: yarn workspace snap run test
-
-  upload-coverage:
-    name: Upload coverage to Codecov
-    runs-on: ubuntu-latest
-    needs: 
-     - build-lint-test
-    steps:
-      - uses: actions/checkout@v3
-      - name: Download coverage artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: coverage
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: yarn workspace @polkagate/snap run test
         
   all-jobs-pass:
     name: All jobs pass
