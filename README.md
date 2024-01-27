@@ -19,7 +19,7 @@ The repository contains a  dApp located in the `./packages/dapp` directory and t
 ```bash
 git clone https://github.com/PolkaGate/polkaMask.git
 cd polkaMask
-yarn
+yarn install
 yarn run start
 ```
 
@@ -29,7 +29,7 @@ After executing these commands, you can access a basic decentralized application
 To execute the unit tests for the snap, use the following command(s):
 
 ```
-yarn
+yarn install
 yarn build
 yarn test
 ```
@@ -39,6 +39,7 @@ yarn test
 To build and run docker container(s) run:
 
 ```
+yarn install
 yarn compose
 ```
 Afterward, you can access user interfaces as follows:
