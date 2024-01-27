@@ -7,13 +7,6 @@ services:
     ports:
       - 8000:8000
       - 8080:8080
-    develop:
-      watch:
-        - path: ./package.json
-          action: rebuild
-        - path: ./
-          target: /usr/src/app
-          action: sync
 
   dashboard:
     build:
