@@ -4,7 +4,6 @@ const NPM_SNAP_ID = 'npm:@polkagate/snap';
 
 export const DEFAULT_SNAP_ORIGIN = process.env.NODE_ENV === 'development' ? LOCAL_SNAP_ID : NPM_SNAP_ID;
 
-console.log('NODE_ENV:',process.env.NODE_ENV)
 export const SUPPORTED_SNAPS = {
   [DEFAULT_SNAP_ORIGIN]: { version: SNAP_VERSION },
 };

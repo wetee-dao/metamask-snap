@@ -17,7 +17,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
   request,
 }) => {
-  console.log('Received request in snap:', request);
   const _params = request.params;
 
   switch (request.method) {

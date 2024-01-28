@@ -27,7 +27,6 @@ export async function getBalances(
   const balances = (await api.query.system.account(formatted)) as unknown as {
     data: AccountData;
   };
-  console.log('balances:', balances.data);
 
   const transferable = api.createType(
     'Balance',
