@@ -55,8 +55,8 @@ Afterward, you can access user interfaces as follows:
   <img src="https://raw.githubusercontent.com/PolkaGate/polkaMask/main/docs/images/simpleTransfer.png" alt="Image" width="1000" />
 </p>
 
-
 Note: This Metamask snap operates autonomously and does not rely on other extensions within the Polkadot ecosystem for its functionality.
+
 ---
 
 For more detailed help, please refer to the [wiki](https://github.com/PolkaGate/polkaMask/wiki).
