@@ -1,5 +1,6 @@
 # PolkaMask: Polkadot with Metamask
 ![license](https://img.shields.io/badge/License-Apache%202.0-blue?logo=apache&style=flat-square)
+![](https://img.shields.io/github/issues-raw/PolkaGate/polkaMask)
 [![ci](https://github.com/PolkaGate/polkaMask/actions/workflows/ci-workflow.yml/badge.svg)](https://github.com/PolkaGate/polkaMask/actions/workflows/ci-workflow.yml)
 
  A MetaMask Snap for seamless interaction with the Polkadot ecosystem, a prominent platform for cross-chain communication and scalability. Now you can use your MetaMask wallet to access Polkadot dApps and tokens effortlessly.
