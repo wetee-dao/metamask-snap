@@ -1,6 +1,6 @@
-# Polkagate signer snap for Metamask (PolkaMask)
+# Polkagate snap for Metamask
 
- A MetaMask Snap for seamless interaction with the Polkadot ecosystem, a prominent platform for cross-chain communication and scalability. Now you can use your MetaMask wallet to access Polkadot dApps and tokens effortlessly.
+ A MetaMask snap for seamless interaction with the Polkadot ecosystem, a prominent platform for cross-chain communication and scalability. Now you can use your MetaMask wallet to access Polkadot dApps and tokens effortlessly.
 
 To integrate this Snap into your dApp, you can easily upgrade your existing @polkadot/extension-dapp by replacing it with @polkagate/extension-dapp. It's important to note that once our changes are merged into the official polkadot extension-dapp, this manual update will no longer be necessary.
 
