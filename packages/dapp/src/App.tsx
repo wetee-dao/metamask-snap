@@ -154,12 +154,12 @@ export default function App() {
               />
             </Grid>
             <Typography variant="h5" sx={{ fontWeight: '700', display: 'inline-block', ml: '5px' }}>
-              PolkaMask
+              PolkaGate
             </Typography>
           </Grid>
           <Grid item>
             <Typography sx={{ fontSize: '13px', ml: '5px' }}>
-              This is a simple app designed for testing Polkamask. For a complete experience, please visit <Link href='https://apps.polkagate.xyz' underline="hover" rel="noreferrer" target="_blank">apps.polkagate.xyz</Link>.
+              This is a simple app designed for testing the PolkaGate Snap. For a complete experience, please visit <Link href='https://apps.polkagate.xyz' underline="hover" rel="noreferrer" target="_blank">apps.polkagate.xyz</Link>.
             </Typography>
           </Grid>
         </Grid>
