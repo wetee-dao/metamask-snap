@@ -1,4 +1,4 @@
-# Polkadot with Metamask
+# PolkaGate Snap: Polkadot with Metamask
 ![web3 foundation_grants_badge_black](https://github.com/PolkaGate/polkaMask/assets/46442452/f877af2d-7fef-41ce-9ba2-bf59726d3064)
 
 ![license](https://img.shields.io/badge/License-Apache%202.0-blue?logo=apache&style=flat-square)
