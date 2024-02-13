@@ -13,7 +13,7 @@ To integrate this snap into your dApp, you can easily upgrade your existing @pol
 Polkagate snap is currently operational within the Metamask Flask and is in the process of being published on the Metamask repository, making it readily available to all Metamask users.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nick-1979/PolkadotJsPlusPictures/main/polkagate/snap%20small.bmp" alt="Image" width="600" />
+  <img src="https://raw.githubusercontent.com/Nick-1979/PolkadotJsPlusPictures/main/polkagate/polkamask%20small.bmp" alt="Image" width="600" />
 </p>
 
 ## Running the Repository
