@@ -1,9 +1,9 @@
 # PolkaGate Snap
-![web3 foundation_grants_badge_black](https://github.com/PolkaGate/polkaMask/assets/46442452/f877af2d-7fef-41ce-9ba2-bf59726d3064)
+![web3 foundation_grants_badge_black](https://github.com/PolkaGate/snap/assets/46442452/f877af2d-7fef-41ce-9ba2-bf59726d3064)
 
 ![license](https://img.shields.io/badge/License-Apache%202.0-blue?logo=apache&style=flat-square)
-![](https://img.shields.io/github/issues-raw/PolkaGate/polkaMask)
-[![ci](https://github.com/PolkaGate/polkaMask/actions/workflows/ci-workflow.yml/badge.svg)](https://github.com/PolkaGate/polkaMask/actions/workflows/ci-workflow.yml)
+![](https://img.shields.io/github/issues-raw/PolkaGate/snap)
+[![ci](https://github.com/PolkaGate/snap/actions/workflows/ci-workflow.yml/badge.svg)](https://github.com/PolkaGate/snap/actions/workflows/ci-workflow.yml)
 
 
  A MetaMask snap for seamless interaction with the Polkadot ecosystem, a prominent platform for cross-chain communication and scalability. Now you can use your MetaMask wallet to access Polkadot dApps and tokens effortlessly.
@@ -13,7 +13,7 @@ To integrate this snap into your dApp, you can easily upgrade your existing @pol
 Polkagate snap is currently operational within the Metamask Flask and is in the process of being published on the Metamask repository, making it readily available to all Metamask users.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nick-1979/PolkadotJsPlusPictures/main/polkagate/polkamask%20small.bmp" alt="Image" width="600" />
+  <img src="https://raw.githubusercontent.com/Nick-1979/PolkadotJsPlusPictures/main/polkagate/snap%20small.bmp" alt="Image" width="600" />
 </p>
 
 ## Running the Repository
@@ -21,8 +21,8 @@ Polkagate snap is currently operational within the Metamask Flask and is in the 
 The repository contains a  dApp located in the `./packages/dapp` directory and the snap code, which can be found in `./packages/snap`. To try out the snap, follow these steps in your terminal:
 
 ```bash
-git clone https://github.com/PolkaGate/polkaMask.git
-cd polkaMask
+git clone https://github.com/PolkaGate/snap.git
+cd snap
 yarn install
 yarn run start
 ```
@@ -55,12 +55,12 @@ Afterward, you can access user interfaces as follows:
 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/PolkaGate/polkaMask/main/docs/images/simpleTransfer.png" alt="Image" width="1000" />
+  <img src="https://raw.githubusercontent.com/PolkaGate/snap/main/docs/images/simpleTransfer.png" alt="Image" width="1000" />
 </p>
 
 Note: This Metamask snap operates autonomously and does not rely on other extensions within the Polkadot ecosystem for its functionality.
 
 ---
 
-For more detailed help, please refer to the [wiki](https://github.com/PolkaGate/polkaMask/wiki).
+For more detailed help, please refer to the [wiki](https://github.com/PolkaGate/snap/wiki).
 
