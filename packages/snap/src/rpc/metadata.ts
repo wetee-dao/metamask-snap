@@ -111,7 +111,7 @@ export const checkAndUpdateMetaData = async (api: ApiPromise) => {
   }
   const metaData = await getChainInfo(api);
   if (metaData) {
-    selfOrigin = `PolkaMask-${rand()}`;
+    selfOrigin = `Polkagate-${rand()}`;
     setMetadata(selfOrigin, metaData);
   }
 };

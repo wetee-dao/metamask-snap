@@ -7101,9 +7101,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkagate/extension-dapp@npm:^0.46.7-20":
-  version: 0.46.7-20
-  resolution: "@polkagate/extension-dapp@npm:0.46.7-20"
+"@polkagate/extension-dapp@npm:^0.46.7-21":
+  version: 0.46.7-21
+  resolution: "@polkagate/extension-dapp@npm:0.46.7-21"
   dependencies:
     "@polkadot/extension-inject": latest
     "@polkadot/types": ^10.11.2
@@ -7114,45 +7114,9 @@ __metadata:
     "@polkadot/api": "*"
     "@polkadot/util": "*"
     "@polkadot/util-crypto": "*"
-  checksum: 518ab3e4b79e901d1f500574e9edb563f8c382783e6b40506c97b077bbc6f0141237129f4649fd823f488aa6381d11de4ba0a45a598b8d7c1fdf441fd121666f
+  checksum: 50b2ac950cffd27ebb8100efa17b4c03212d145805ae3d22e4965b61f9d7f731a7fadd510489d1c168819fce7343d0e8cad005b0730c7c0735557f128f0fa15c
   languageName: node
   linkType: hard
-
-"@polkagate/polkamask@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@polkagate/polkamask@workspace:."
-  dependencies:
-    "@metamask/detect-provider": ^2.0.0
-    "@metamask/eslint-config": ^10.0.0
-    "@metamask/eslint-config-jest": ^10.0.0
-    "@metamask/eslint-config-nodejs": ^10.0.0
-    "@metamask/eslint-config-typescript": ^10.0.0
-    "@metamask/key-tree": ^9.0.0
-    "@polkadot/api": ^10.11.2
-    "@polkadot/extension-chains": ^0.46.6
-    "@polkadot/keyring": ^12.5.1
-    "@polkadot/types": ^10.11.1
-    "@polkadot/ui-keyring": ^3.6.3
-    "@polkadot/util": ^12.5.1
-    "@typescript-eslint/eslint-plugin": ^5.33.0
-    "@typescript-eslint/parser": ^5.33.0
-    eslint: ^8.21.0
-    eslint-config-prettier: ^8.1.0
-    eslint-plugin-import: ^2.26.0
-    eslint-plugin-jest: ^26.8.2
-    eslint-plugin-jsdoc: ^39.2.9
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^4.2.1
-    jest: ^29.7.0
-    prettier: ^2.2.1
-    prettier-plugin-packagejson: ^2.2.18
-    ts-jest: ^29.1.0
-    typescript: ^4.7.4
-    webpack: ^5.89.0
-    webpack-cli: ^5.1.4
-    webpack-node-externals: ^3.0.0
-  languageName: unknown
-  linkType: soft
 
 "@polkagate/snap@workspace:packages/snap":
   version: 0.0.0-use.local
@@ -19201,6 +19165,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"polkagate-snap@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "polkagate-snap@workspace:."
+  dependencies:
+    "@metamask/detect-provider": ^2.0.0
+    "@metamask/eslint-config": ^10.0.0
+    "@metamask/eslint-config-jest": ^10.0.0
+    "@metamask/eslint-config-nodejs": ^10.0.0
+    "@metamask/eslint-config-typescript": ^10.0.0
+    "@metamask/key-tree": ^9.0.0
+    "@polkadot/api": ^10.11.2
+    "@polkadot/extension-chains": ^0.46.6
+    "@polkadot/keyring": ^12.5.1
+    "@polkadot/types": ^10.11.1
+    "@polkadot/ui-keyring": ^3.6.3
+    "@polkadot/util": ^12.5.1
+    "@typescript-eslint/eslint-plugin": ^5.33.0
+    "@typescript-eslint/parser": ^5.33.0
+    eslint: ^8.21.0
+    eslint-config-prettier: ^8.1.0
+    eslint-plugin-import: ^2.26.0
+    eslint-plugin-jest: ^26.8.2
+    eslint-plugin-jsdoc: ^39.2.9
+    eslint-plugin-node: ^11.1.0
+    eslint-plugin-prettier: ^4.2.1
+    jest: ^29.7.0
+    prettier: ^2.2.1
+    prettier-plugin-packagejson: ^2.2.18
+    ts-jest: ^29.1.0
+    typescript: ^4.7.4
+    webpack: ^5.89.0
+    webpack-cli: ^5.1.4
+    webpack-node-externals: ^3.0.0
+  languageName: unknown
+  linkType: soft
+
 "polkamask_dapp@workspace:packages/dapp":
   version: 0.0.0-use.local
   resolution: "polkamask_dapp@workspace:packages/dapp"
@@ -19216,7 +19216,7 @@ __metadata:
     "@polkadot/api-derive": ^10.11.2
     "@polkadot/apps-config": ^0.133.1
     "@polkadot/extension-inject": ^0.46.6
-    "@polkagate/extension-dapp": ^0.46.7-20
+    "@polkagate/extension-dapp": ^0.46.7-21
     "@testing-library/jest-dom": ^5.17.0
     "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^13.5.0

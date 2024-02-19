@@ -15,8 +15,8 @@ RUN npm install yarn -g
 ARG CACHEBUST=1
 RUN echo "CACHEBUST=${CACHEBUST}"
 
-WORKDIR /polkamask
-RUN git clone https://github.com/PolkaGate/polkaMask.git .
+WORKDIR /snap
+RUN git clone https://github.com/PolkaGate/snap.git .
 
 # Build the project
 RUN yarn && yarn build
@@ -27,10 +27,10 @@ FROM node:20-alpine
 # Set environment variable
 ENV NODE_ENV=production
 
-WORKDIR /polkamask
+WORKDIR /snap
 
 # Copy the built files from the builder stage
-COPY --from=builder /polkamask/ ./
+COPY --from=builder /snap/ ./
 
 EXPOSE 8000
 EXPOSE 8080

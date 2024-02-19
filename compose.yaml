@@ -1,5 +1,5 @@
 services:
-  polkamask:
+  snap:
     build:
       context: ./docker
     environment:

@@ -1,15 +1,15 @@
 {
-  "name": "@polkagate/polkamask",
+  "name": "polkagate-snap",
   "version": "0.1.0",
   "private": true,
   "description": "",
-  "homepage": "https://github.com/Nick-1979/polkamask#readme",
+  "homepage": "https://github.com/Nick-1979/snap#readme",
   "bugs": {
-    "url": "https://github.com/Nick-1979/polkamask/issues"
+    "url": "https://github.com/Nick-1979/snap/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Nick-1979/polkamask.git"
+    "url": "git+https://github.com/Nick-1979/snap.git"
   },
   "license": "(MIT-0 OR Apache-2.0)",
   "author": "",
@@ -26,7 +26,7 @@
     "start": "yarn workspaces foreach --parallel --interlaced --verbose run start",
     "test": "cd packages/snap && yarn test",
     "docker:build": "docker build -t polkagate/dapp -f docker/Dockerfile .",
-    "docker:run": "docker run --rm -it --name polkamask-ui -p 80:80 -p 8000:8000 -p 8080:8080 polkagate/dapp:latest",
+    "docker:run": "docker run --rm -it --name snap-ui -p 80:80 -p 8000:8000 -p 8080:8080 polkagate/dapp:latest",
     "docker": "yarn docker:build && yarn docker:run",
     "compose": "docker-compose build --build-arg CACHEBUST=$(date +%s) && docker-compose up -d"
   },

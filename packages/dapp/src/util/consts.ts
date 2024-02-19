@@ -8,4 +8,4 @@ export const SUPPORTED_SNAPS = {
   [DEFAULT_SNAP_ORIGIN]: { version: SNAP_VERSION },
 };
 
-export const POLKAMASK_ACCOUNT_META_SOURCE = 'polkamask';
+export const POLKAMASK_ACCOUNT_META_SOURCE = 'polkagate-snap';

@@ -67,7 +67,7 @@ export const onInstall: OnInstallHandler = async () => {
         heading('Your account is now created 🚀'),
         divider(),
         text(
-          "To access your account's address in various formats, navigate to Menu → Snaps and click on the PolkaMask icon.",
+          "To access your account's address in various formats, navigate to Menu → Snaps and click on the Polkagate icon.",
         ),
         text(
           'To manage your account, please visit: **[https://apps.polkagate.xyz](https://apps.polkagate.xyz)**',

@@ -1,10 +1,10 @@
 <img src="https://raw.githubusercontent.com/Nick-1979/PolkadotJsPlusPictures/main/polkagate/logo/534b.PNG" data-canonical-src="https://raw.githubusercontent.com/Nick-1979/PolkadotJsPlusPictures/main/polkagate/logo/534b.PNG" width="100" height="100" />
 
-# Privacy Policy for PolkaMask Snap
+# Privacy Policy for Polkagate Snap
 ![license](https://img.shields.io/badge/License-Apache%202.0-blue?logo=apache&style=flat-square)
 ![supported by](https://img.shields.io/badge/Supported%20by-W3F-%20black?logo=polkadot&style=flat-square)
 
-PolkaMask ("us", "we", or "our") operates the PolkaMask snap Metamask snap (the "Service").
+Polkagate ("us", "we", or "our") operates the Polkagate snap Metamask snap (the "Service").
 
 This page informs you that we do not collect any personal information while you use our Service. You can use our Service with the confidence that we do not collect, store, or share any of your personal information.
 

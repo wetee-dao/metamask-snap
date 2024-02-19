@@ -75,7 +75,7 @@ export default function App() {
   }, [endpoint]);
 
   useEffect(() => {
-    isPolkaMaskInstalled && web3Enable('PolkaMask-dapp').then((ext: InjectedExtension[] | undefined) => {
+    isPolkaMaskInstalled && web3Enable('Polkagate-snap-dapp').then((ext: InjectedExtension[] | undefined) => {
       console.log('All injected extensions:', ext);
       setExtensions(ext);
     });
@@ -87,7 +87,7 @@ export default function App() {
       web3Accounts().then((accounts: any) => {
         const maybePolkamaskAccount = accounts.find((account: InjectedAccountWithMeta) => account.meta.source === POLKAMASK_ACCOUNT_META_SOURCE)
         setAccount(maybePolkamaskAccount);
-        console.info('PolkamaskAccount:', maybePolkamaskAccount);
+        console.info('Polkagate snap account:', maybePolkamaskAccount);
       });
   }, [extensions, isPolkaMaskInstalled]);
 
@@ -148,7 +148,7 @@ export default function App() {
             <Grid item>
               <Box
                 component="img"
-                alt="polkamask logo"
+                alt="snap logo"
                 src={logo}
                 sx={{ width: '30px', height: '30px', objectFit: 'cover' }}
               />
@@ -171,7 +171,7 @@ export default function App() {
             disabled={isPolkaMaskInstalled}
             sx={{ fontSize: '16px', width: 'fit-content' }}
           >
-            Install {hasFlaskDetected ? 'PolkaMask Snap' : 'Flask'}
+            Install {hasFlaskDetected ? 'Polkagate Snap' : 'Flask'}
           </Button>
         </Grid>
       </Grid>
@@ -181,7 +181,7 @@ export default function App() {
         {!isPolkaMaskInstalled
           ? <Grid container justifyContent="center" p='auto' m='auto' >
             <Typography variant="h5" sx={{ fontWeight: '500' }}>
-              {hasFlaskDetected ? 'PolkaMask Snap' : 'Flask'} is not installed. Please install it using the button above.
+              {hasFlaskDetected ? 'Polkagate Snap' : 'Flask'} is not installed. Please install it using the button above.
             </Typography>
           </Grid>
           : <Grid item sx={{ width: '20%' }}>
