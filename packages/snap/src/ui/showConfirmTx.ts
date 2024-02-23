@@ -66,12 +66,12 @@ const transactionContent = (
     divider(),
     row('Chain Name:', text(`**${formatCamelCase(chainName)}**`)),
     // divider(),
-    // row('Chain Logo:', image(chainLogoSvg)), // uncomment when image size adjustment will be enable by Metamask
+    // row('Chain Logo:', image(chainLogoSvg)), // uncomment when image size adjustment will be enabled by Metamask
     divider(),
     row(
       'More info:',
       text(`**${decoded.docs || 'Update metadata to view this!'}**`),
-      RowVariant.Warning,
+      RowVariant.Default,
     ),
   ];
 
