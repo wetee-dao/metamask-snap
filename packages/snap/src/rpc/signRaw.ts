@@ -1,5 +1,13 @@
 /* eslint-disable jsdoc/require-jsdoc */
-import { copyable, divider, heading, panel, text } from '@metamask/snaps-sdk';
+import {
+  RowVariant,
+  copyable,
+  divider,
+  heading,
+  panel,
+  row,
+  text,
+} from '@metamask/snaps-sdk';
 import { SignerPayloadRaw, SignerResult } from '@polkadot/types/types';
 import { isAscii, u8aToString, u8aUnwrapBytes } from '@polkadot/util';
 import { getKeyPair } from '../util/getKeyPair';
@@ -12,8 +20,13 @@ const contentSignRaw = (origin: string, hexString: string) => {
   return panel([
     heading(`A signature request is received from ${origin}`),
     divider(),
-    text('Data to sign:'),
+    text('Message to sign:'),
     panel([copyable(data), divider()]),
+    row(
+      'Warning:',
+      text(`**${'proceed only if you understand the message above!'}**`),
+      RowVariant.Warning,
+    ),
   ]);
 };
 

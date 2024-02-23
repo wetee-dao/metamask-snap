@@ -172,8 +172,13 @@ describe('onRpcRequest', () => {
       panel([
         heading(`A signature request is received from ${origin}`),
         divider(),
-        text('Data to sign:'),
+        text('Message to sign:'),
         panel([copyable(signRawParams.raw.data), divider()]),
+        row(
+          'Warning:',
+          text(`**${'proceed only if you understand the message above!'}**`),
+          RowVariant.Warning,
+        ),
       ])
     );
 
