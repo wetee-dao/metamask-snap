@@ -250,7 +250,7 @@ describe('onRpcRequest', () => {
         divider(),
         row(
           'More info:',
-          text('**See [Pallet::transfer_keep_alive].**'),
+          text('**See [Pallet::transfer_keep_alive].**' || 'Update metadata to view this!'),
           RowVariant.Default,
         ),
         row(
