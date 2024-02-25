@@ -24,7 +24,7 @@ const contentSignRaw = (origin: string, hexString: string) => {
     panel([copyable(data), divider()]),
     row(
       'Warning:',
-      text(`**${'proceed only if you understand the message above!'}**`),
+      text(`${'proceed only if you understand the message above!'}`),
       RowVariant.Warning,
     ),
   ]);
