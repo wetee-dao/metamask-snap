@@ -60,5 +60,6 @@ export const signRaw = async (
   const signature = keypair.sign(data);
   const hexSignature = Buffer.from(signature).toString('hex');
 
-  return { id: 1, signature: `0x${hexSignature}` }; // polkadot js apps, assigns id to its requests
+  return { signature: `0x${hexSignature}` }; // polkadot js apps, assigns id to its requests
+  // return { id: 1, signature: `0x${hexSignature}` }; // polkadot js apps, assigns id to its requests
 };

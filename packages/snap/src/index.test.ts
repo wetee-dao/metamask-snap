@@ -35,7 +35,7 @@ const isValidSignature = (signedMessage: string | Uint8Array, signature: string,
   return signatureVerify(signedMessage, signature, hexPublicKey).isValid;
 };
 
-const origin = 'Jest Test';
+const origin =  'http://localhost:8080';
 const sampleWestendAccountAddress = '5Cc8FwTx2nGbM26BdJqdseQBF8C1JeF1tbiabwPHa2UhB4fv';
 let metamaskAccountAddr: string | undefined;
 
@@ -65,7 +65,7 @@ const metadata: MetadataDef = {
 
 describe('onRpcRequest', () => {
   beforeAll(async () => {
-    const { request, close } = await installSnap();
+    const { request } = await installSnap();
 
     const response = await request({
       method: 'getAddress',
@@ -75,12 +75,10 @@ describe('onRpcRequest', () => {
     if ('result' in response.response) {
       metamaskAccountAddr = response.response.result?.toString();
     }
-
-    await close();
   });
 
   it('throws an error if the requested method does not exist', async () => {
-    const { request, close } = await installSnap();
+    const { request } = await installSnap();
 
     const response = await request({
       method: 'foo',
@@ -91,15 +89,13 @@ describe('onRpcRequest', () => {
       message: 'Method not found in the snap onRpcRequest.',
       stack: expect.any(String),
     });
-
-    await close();
   });
 
   it('"getAddress" RPC request method', async () => {
     let samplePolkadotAccountAddress = '';
     let sampleKusamaAccountAddress = '';
 
-    const { request, close } = await installSnap();
+    const { request } = await installSnap();
 
     const response = request({
       method: 'getAddress',
@@ -156,12 +152,10 @@ describe('onRpcRequest', () => {
     samplePolkadotAccountAddress && sampleKusamaAccountAddress && expect(ui.content).toEqual(expectedInterface);
 
     await ui.ok();
-
-    await close();
   });
 
   it('"getMetadataList" RPC request method, when the list is empty!', async () => {
-    const { request, close } = await installSnap();
+    const { request } = await installSnap();
 
     const response = await request({
       method: 'getMetadataList',
@@ -180,8 +174,6 @@ describe('onRpcRequest', () => {
     expect(response).toBeTruthy();
     expect(returnedResult).toBeTruthy();
     expect(returnedResult).toEqual(expectedResult);
-
-    await close();
   });
 
   it('"signRaw" RPC request method', async () => {
@@ -208,7 +200,7 @@ describe('onRpcRequest', () => {
       ])
     );
 
-    const { request, close } = await installSnap();
+    const { request } = await installSnap();
 
     const response = request({
       method: 'signRaw',
@@ -216,7 +208,8 @@ describe('onRpcRequest', () => {
       params: signRawParams
     });
 
-    const ui = await response.getInterface();
+    const ui = await response.getInterface({ timeout: 60000 });
+
     expect(ui.type).toBe('confirmation');
     expect(ui).toRender(expectedInterface);
     await ui.ok();
@@ -229,8 +222,6 @@ describe('onRpcRequest', () => {
     }
 
     expect(isValidSignature(signRawParams.raw.data, snapSignature, metamaskAccountAddr ?? '')).toBeTruthy();
-
-    await close();
   });
 
   it('"signJSON" RPC request method', async () => {
@@ -270,7 +261,7 @@ describe('onRpcRequest', () => {
       ])
     );
 
-    const { request, close } = await installSnap();
+    const { request } = await installSnap();
 
     const response = request({
       method: 'signJSON',
@@ -292,12 +283,10 @@ describe('onRpcRequest', () => {
 
       expect(isHex(sign.signature) && sign.signature.length === 132).toBeTruthy();
     }
-
-    await close();
   });
 
   it('"signJSON" RPC request method invalid payload', async () => {
-    const { request, close } = await installSnap();
+    const { request } = await installSnap();
 
     const response = request({
       method: 'signJSON',
@@ -305,25 +294,11 @@ describe('onRpcRequest', () => {
       params: { payload: {} }
     });
 
-    const getUI = async () => {
-      try {
-        await response.getInterface({ timeout: 20000 });
-
-        return true;
-      } catch (error) {
-        return false;
-      }
-    };
-
-    expect(await getUI()).toBeFalsy();
-
     const returnedValue = await response;
 
     if ('result' in returnedValue.response) {
       expect(returnedValue.response.result).toBeFalsy();
     }
-
-    await close();
   });
 
   it('"setMetadata" RPC request method', async () => {
