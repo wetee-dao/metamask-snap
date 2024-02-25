@@ -202,7 +202,7 @@ describe('onRpcRequest', () => {
         panel([copyable(signRawParams.raw.data), divider()]),
         row(
           'Warning:',
-          text(`**${'proceed only if you understand the message above!'}**`),
+          text(`${'proceed only if you understand the message above!'}`),
           RowVariant.Warning,
         ),
       ])
@@ -260,6 +260,11 @@ describe('onRpcRequest', () => {
         row(
           'More info:',
           text('**See [Pallet::transfer_keep_alive].**'),
+          RowVariant.Default,
+        ),
+        row(
+          'Warning:',
+          text(`${'proceed only if you understand the details above!'}`),
           RowVariant.Warning,
         )
       ])

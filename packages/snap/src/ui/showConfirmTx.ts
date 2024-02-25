@@ -73,6 +73,11 @@ const transactionContent = (
       text(`**${decoded.docs || 'Update metadata to view this!'}**`),
       RowVariant.Default,
     ),
+    row(
+      'Warning:',
+      text(`${'proceed only if you understand the details above!'}`),
+      RowVariant.Warning,
+    ),
   ];
 
   return panel([
