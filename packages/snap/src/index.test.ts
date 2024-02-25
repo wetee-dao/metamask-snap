@@ -9,6 +9,8 @@ import { Json, JsonRpcParams } from '@metamask/utils';
 import { decodeAddress, signatureVerify } from '@polkadot/util-crypto';
 import { u8aToHex, isHex } from '@polkadot/util';
 import { ApiPromise, HttpProvider } from '@polkadot/api';
+import { ExtDef } from '@polkadot/types/extrinsic/signedExtensions/types';
+import type { MetadataDef } from '@polkadot/extension-inject/types';
 import isValidAddress from '../../dapp/src/util/isValidAddress';
 import { buildPayload } from '../../dapp/src/util/buildPayload';
 import { getGenesisHash } from './chains';
@@ -36,6 +38,30 @@ const isValidSignature = (signedMessage: string | Uint8Array, signature: string,
 const origin = 'Jest Test';
 const sampleWestendAccountAddress = '5Cc8FwTx2nGbM26BdJqdseQBF8C1JeF1tbiabwPHa2UhB4fv';
 let metamaskAccountAddr: string | undefined;
+
+const types = {} as unknown as Record<string, string>;
+
+const userExtensions = {
+  MyUserExtension: {
+    extrinsic: {
+      assetId: 'AssetId'
+    },
+    payload: {}
+  }
+} as unknown as ExtDef;
+
+const metadata: MetadataDef = {
+  chain: 'Development',
+  color: '#191a2e',
+  genesisHash: '0x242a54b35e1aad38f37b884eddeb71f6f9931b02fac27bf52dfb62ef754e5e62',
+  icon: '',
+  specVersion: 1000000,
+  ss58Format: 0,
+  tokenDecimals: 12,
+  tokenSymbol: '',
+  types,
+  userExtensions
+};
 
 describe('onRpcRequest', () => {
   beforeAll(async () => {
@@ -293,5 +319,45 @@ describe('onRpcRequest', () => {
     }
 
     await close();
+  });
+
+  it('"setMetadata" RPC request method', async () => {
+    const { request } = await installSnap();
+
+    const expectedInterface = (
+      panel([
+        heading(`Update Request from ${origin}`),
+        divider(),
+        text(`Chain: **${metadata.chain}**`),
+        divider(),
+        text(`Token: **${metadata.tokenSymbol}**`),
+        divider(),
+        text(`Decimals: **${metadata.tokenDecimals}**`),
+        divider(),
+        text(`Spec Version: **${metadata.specVersion}**`),
+        divider(),
+        text(`Genesis Hash: **${metadata.genesisHash}**`),
+      ])
+    );
+
+    const response = request({
+      method: 'setMetadata',
+      origin,
+      params: { metaData: metadata } as unknown as JsonRpcParams
+    });
+
+    const ui = await response.getInterface({ timeout: 50000 });
+
+
+    expect(ui.type).toBe('confirmation');
+    expect(ui.content).toEqual(expectedInterface);
+
+    await ui.ok();
+
+    const returnedValue = await response;
+
+    if ('result' in returnedValue.response) {
+      expect(returnedValue.response.result).toBeFalsy();
+    }
   });
 });
