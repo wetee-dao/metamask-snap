@@ -65,6 +65,8 @@
     "@polkadot/keyring": "^12.5.1",
     "@polkadot/types": "^10.11.1",
     "@polkadot/ui-keyring": "^3.6.3",
-    "@polkadot/util": "^12.5.1"
+    "@polkadot/util": "^12.5.1",
+    "chromedriver": "latest",
+    "webdriverio": "latest"
   }
 }
