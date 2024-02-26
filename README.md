@@ -60,6 +60,10 @@ Afterward, you can access user interfaces as follows:
 
 Note: This Metamask snap operates autonomously and does not rely on other extensions within the Polkadot ecosystem for its functionality.
 
+## Polkagate Snap Security Audit Report
+
+https://sayfer.io/audits/metamask-snap-audit-report-for-polkagate-snap/
+
 ---
 
 For more detailed help, please refer to the [wiki](https://github.com/PolkaGate/snap/wiki).
