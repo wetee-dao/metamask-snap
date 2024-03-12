@@ -10,7 +10,7 @@
 
 To integrate this snap into your dApp, you can easily upgrade your existing @polkadot/extension-dapp by replacing it with [@polkagate/extension-dapp](https://www.npmjs.com/package/@polkagate/extension-dapp). It's important to note that once our changes are merged into the official extension-dapp, this manual update will no longer be necessary.
 
-Polkagate snap is currently operational within the Metamask Flask and is in the process of being published on the Metamask repository, making it readily available to all Metamask users.
+Polkagate snap is currently operational within the MetaMask Flask and is in the process of being published on the MetaMask repository, making it readily available to all MetaMask users.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Nick-1979/PolkadotJsPlusPictures/main/polkagate/polkamask%20small.bmp" alt="Image" width="600" />
@@ -27,7 +27,7 @@ yarn install
 yarn run start
 ```
 
-After executing these commands, you can access a basic decentralized application (dApp) page for testing the snap at http://localhost:8000/. For more advanced dApp visit [apps.polkagate.xyz](https://apps.polkagate.xyz). Note, Metamask Flask (Metamask) needs to be installed to interact with the snap and dApp.
+After executing these commands, you can access a basic decentralized application (dApp) page for testing the snap at http://localhost:8000/. For more advanced dApp visit [apps.polkagate.xyz](https://apps.polkagate.xyz). Note, MetaMask Flask (MetaMask) needs to be installed to interact with the snap and dApp.
 
 ## Test
 To execute the unit tests for the snap, use the following command(s):
@@ -58,7 +58,7 @@ Afterward, you can access user interfaces as follows:
   <img src="https://raw.githubusercontent.com/PolkaGate/snap/main/docs/images/simpleTransfer.png" alt="Image" width="1000" />
 </p>
 
-Note: This Metamask snap operates autonomously and does not rely on other extensions within the Polkadot ecosystem for its functionality.
+Note: This MetaMask snap operates autonomously and does not rely on other extensions within the Polkadot ecosystem for its functionality.
 
 ## Polkagate Snap Security Audit Report
 
