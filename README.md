@@ -10,7 +10,7 @@
 
 To integrate this snap into your dApp, you can easily upgrade your existing @polkadot/extension-dapp by replacing it with [@polkagate/extension-dapp](https://www.npmjs.com/package/@polkagate/extension-dapp). It's important to note that once our changes are merged into the official extension-dapp, this manual update will no longer be necessary.
 
-Polkagate snap is currently operational within the MetaMask Flask and is in the process of being published on the MetaMask repository, making it readily available to all MetaMask users.
+⏬ Polkagate snap is now available on MetaMask Snap Directory for download: https://snaps.metamask.io/snap/npm/polkagate/snap/
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Nick-1979/PolkadotJsPlusPictures/main/polkagate/polkamask%20small.bmp" alt="Image" width="600" />
