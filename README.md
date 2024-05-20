@@ -8,7 +8,7 @@
 
  A MetaMask snap for seamless interaction with the Polkadot ecosystem, a prominent platform for cross-chain communication and scalability. Now you can use your MetaMask wallet to access Polkadot dApps and tokens effortlessly.
 
-To integrate this snap into your dApp, you can easily upgrade your existing @polkadot/extension-dapp by replacing it with [@polkagate/extension-dapp](https://www.npmjs.com/package/@polkagate/extension-dapp). It's important to note that once our changes are merged into the official extension-dapp, this manual update will no longer be necessary.
+To integrate this snap into your dApp, you can easily upgrade your existing @polkadot/extension-dapp by replacing it with [@polkadot/extension-dapp](https://www.npmjs.com/package/@polkadot/extension-dapp). It's important to note that once our changes are merged into the official extension-dapp, this manual update will no longer be necessary.
 
 ⏬ Polkagate snap is now available on MetaMask Snap Directory for download: https://snaps.metamask.io/snap/npm/polkagate/snap/
 

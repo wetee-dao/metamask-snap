@@ -1,13 +1,13 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable jsdoc/require-jsdoc */
 import { copyable, panel, row, text } from '@metamask/snaps-sdk';
-import { ApiPromise } from '@polkadot/api';
 import { AnyTuple } from '@polkadot/types/types';
 import { amountToHuman } from '../util/amountToHuman';
 import { Decoded } from '../util/decodeTxMethod';
+import { Chain } from '@polkadot/extension-chains/types';
 
 export const txContent = (
-  api: ApiPromise,
+  api: Chain,
   args: AnyTuple,
   action: string,
   decoded: Decoded,

@@ -1,17 +1,8 @@
 import {
-  divider,
   OnRpcRequestHandler,
-  heading,
-  panel,
-  text,
 } from '@metamask/snaps-sdk';
-import type { OnHomePageHandler, OnInstallHandler } from '@metamask/snaps-sdk';
 import { getAddress, signJSON, signRaw } from './rpc';
 import { getMetadataList, setMetadata } from './rpc/metadata';
-import { getKeyPair } from './util/getKeyPair';
-import { DEFAULT_CHAIN_NAME } from './defaults';
-import { accountDemo } from './ui/accountDemo';
-import { getDefaultTokenBalances } from './util/getDefaultTokenBalances';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -40,39 +31,4 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   }
 };
 
-/**
- * Handle incoming home page requests from the MetaMask clients.
- *
- * @returns A static panel rendered with custom UI.
- */
-export const onHomePage: OnHomePageHandler = async () => {
-  const { address } = await getKeyPair(DEFAULT_CHAIN_NAME);
-  const balances = await getDefaultTokenBalances(address);
 
-  return {
-    content: accountDemo(address, balances),
-  };
-};
-
-/**
- * Handle installation of the snap. This handler is called when the snap is
- * installed.
- */
-export const onInstall: OnInstallHandler = async () => {
-  await snap.request({
-    method: 'snap_dialog',
-    params: {
-      type: 'alert',
-      content: panel([
-        heading('Your account is now created 🚀'),
-        divider(),
-        text(
-          "To access your account's address in various formats, navigate to Menu → Snaps and click on the Polkagate icon.",
-        ),
-        text(
-          'To manage your account, please visit: **[https://apps.polkagate.xyz](https://apps.polkagate.xyz)**',
-        ),
-      ]),
-    },
-  });
-};

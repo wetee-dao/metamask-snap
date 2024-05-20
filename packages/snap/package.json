@@ -29,7 +29,6 @@
     "@metamask/key-tree": "^9.0.0",
     "@metamask/snaps-sdk": "^2.1.0",
     "@polkadot/api": "^10.11.2",
-    "@polkadot/apps-config": "^0.133.1",
     "@polkadot/keyring": "^12.6.2",
     "@polkadot/networks": "^12.6.2",
     "@polkadot/types": "^10.11.1",

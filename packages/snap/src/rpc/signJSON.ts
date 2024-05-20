@@ -1,35 +1,39 @@
 import { SignerPayloadJSON } from '@polkadot/types/types';
 import type { SignerResult } from '@polkadot/api/types';
-import { getApi } from '../util/getApi';
 import { getKeyPair } from '../util/getKeyPair';
-import { checkAndUpdateMetaData, showConfirmTx } from '.';
+import { getSavedMeta, showConfirmTx } from '.';
+import { metadataExpand } from '@polkadot/extension-chains';
 
 export const signJSON = async (
   origin: string,
   payload: SignerPayloadJSON,
 ): Promise<SignerResult | undefined> => {
   try {
-    const api = await getApi(payload.genesisHash);
-    checkAndUpdateMetaData(api);
+    const def = await getSavedMeta(payload.genesisHash);
+    if (!def) {
+      throw new Error('Chain has not set metadata.');
+    }
 
-    const isConfirmed = await showConfirmTx(api, origin, payload);
+    const chain = metadataExpand(def!, false)
+    chain.registry.signedExtensions
+
+    const registry = chain.registry;
+    registry.setSignedExtensions(payload.signedExtensions, chain.definition.userExtensions);
+
+    const isConfirmed = await showConfirmTx(chain, origin, payload);
 
     if (!isConfirmed) {
       throw new Error('User declined the signing request.');
     }
-    const keyPair = await getKeyPair(payload.genesisHash);
 
-    const extrinsic = api.registry.createType('ExtrinsicPayload', payload, {
-      version: payload.version,
-    });
+    const keyPair = await getKeyPair(chain.ss58Format);
 
-    // TODO: Explore signing options without relying on the API and discover methods for obtaining chain metadata offline!
-
-    const { signature } = extrinsic.sign(keyPair);
+    const { signature } = registry
+      .createType('ExtrinsicPayload', payload, { version: payload.version })
+      .sign(keyPair);
 
     return { id: 1, signature };
   } catch (e) {
-    console.info('Error while signing JSON:', e);
-    return undefined;
+    throw e;
   }
 };

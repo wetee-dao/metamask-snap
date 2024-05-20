@@ -3,9 +3,6 @@ import type {
   MetadataDef,
 } from '@polkadot/extension-inject/types';
 import { divider, heading, panel, text } from '@metamask/snaps-sdk';
-import type { ApiPromise } from '@polkadot/api';
-import getChainInfo from '../util/getChainInfo';
-import { rand } from '../util/rand';
 
 let selfOrigin: string;
 
@@ -91,27 +88,7 @@ export const setMetadata = async (origin: string, data: MetadataDef) => {
       throw new Error('User declined the signing request.');
     }
   }
-
-  state.metadata[data.genesisHash] = data;
-
+  
+  (state.metadata as any)[data.genesisHash] = data;
   return Boolean(await updateState(state));
-};
-
-export const checkAndUpdateMetaData = async (api: ApiPromise) => {
-  const list = await getMetadataList();
-  const _genesisHash = api.genesisHash.toString();
-  const maybeExistingMetadata = list.find(
-    ({ genesisHash }) => genesisHash === _genesisHash,
-  );
-  if (
-    maybeExistingMetadata?.specVersion ===
-    api.runtimeVersion.specVersion.toNumber()
-  ) {
-    return; // do nothing
-  }
-  const metaData = await getChainInfo(api);
-  if (metaData) {
-    selfOrigin = `Polkagate-${rand()}`;
-    setMetadata(selfOrigin, metaData);
-  }
 };
