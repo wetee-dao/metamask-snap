@@ -1,10 +1,10 @@
 {
-  "name": "@polkagate/snap",
+  "name": "@wetee-dao/metamask-snap",
   "version": "0.2.2",
   "description": "A MetaMask Snap to interact with Polkadot ecosystem, a platform for cross-chain communication and scalability. Use your MetaMask wallet to access Polkadot dApps and tokens. No extra extension needed.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/polkagate/snap.git"
+    "url": "https://github.com/wetee-dao/metamask-snap.git"
   },
   "license": "Apache-2.0",
   "main": "./dist/bundle.js",

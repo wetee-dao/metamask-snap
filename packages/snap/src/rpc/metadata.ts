@@ -8,7 +8,7 @@ let selfOrigin: string;
 
 const contentMetadata = (origin: string, metadata: MetadataDef) => {
   return panel([
-    heading(`Update Request from ${origin}`),
+    heading(`Update Metadata Request from ${origin}`),
     divider(),
     text(`Chain: **${metadata.chain}**`),
     divider(),

@@ -2,8 +2,7 @@ import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
 import { Keyring } from '@polkadot/keyring';
 import { stringToU8a } from '@polkadot/util';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { DEFAULT_CHAIN_NAME, DEFAULT_COIN_TYPE } from '../defaults';
-import { Chain } from '@polkadot/extension-chains/types';
+import { DEFAULT_COIN_TYPE } from '../defaults';
 
 export const getKeyPair = async (
   chain: number

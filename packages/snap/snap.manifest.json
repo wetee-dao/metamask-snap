@@ -1,24 +1,23 @@
 {
   "version": "0.2.2",
-  "description": "Explore Polkadot decentralized applications and manage your tokens using your MetaMask wallet. Start your journey at apps.polkagate.xyz.",
-  "proposedName": "Snap for subsrate",
+  "description": "Explore Polkadot/Subsrate decentralized applications and manage your tokens using your MetaMask wallet.",
+  "proposedName": "Subsrate wallet by WeTEE",
   "repository": {
     "type": "git",
-    "url": "https://github.com/polkagate/snap.git"
+    "url": "https://github.com/wetee-dao/metamask-snap.git"
   },
   "source": {
-    "shasum": "z7vIVoctXNoI8PZjL6bf0cY8SjzDAPKfpHOrx8ewstk=",
+    "shasum": "gDrDs9jmIV9Veajv0vRFiUCMLcXSRZK36apImecc4bk=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
-        "iconPath": "images/polkagate.svg",
-        "packageName": "@polkagate/snap",
+        "iconPath": "images/wetee.svg",
+        "packageName": "@wetee-dao/metamask-snap",
         "registry": "https://registry.npmjs.org/"
       }
     }
   },
   "initialPermissions": {
-    "endowment:network-access": {},
     "endowment:page-home": {},
     "endowment:rpc": {
       "dapps": true,
@@ -28,6 +27,9 @@
     "endowment:lifecycle-hooks": {},
     "snap_dialog": {},
     "snap_getBip44Entropy": [
+      {
+        "coinType": 1
+      },
       {
         "coinType": 354
       },
